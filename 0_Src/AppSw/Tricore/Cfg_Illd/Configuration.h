@@ -50,6 +50,7 @@
 #define CAN0NODE0IN					IfxMultican_RXD0B_P20_7_IN//IfxMultican_RXD0A_P02_1_IN
 #define CAN0NODE0OUT				IfxMultican_TXD0_P20_8_OUT//IfxMultican_TXD0_P02_0_OUT
 
+<<<<<<< HEAD
 #define CAN0NODE1IN					IfxMultican_RXD1A_P15_3_IN
 #define CAN0NODE1OUT				IfxMultican_TXD1_P15_2_OUT
 
@@ -74,6 +75,8 @@
 #define LED110						IfxPort_P13_3
 
 
+=======
+>>>>>>> 9498674... Vadc and AdcSensor
 /*GtmTom macros*/
 #define BEEPER                      IfxGtm_TOM0_4_TOUT22_P33_0_OUT
 #define GTMTOMPWM0					IfxGtm_TOM1_1_TOUT31_P33_9_OUT

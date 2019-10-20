@@ -14,6 +14,10 @@
 #include "HLD.h"
 #include "User.h"
 
+<<<<<<< HEAD
+=======
+#include "AccumulatorManager.h"
+>>>>>>> 9498674... Vadc and AdcSensor
 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
@@ -82,7 +86,12 @@ void Task_init (void)
 	}
 
 	{
+<<<<<<< HEAD
 
+=======
+		AccumualatorManager_init();
+		HLD_Vadc_forceStart();
+>>>>>>> 9498674... Vadc and AdcSensor
 	}
 
 	HLD_GtmTomBeeper_start(Beep_pattern4);
@@ -111,7 +120,11 @@ void Task_IsrCb_1ms (void)
 	HLD_GtmTomBeeper_run_1ms();
 	if(isInit)
 	{
+<<<<<<< HEAD
 		
+=======
+		AccumulatorManager_run_1ms();
+>>>>>>> 9498674... Vadc and AdcSensor
 	}
 
 
