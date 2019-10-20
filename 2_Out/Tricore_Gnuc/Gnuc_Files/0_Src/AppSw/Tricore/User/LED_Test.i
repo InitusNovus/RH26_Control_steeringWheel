@@ -27932,7 +27932,7 @@ typedef struct
  IfxVadc_ChannelResult result;
 
  Ifx_LowPassPt1F32 lpf;
-
+ boolean isLpfActivatied;
 }HLD_Vadc_Channel;
 
 typedef struct

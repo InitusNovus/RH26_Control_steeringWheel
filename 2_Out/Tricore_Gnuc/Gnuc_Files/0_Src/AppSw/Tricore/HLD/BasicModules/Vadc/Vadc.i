@@ -27933,7 +27933,7 @@ typedef struct
  IfxVadc_ChannelResult result;
 
  Ifx_LowPassPt1F32 lpf;
-
+ boolean isLpfActivatied;
 }HLD_Vadc_Channel;
 
 typedef struct
@@ -29114,7 +29114,7 @@ void HLD_Vadc_initChannel(HLD_Vadc_Channel* channel, HLD_Vadc_Channel_Config* co
   IfxVadc_Adc_initChannelConfig(&adcChannelConfig, adcGroup);
 
   adcChannelConfig.channelId = (IfxVadc_ChannelId)config->channelIn->channelId;
-  adcChannelConfig.resultRegister = (IfxVadc_ChannelResult)config->channelIn->channelId;
+  channel->result = (adcChannelConfig.resultRegister = (IfxVadc_ChannelResult)config->channelIn->channelId);
 
   IfxVadc_Adc_initChannel(&channel->channel, &adcChannelConfig);
 
@@ -29127,7 +29127,13 @@ void HLD_Vadc_initChannel(HLD_Vadc_Channel* channel, HLD_Vadc_Channel_Config* co
   if(config->lpf.activated)
   {
    Ifx_LowPassPt1F32_init(&channel->lpf, &config->lpf.config);
+   channel->isLpfActivatied = 1;
   }
+  else
+  {
+   channel->isLpfActivatied = 0;
+  }
+
  }
 }
 
@@ -29148,5 +29154,16 @@ void HLD_Vadc_forceStart(void)
 
 void HLD_Vadc_getData(HLD_Vadc_Data* data, HLD_Vadc_Channel* channel)
 {
- data->voltage = 5.0 * (data->rawData = IfxVadc_Adc_getResult(&channel->channel).B.RESULT) / ((float32)4095);
+
+ if(channel->isLpfActivatied)
+ {
+  data->voltage = Ifx_LowPassPt1F32_do(&channel->lpf, 5.0 * (data->rawData = IfxVadc_Adc_getResult(&channel->channel).B.RESULT) / ((float32)4095));
+ }
+ else
+ {
+  data->voltage = 5.0 * (data->rawData = IfxVadc_Adc_getResult(&channel->channel).B.RESULT) / ((float32)4095);
+ }
+
+
+
 }

@@ -14,7 +14,7 @@
 #include "HLD.h"
 #include "User.h"
 
-#include "VoltageSensing.h"
+#include "AccumulatorManager.h"
 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
@@ -34,24 +34,10 @@ typedef struct
 	sint16 counter_100ms;
 	sint16 counter_1000ms;
 }Task_data;
-typedef struct
-{
-	uint8 cnt1;
-	boolean encTestStart;
-	uint16 encTestCnt;
-	float32 encTest[5000];
-}Task_testCnt_t;
 /******************************************************************************/
 /*------------------------------Global variables------------------------------*/
 /******************************************************************************/
 Task_data Task = {0,0,0,0};
-Task_testCnt_t Test =
-{
-		.cnt1 = 0,
-		.encTestStart = FALSE,
-		.encTestCnt = 0
-};
-uint32 test_imu = 0;
 
 uint64 stm_buf = 0;
 uint64 stm_buf_1ms = 0;
@@ -98,7 +84,7 @@ void Task_init (void)
 	}
 
 	{
-		VoltageSensing_init();
+		AccumualatorManager_init();
 		HLD_Vadc_forceStart();
 	}
 
@@ -128,7 +114,7 @@ void Task_IsrCb_1ms (void)
 	HLD_GtmTomBeeper_run_1ms();
 	if(isInit)
 	{
-		VoltageSensing_run();
+		AccumulatorManager_run_1ms();
 	}
 
 

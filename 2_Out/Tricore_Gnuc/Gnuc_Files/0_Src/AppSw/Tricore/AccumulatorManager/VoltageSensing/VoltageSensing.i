@@ -3,13 +3,15 @@
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
-# 12 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
+# 13 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
 # 1 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h" 1
 # 44 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h"
 void VoltageSensing_init(void);
 
 void VoltageSensing_run(void);
-# 13 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c" 2
+# 14 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c" 2
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 1
+# 14 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h"
 # 1 "0_Src/AppSw/Tricore/HLD/HLD.h" 1
 # 26 "0_Src/AppSw/Tricore/HLD/HLD.h"
 # 1 "0_Src/AppSw/Tricore/Cfg_Illd/Configuration.h" 1
@@ -27939,7 +27941,7 @@ typedef struct
  IfxVadc_ChannelResult result;
 
  Ifx_LowPassPt1F32 lpf;
-
+ boolean isLpfActivatied;
 }HLD_Vadc_Channel;
 
 typedef struct
@@ -29054,30 +29056,93 @@ extern void HLD_LcdInterface_page3_1(void);
 extern void HLD_LcdInterface_doStart(void);
 extern void HLD_LcdInterface_doStop(void);
 # 149 "0_Src/AppSw/Tricore/HLD/HLD.h" 2
-# 14 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c" 2
-# 26 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
+# 15 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 2
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h" 1
+# 16 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 2
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h" 1
+# 13 "0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h"
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 1
+# 14 "0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h" 2
+
+
+
+extern void CurrentSensing_init(void);
+extern void CurrentSensing_run(void);
+# 17 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 2
+# 57 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h"
+void AccumualatorManager_init(void);
+void AccumulatorManager_run_1ms(void);
+# 15 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c" 2
+
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor/AdcSensor.h" 1
+# 16 "0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor/AdcSensor.h"
+typedef struct
+{
+ HLD_Vadc_Channel adcChannel;
+ HLD_Vadc_Data data;
+    struct
+    {
+        float32 a;
+        float32 b;
+
+    }tf;
+ float32 value;
+}AdcSensor;
+
+typedef struct
+{
+    HLD_Vadc_Channel_Config adcConfig;
+    struct
+    {
+        float32 a;
+        float32 b;
+    }tfConfig;
+}AdcSensor_Config;
+
+
+
+extern void AdcSensor_initSensor(AdcSensor* sensor, AdcSensor_Config* config);
+extern float32 AdcSensor_getData(AdcSensor* sensor);
+# 17 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c" 2
+# 31 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
 typedef struct
 {
  HLD_Vadc_Channel adcChannel;
  HLD_Vadc_Data data;
  float32 voltage;
-}VoltageSensor_t;
+}VoltageSensor;
 
 
 
 
-VoltageSensor_t VoltageSensor0;
-# 51 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
+
+
+AdcSensor VoltageSensor0;
+# 58 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
 void VoltageSensing_init(void)
 {
- HLD_Vadc_Channel_Config adcConfig;
- HLD_Vadc_initChannelConfig(&adcConfig);
- adcConfig.channelIn = &HLD_Vadc_AN0_G0CH0_X102_12;
- HLD_Vadc_initChannel(&VoltageSensor0.adcChannel, &adcConfig);
+
+
+
+
+
+ AdcSensor_Config config;
+    HLD_Vadc_initChannelConfig(&config.adcConfig);
+
+    config.adcConfig.lpf.config.cutOffFrequency = 1/(2.0*(3.1415926535897932384626433832795f)*0.005);
+    config.adcConfig.lpf.config.gain = 1;
+    config.adcConfig.lpf.config.samplingTime = 0.001;
+    config.adcConfig.lpf.activated = 1;
+
+ config.adcConfig.channelIn = &HLD_Vadc_AN0_G0CH0_X102_12;
+ config.tfConfig.a = 1;
+ config.tfConfig.b = 0;
+
+ AdcSensor_initSensor(&VoltageSensor0, &config);
 }
 
 
 void VoltageSensing_run(void)
 {
- HLD_Vadc_getData(&VoltageSensor0.data, &VoltageSensor0.adcChannel);
+ AdcSensor_getData(&VoltageSensor0);
 }
