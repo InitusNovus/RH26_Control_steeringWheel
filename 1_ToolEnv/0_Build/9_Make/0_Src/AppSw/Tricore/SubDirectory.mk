@@ -36,7 +36,7 @@
 
 
 # Include sub folder make files
+include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/SubDirectory.mk
 include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/HLD/SubDirectory.mk
 include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/Main/SubDirectory.mk
 include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/User/SubDirectory.mk
-include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/SubDirectory.mk

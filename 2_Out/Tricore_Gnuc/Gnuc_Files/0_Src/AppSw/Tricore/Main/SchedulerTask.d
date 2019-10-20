@@ -121,4 +121,6 @@
  0_Src/AppSw/Tricore/User/User.h 0_Src/AppSw/Tricore/User/LED_Test.h \
  0_Src/AppSw/Tricore/User/Beeper_Test_Music.h \
  0_Src/AppSw/Tricore/HLD/BasicModules/Gtm/Tom/Beeper/GtmTomBeeper_note.h \
- 0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h
+ 0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h \
+ 0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h \
+ 0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h

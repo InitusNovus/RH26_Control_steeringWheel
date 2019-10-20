@@ -8,26 +8,51 @@
 VoltageSensing_init:
 .LFB691:
 	.file 1 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c"
-	.loc 1 52 0
-	sub.a	%SP, 24
+	.loc 1 59 0
+	sub.a	%SP, 32
 .LCFI0:
-	.loc 1 54 0
+	.loc 1 66 0
 	lea	%a4, [%SP] 4
 	call	HLD_Vadc_initChannelConfig
 .LVL0:
-	.loc 1 55 0
-	movh	%d15, hi:HLD_Vadc_AN0_G0CH0_X102_12
-	.loc 1 56 0
+	.loc 1 70 0
+	movh	%d2, 14979
+	addi	%d2, %d2, 4719
+	.loc 1 68 0
+	movh	%d15, 16895
+	addi	%d15, %d15, -23075
+	.loc 1 70 0
+	st.w	[%SP] 20, %d2
+	.loc 1 71 0
+	mov	%d2, 1
+	.loc 1 68 0
+	st.w	[%SP] 12, %d15
+	.loc 1 71 0
+	st.b	[%SP] 8, %d2
+	.loc 1 69 0
+	movh	%d15, 16256
+	.loc 1 73 0
+	movh	%d2, hi:HLD_Vadc_AN0_G0CH0_X102_12
+	.loc 1 77 0
 	movh.a	%a4, hi:VoltageSensor0
-	.loc 1 55 0
-	addi	%d15, %d15, lo:HLD_Vadc_AN0_G0CH0_X102_12
-	.loc 1 56 0
+	.loc 1 69 0
+	st.w	[%SP] 16, %d15
+	.loc 1 73 0
+	addi	%d2, %d2, lo:HLD_Vadc_AN0_G0CH0_X102_12
+	.loc 1 74 0
+	st.w	[%SP] 24, %d15
+	.loc 1 77 0
 	lea	%a4, [%a4] lo:VoltageSensor0
+	.loc 1 75 0
+	mov	%d15, 0
+	.loc 1 77 0
 	lea	%a5, [%SP] 4
-	.loc 1 55 0
-	st.w	[%SP] 4, %d15
-	.loc 1 56 0
-	j	HLD_Vadc_initChannel
+	.loc 1 73 0
+	st.w	[%SP] 4, %d2
+	.loc 1 75 0
+	st.w	[%SP] 28, %d15
+	.loc 1 77 0
+	j	AdcSensor_initSensor
 .LVL1:
 .LFE691:
 	.size	VoltageSensing_init, .-VoltageSensing_init
@@ -37,12 +62,11 @@ VoltageSensing_init:
 	.type	VoltageSensing_run, @function
 VoltageSensing_run:
 .LFB692:
-	.loc 1 61 0
-	.loc 1 62 0
-	movh.a	%a4, hi:VoltageSensor0+24
-	lea	%a4, [%a4] lo:VoltageSensor0+24
-	lea	%a5, [%a4] -24
-	j	HLD_Vadc_getData
+	.loc 1 82 0
+	.loc 1 83 0
+	movh.a	%a4, hi:VoltageSensor0
+	lea	%a4, [%a4] lo:VoltageSensor0
+	j	AdcSensor_getData
 .LVL2:
 .LFE692:
 	.size	VoltageSensing_run, .-VoltageSensing_run
@@ -50,9 +74,9 @@ VoltageSensing_run:
 .section .bss.VoltageSensor0,"aw",@nobits
 	.align 2
 	.type	VoltageSensor0, @object
-	.size	VoltageSensor0, 36
+	.size	VoltageSensor0, 48
 VoltageSensor0:
-	.zero	36
+	.zero	48
 .section .debug_frame,"",@progbits
 .Lframe0:
 	.uaword	.LECIE0-.LSCIE0
@@ -77,7 +101,7 @@ VoltageSensor0:
 	.byte	0x4
 	.uaword	.LCFI0-.LFB691
 	.byte	0xe
-	.uleb128 0x18
+	.uleb128 0x20
 	.align 2
 .LEFDE0:
 .LSFDE2:
@@ -105,10 +129,11 @@ VoltageSensor0:
 	.file 14 "0_Src/AppSw/Tricore/HLD/BasicModules/Vadc/Vadc.h"
 	.file 15 "0_Src/AppSw/Tricore/HLD/BasicModules/Stm/Stm.h"
 	.file 16 "0_Src/AppSw/Tricore/HLD/AbstractionLayer/IMU/IMU.h"
-	.file 17 "0_Src/AppSw/Tricore/HLD/AbstractionLayer/Led.h"
+	.file 17 "0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor/AdcSensor.h"
+	.file 18 "0_Src/AppSw/Tricore/HLD/AbstractionLayer/Led.h"
 .section .debug_info,"",@progbits
 .Ldebug_info0:
-	.uaword	0x821c
+	.uaword	0x82a5
 	.uahalf	0x3
 	.uaword	.Ldebug_abbrev0
 	.byte	0x4
@@ -12145,10 +12170,10 @@ VoltageSensor0:
 	.byte	0x4c
 	.uaword	0x7b1c
 	.uleb128 0x6
-	.byte	0x18
+	.byte	0x1c
 	.byte	0xe
 	.byte	0x75
-	.uaword	0x7ca3
+	.uaword	0x7cbb
 	.uleb128 0x7
 	.string	"channel"
 	.byte	0xe
@@ -12167,6 +12192,12 @@ VoltageSensor0:
 	.byte	0x7b
 	.uaword	0x7a55
 	.byte	0xc
+	.uleb128 0x7
+	.string	"isLpfActivatied"
+	.byte	0xe
+	.byte	0x7c
+	.uaword	0x267
+	.byte	0x18
 	.byte	0
 	.uleb128 0x3
 	.string	"HLD_Vadc_Channel"
@@ -12177,7 +12208,7 @@ VoltageSensor0:
 	.byte	0x2
 	.byte	0xe
 	.byte	0x7f
-	.uaword	0x7ce6
+	.uaword	0x7cfe
 	.uleb128 0x7
 	.string	"groupId"
 	.byte	0xe
@@ -12195,12 +12226,12 @@ VoltageSensor0:
 	.string	"HLD_Vadc_Channel_In"
 	.byte	0xe
 	.byte	0x83
-	.uaword	0x7cbb
+	.uaword	0x7cd3
 	.uleb128 0x6
 	.byte	0x10
 	.byte	0xe
 	.byte	0x89
-	.uaword	0x7d2b
+	.uaword	0x7d43
 	.uleb128 0x7
 	.string	"activated"
 	.byte	0xe
@@ -12218,33 +12249,33 @@ VoltageSensor0:
 	.byte	0x14
 	.byte	0xe
 	.byte	0x86
-	.uaword	0x7d52
+	.uaword	0x7d6a
 	.uleb128 0x7
 	.string	"channelIn"
 	.byte	0xe
 	.byte	0x88
-	.uaword	0x7d52
+	.uaword	0x7d6a
 	.byte	0
 	.uleb128 0x7
 	.string	"lpf"
 	.byte	0xe
 	.byte	0x8d
-	.uaword	0x7d01
+	.uaword	0x7d19
 	.byte	0x4
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x7ce6
+	.uaword	0x7cfe
 	.uleb128 0x3
 	.string	"HLD_Vadc_Channel_Config"
 	.byte	0xe
 	.byte	0x8f
-	.uaword	0x7d2b
+	.uaword	0x7d43
 	.uleb128 0x6
 	.byte	0x8
 	.byte	0xe
 	.byte	0x91
-	.uaword	0x7da0
+	.uaword	0x7db8
 	.uleb128 0x7
 	.string	"rawData"
 	.byte	0xe
@@ -12262,12 +12293,12 @@ VoltageSensor0:
 	.string	"HLD_Vadc_Data"
 	.byte	0xe
 	.byte	0x95
-	.uaword	0x7d77
+	.uaword	0x7d8f
 	.uleb128 0x6
 	.byte	0x1
 	.byte	0xf
 	.byte	0x31
-	.uaword	0x7e06
+	.uaword	0x7e1e
 	.uleb128 0xd
 	.string	"Led107"
 	.byte	0xf
@@ -12309,7 +12340,7 @@ VoltageSensor0:
 	.byte	0x1
 	.byte	0xf
 	.byte	0x27
-	.uaword	0x7e21
+	.uaword	0x7e39
 	.uleb128 0x10
 	.string	"U"
 	.byte	0xf
@@ -12319,23 +12350,23 @@ VoltageSensor0:
 	.string	"B"
 	.byte	0xf
 	.byte	0x37
-	.uaword	0x7db5
+	.uaword	0x7dcd
 	.byte	0
 	.uleb128 0x3
 	.string	"Stm_LedState"
 	.byte	0xf
 	.byte	0x39
-	.uaword	0x7e06
+	.uaword	0x7e1e
 	.uleb128 0x6
 	.byte	0x18
 	.byte	0xf
 	.byte	0x3b
-	.uaword	0x7e80
+	.uaword	0x7e98
 	.uleb128 0x7
 	.string	"stmSfr"
 	.byte	0xf
 	.byte	0x3d
-	.uaword	0x7e80
+	.uaword	0x7e98
 	.byte	0
 	.uleb128 0x7
 	.string	"stmConfig"
@@ -12347,13 +12378,13 @@ VoltageSensor0:
 	.string	"LedState"
 	.byte	0xf
 	.byte	0x3f
-	.uaword	0x7e21
+	.uaword	0x7e39
 	.byte	0x10
 	.uleb128 0x7
 	.string	"counter"
 	.byte	0xf
 	.byte	0x40
-	.uaword	0x7e86
+	.uaword	0x7e9e
 	.byte	0x14
 	.byte	0
 	.uleb128 0x4
@@ -12365,12 +12396,12 @@ VoltageSensor0:
 	.string	"Stm_data"
 	.byte	0xf
 	.byte	0x41
-	.uaword	0x7e35
+	.uaword	0x7e4d
 	.uleb128 0x6
 	.byte	0x1c
 	.byte	0x10
 	.byte	0x22
-	.uaword	0x7f0e
+	.uaword	0x7f26
 	.uleb128 0x7
 	.string	"Gyro_x"
 	.byte	0x10
@@ -12418,12 +12449,12 @@ VoltageSensor0:
 	.string	"HLD_Imu_data_t"
 	.byte	0x10
 	.byte	0x2d
-	.uaword	0x7e9b
+	.uaword	0x7eb3
 	.uleb128 0x6
 	.byte	0x20
 	.byte	0x10
 	.byte	0x42
-	.uaword	0x7f48
+	.uaword	0x7f60
 	.uleb128 0x7
 	.string	"mutex"
 	.byte	0x10
@@ -12434,14 +12465,14 @@ VoltageSensor0:
 	.string	"data"
 	.byte	0x10
 	.byte	0x45
-	.uaword	0x7f0e
+	.uaword	0x7f26
 	.byte	0x4
 	.byte	0
 	.uleb128 0x6
 	.byte	0xe
 	.byte	0x10
 	.byte	0x48
-	.uaword	0x7fbd
+	.uaword	0x7fd5
 	.uleb128 0x7
 	.string	"Gyro_x"
 	.byte	0x10
@@ -12489,101 +12520,166 @@ VoltageSensor0:
 	.byte	0x4c
 	.byte	0x10
 	.byte	0x30
-	.uaword	0x7fee
+	.uaword	0x8006
 	.uleb128 0x7
 	.string	"data"
 	.byte	0x10
 	.byte	0x41
-	.uaword	0x7f0e
+	.uaword	0x7f26
 	.byte	0
 	.uleb128 0x7
 	.string	"shared"
 	.byte	0x10
 	.byte	0x46
-	.uaword	0x7f24
+	.uaword	0x7f3c
 	.byte	0x1c
 	.uleb128 0x7
 	.string	"MPU"
 	.byte	0x10
 	.byte	0x54
-	.uaword	0x7f48
+	.uaword	0x7f60
 	.byte	0x3c
 	.byte	0
 	.uleb128 0x3
 	.string	"HLD_Imu_t"
 	.byte	0x10
 	.byte	0x57
-	.uaword	0x7fbd
+	.uaword	0x7fd5
 	.uleb128 0x6
-	.byte	0x24
-	.byte	0x1
-	.byte	0x1a
-	.uaword	0x8038
+	.byte	0x8
+	.byte	0x11
+	.byte	0x14
+	.uaword	0x8034
+	.uleb128 0x7
+	.string	"a"
+	.byte	0x11
+	.byte	0x16
+	.uaword	0x245
+	.byte	0
+	.uleb128 0x7
+	.string	"b"
+	.byte	0x11
+	.byte	0x17
+	.uaword	0x245
+	.byte	0x4
+	.byte	0
+	.uleb128 0x6
+	.byte	0x30
+	.byte	0x11
+	.byte	0x10
+	.uaword	0x8076
 	.uleb128 0x7
 	.string	"adcChannel"
-	.byte	0x1
-	.byte	0x1c
-	.uaword	0x7ca3
+	.byte	0x11
+	.byte	0x12
+	.uaword	0x7cbb
 	.byte	0
 	.uleb128 0x7
 	.string	"data"
-	.byte	0x1
-	.byte	0x1d
-	.uaword	0x7da0
-	.byte	0x18
+	.byte	0x11
+	.byte	0x13
+	.uaword	0x7db8
+	.byte	0x1c
 	.uleb128 0x7
-	.string	"voltage"
-	.byte	0x1
-	.byte	0x1e
+	.string	"tf"
+	.byte	0x11
+	.byte	0x19
+	.uaword	0x8017
+	.byte	0x24
+	.uleb128 0x7
+	.string	"value"
+	.byte	0x11
+	.byte	0x1a
 	.uaword	0x245
-	.byte	0x20
+	.byte	0x2c
 	.byte	0
 	.uleb128 0x3
-	.string	"VoltageSensor_t"
-	.byte	0x1
+	.string	"AdcSensor"
+	.byte	0x11
+	.byte	0x1b
+	.uaword	0x8034
+	.uleb128 0x6
+	.byte	0x8
+	.byte	0x11
+	.byte	0x20
+	.uaword	0x80a4
+	.uleb128 0x7
+	.string	"a"
+	.byte	0x11
+	.byte	0x22
+	.uaword	0x245
+	.byte	0
+	.uleb128 0x7
+	.string	"b"
+	.byte	0x11
+	.byte	0x23
+	.uaword	0x245
+	.byte	0x4
+	.byte	0
+	.uleb128 0x6
+	.byte	0x1c
+	.byte	0x11
+	.byte	0x1d
+	.uaword	0x80d0
+	.uleb128 0x7
+	.string	"adcConfig"
+	.byte	0x11
 	.byte	0x1f
-	.uaword	0x7fff
+	.uaword	0x7d70
+	.byte	0
+	.uleb128 0x7
+	.string	"tfConfig"
+	.byte	0x11
+	.byte	0x24
+	.uaword	0x8087
+	.byte	0x14
+	.byte	0
+	.uleb128 0x3
+	.string	"AdcSensor_Config"
+	.byte	0x11
+	.byte	0x25
+	.uaword	0x80a4
 	.uleb128 0x21
 	.byte	0x1
 	.string	"VoltageSensing_init"
 	.byte	0x1
-	.byte	0x33
+	.byte	0x3a
 	.byte	0x1
 	.uaword	.LFB691
 	.uaword	.LFE691
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x80ba
+	.uaword	0x8150
 	.uleb128 0x22
-	.string	"adcConfig"
+	.string	"config"
 	.byte	0x1
-	.byte	0x35
-	.uaword	0x7d58
+	.byte	0x41
+	.uaword	0x80d0
 	.byte	0x2
 	.byte	0x91
-	.sleb128 -20
+	.sleb128 -28
 	.uleb128 0x23
 	.uaword	.LVL0
-	.uaword	0x8192
-	.uaword	0x809f
+	.uaword	0x821f
+	.uaword	0x8135
 	.uleb128 0x24
 	.byte	0x1
 	.byte	0x64
 	.byte	0x2
 	.byte	0x91
-	.sleb128 -20
+	.sleb128 -28
 	.byte	0
 	.uleb128 0x25
 	.uaword	.LVL1
 	.byte	0x1
-	.uaword	0x81c3
+	.uaword	0x8250
 	.uleb128 0x24
 	.byte	0x1
 	.byte	0x65
 	.byte	0x2
 	.byte	0x91
-	.sleb128 -20
+	.sleb128 -28
 	.uleb128 0x24
 	.byte	0x1
 	.byte	0x64
@@ -12596,35 +12692,29 @@ VoltageSensor0:
 	.byte	0x1
 	.string	"VoltageSensing_run"
 	.byte	0x1
-	.byte	0x3c
+	.byte	0x51
 	.byte	0x1
 	.uaword	.LFB692
 	.uaword	.LFE692
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x80ff
+	.uaword	0x818c
 	.uleb128 0x25
 	.uaword	.LVL2
 	.byte	0x1
-	.uaword	0x81f3
-	.uleb128 0x24
-	.byte	0x1
-	.byte	0x65
-	.byte	0x5
-	.byte	0x3
-	.uaword	VoltageSensor0+0
+	.uaword	0x8286
 	.uleb128 0x24
 	.byte	0x1
 	.byte	0x64
 	.byte	0x5
 	.byte	0x3
-	.uaword	VoltageSensor0+24
+	.uaword	VoltageSensor0
 	.byte	0
 	.byte	0
 	.uleb128 0x8
 	.uaword	0x2ea
-	.uaword	0x810f
+	.uaword	0x819c
 	.uleb128 0x9
 	.uaword	0x324
 	.byte	0
@@ -12633,37 +12723,37 @@ VoltageSensor0:
 	.string	"IfxCpu_cfg_indexMap"
 	.byte	0x5
 	.byte	0x90
-	.uaword	0x812c
+	.uaword	0x81b9
 	.byte	0x1
 	.byte	0x1
 	.uleb128 0x20
-	.uaword	0x80ff
+	.uaword	0x818c
 	.uleb128 0x26
 	.string	"HLD_Vadc_AN0_G0CH0_X102_12"
 	.byte	0xe
 	.byte	0x9b
-	.uaword	0x7ce6
+	.uaword	0x7cfe
 	.byte	0x1
 	.byte	0x1
 	.uleb128 0x26
 	.string	"g_Stm"
-	.byte	0x11
+	.byte	0x12
 	.byte	0x2a
-	.uaword	0x7e8b
+	.uaword	0x7ea3
 	.byte	0x1
 	.byte	0x1
 	.uleb128 0x26
 	.string	"HLD_Imu"
 	.byte	0x10
 	.byte	0x5b
-	.uaword	0x7fee
+	.uaword	0x8006
 	.byte	0x1
 	.byte	0x1
 	.uleb128 0x27
 	.string	"VoltageSensor0"
 	.byte	0x1
-	.byte	0x24
-	.uaword	0x8038
+	.byte	0x2b
+	.uaword	0x8076
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -12675,45 +12765,43 @@ VoltageSensor0:
 	.byte	0xb4
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x81bd
+	.uaword	0x824a
 	.uleb128 0x29
-	.uaword	0x81bd
+	.uaword	0x824a
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x7d58
+	.uaword	0x7d70
 	.uleb128 0x28
 	.byte	0x1
-	.string	"HLD_Vadc_initChannel"
-	.byte	0xe
-	.byte	0xb3
+	.string	"AdcSensor_initSensor"
+	.byte	0x11
+	.byte	0x29
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x81ed
+	.uaword	0x827a
 	.uleb128 0x29
-	.uaword	0x81ed
+	.uaword	0x827a
 	.uleb128 0x29
-	.uaword	0x81bd
+	.uaword	0x8280
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x7ca3
-	.uleb128 0x28
-	.byte	0x1
-	.string	"HLD_Vadc_getData"
-	.byte	0xe
-	.byte	0xb6
-	.byte	0x1
-	.byte	0x1
-	.uaword	0x8219
-	.uleb128 0x29
-	.uaword	0x8219
-	.uleb128 0x29
-	.uaword	0x81ed
-	.byte	0
+	.uaword	0x8076
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x7da0
+	.uaword	0x80d0
+	.uleb128 0x2a
+	.byte	0x1
+	.string	"AdcSensor_getData"
+	.byte	0x11
+	.byte	0x2a
+	.byte	0x1
+	.uaword	0x245
+	.byte	0x1
+	.uleb128 0x29
+	.uaword	0x827a
+	.byte	0
 	.byte	0
 .section .debug_abbrev,"",@progbits
 .Ldebug_abbrev0:
@@ -13274,6 +13362,25 @@ VoltageSensor0:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
+	.uleb128 0x2a
+	.uleb128 0x2e
+	.byte	0x1
+	.uleb128 0x3f
+	.uleb128 0xc
+	.uleb128 0x3
+	.uleb128 0x8
+	.uleb128 0x3a
+	.uleb128 0xb
+	.uleb128 0x3b
+	.uleb128 0xb
+	.uleb128 0x27
+	.uleb128 0xc
+	.uleb128 0x49
+	.uleb128 0x13
+	.uleb128 0x3c
+	.uleb128 0xc
+	.byte	0
+	.byte	0
 	.byte	0
 .section .debug_aranges,"",@progbits
 	.uaword	0x24
@@ -13396,8 +13503,8 @@ VoltageSensor0:
 	.string	"reserved_58"
 .LASF45:
 	.string	"RESULT"
-	.extern	HLD_Vadc_getData,STT_FUNC,0
-	.extern	HLD_Vadc_initChannel,STT_FUNC,0
+	.extern	AdcSensor_getData,STT_FUNC,0
+	.extern	AdcSensor_initSensor,STT_FUNC,0
 	.extern	HLD_Vadc_AN0_G0CH0_X102_12,STT_OBJECT,2
 	.extern	HLD_Vadc_initChannelConfig,STT_FUNC,0
 	.ident	"GCC: (HighTec Release HDP-v4.9.3.0-infineon-1.0-fb21a99) 4.9.4 build on 2019-06-07"

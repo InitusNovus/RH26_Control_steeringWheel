@@ -27935,7 +27935,7 @@ typedef struct
  IfxVadc_ChannelResult result;
 
  Ifx_LowPassPt1F32 lpf;
-
+ boolean isLpfActivatied;
 }HLD_Vadc_Channel;
 
 typedef struct
@@ -29094,11 +29094,27 @@ extern note_t GrandfathersElevenMonth[];
 # 13 "0_Src/AppSw/Tricore/User/User.h" 2
 # 16 "0_Src/AppSw/Tricore/Main/SchedulerTask.c" 2
 
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 1
+# 15 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h"
 # 1 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h" 1
 # 44 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h"
 void VoltageSensing_init(void);
 
 void VoltageSensing_run(void);
+# 16 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 2
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h" 1
+# 13 "0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h"
+# 1 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 1
+# 14 "0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h" 2
+
+
+
+extern void CurrentSensing_init(void);
+extern void CurrentSensing_run(void);
+# 17 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h" 2
+# 57 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h"
+void AccumualatorManager_init(void);
+void AccumulatorManager_run_1ms(void);
 # 18 "0_Src/AppSw/Tricore/Main/SchedulerTask.c" 2
 # 30 "0_Src/AppSw/Tricore/Main/SchedulerTask.c"
 typedef struct
@@ -29108,24 +29124,10 @@ typedef struct
  sint16 counter_100ms;
  sint16 counter_1000ms;
 }Task_data;
-typedef struct
-{
- uint8 cnt1;
- boolean encTestStart;
- uint16 encTestCnt;
- float32 encTest[5000];
-}Task_testCnt_t;
 
 
 
 Task_data Task = {0,0,0,0};
-Task_testCnt_t Test =
-{
-  .cnt1 = 0,
-  .encTestStart = 0,
-  .encTestCnt = 0
-};
-uint32 test_imu = 0;
 
 uint64 stm_buf = 0;
 uint64 stm_buf_1ms = 0;
@@ -29172,7 +29174,7 @@ void Task_init (void)
  }
 
  {
-  VoltageSensing_init();
+  AccumualatorManager_init();
   HLD_Vadc_forceStart();
  }
 
@@ -29202,7 +29204,7 @@ void Task_IsrCb_1ms (void)
  HLD_GtmTomBeeper_run_1ms();
  if(isInit)
  {
-  VoltageSensing_run();
+  AccumulatorManager_run_1ms();
  }
 
 

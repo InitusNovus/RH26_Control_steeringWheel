@@ -5,6 +5,8 @@
 "-I0_Src/AppSw/Tricore/HLD"
 "-I0_Src/AppSw/Tricore/Main"
 "-I0_Src/AppSw/Tricore/User"
+"-I0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor"
+"-I0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing"
 "-I0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing"
 "-I0_Src/AppSw/Tricore/HLD/AbstractionLayer"
 "-I0_Src/AppSw/Tricore/HLD/Fix"

@@ -1,6 +1,7 @@
 2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.o: \
  0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.c \
  0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h \
+ 0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h \
  0_Src/AppSw/Tricore/HLD/HLD.h \
  0_Src/AppSw/Tricore/Cfg_Illd/Configuration.h \
  0_Src/AppSw/CpuGeneric/Config/Ifx_Cfg.h \
@@ -118,4 +119,7 @@
  0_Src/AppSw/Tricore/HLD/AbstractionLayer/IMU/IMU.h \
  0_Src/AppSw/Tricore/HLD/LcdInterface.h 0_Src/AppSw/Tricore/HLD/Lcd.h \
  0_Src/AppSw/Tricore/HLD/LCD/glcd.h \
- 0_Src/AppSw/Tricore/HLD/LCD/usr_sprintf.h
+ 0_Src/AppSw/Tricore/HLD/LCD/usr_sprintf.h \
+ 0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h \
+ 0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.h \
+ 0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor/AdcSensor.h

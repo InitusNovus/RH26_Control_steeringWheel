@@ -18,6 +18,8 @@
  0_Src/BaseSw/Infra/Platform \
  0_Src/BaseSw/Infra/Sfr \
  0_Src/BaseSw/Service/CpuGeneric \
+ 0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor \
+ 0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing \
  0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing \
  0_Src/AppSw/Tricore/HLD/AbstractionLayer \
  0_Src/AppSw/Tricore/HLD/BasicModules \
@@ -170,6 +172,10 @@
 0_Src/BaseSw/Infra/Sfr:
 
 0_Src/BaseSw/Service/CpuGeneric:
+
+0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor:
+
+0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing:
 
 0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing:
 

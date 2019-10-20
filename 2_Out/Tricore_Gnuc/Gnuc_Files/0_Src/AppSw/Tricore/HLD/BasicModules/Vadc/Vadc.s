@@ -73,19 +73,19 @@ HLD_Vadc_initChannel:
 .LCFI1:
 	.loc 1 96 0
 	jz.a	%a2, .L2
-.LBB13:
+.LBB17:
 	.loc 1 101 0
 	ld.bu	%d15, [%a2]0
-	movh.a	%a12, hi:HLD_Vadc
+	movh.a	%a13, hi:HLD_Vadc
 	mul	%d15, %d15, 12
-	lea	%a12, [%a12] lo:HLD_Vadc
+	lea	%a13, [%a13] lo:HLD_Vadc
 	mov.aa	%a15, %a5
 	add	%d15, 4
-	addsc.a	%a12, %a12, %d15, 0
+	addsc.a	%a13, %a13, %d15, 0
 .LVL7:
-	mov.aa	%a13, %a4
+	mov.aa	%a12, %a4
 	.loc 1 104 0
-	mov.aa	%a5, %a12
+	mov.aa	%a5, %a13
 .LVL8:
 	mov.aa	%a4, %SP
 .LVL9:
@@ -94,12 +94,14 @@ HLD_Vadc_initChannel:
 	.loc 1 106 0
 	ld.a	%a2, [%a15]0
 	.loc 1 109 0
-	mov.aa	%a4, %a13
+	mov.aa	%a4, %a12
 	mov.aa	%a5, %SP
 	.loc 1 106 0
 	ld.b	%d15, [%a2] 1
 	st.b	[%SP] 12, %d15
 	.loc 1 107 0
+	and	%d15, 255
+	st.b	[%a12] 8, %d15
 	st.b	[%SP] 15, %d15
 	.loc 1 109 0
 	call	IfxVadc_Adc_initChannel
@@ -107,40 +109,47 @@ HLD_Vadc_initChannel:
 	.loc 1 113 0
 	ld.b	%d15, [%SP] 12
 	mov	%d4, 1
-.LBB14:
-.LBB15:
+.LBB18:
+.LBB19:
 	.file 2 "0_Src/BaseSw/iLLD/TC23A/Tricore/Vadc/Adc/IfxVadc_Adc.h"
 	.loc 2 1264 0
-	ld.a	%a4, [%a12] 4
-.LBE15:
-.LBE14:
+	ld.a	%a4, [%a13] 4
+.LBE19:
+.LBE18:
 	.loc 1 113 0
 	sh	%d4, %d4, %d15
 .LVL12:
-.LBB17:
-.LBB16:
+.LBB21:
+.LBB20:
 	.loc 2 1264 0
 	mov	%d5, %d4
 	call	IfxVadc_setScan
 .LVL13:
-.LBE16:
-.LBE17:
+.LBE20:
+.LBE21:
 	.loc 1 117 0
 	ld.bu	%d15, [%a15] 4
 .LVL14:
-	jnz	%d15, .L12
+	jnz	%d15, .L10
+	.loc 1 124 0
+	st.b	[%a12] 24, %d15
 .LVL15:
 .L2:
 	ret
 .LVL16:
-.L12:
+.L10:
 	.loc 1 119 0
-	lea	%a4, [%a13] 12
+	lea	%a4, [%a12] 12
 	lea	%a5, [%a15] 8
+	.loc 1 120 0
+	mov	%d15, 1
+	.loc 1 119 0
 	call	Ifx_LowPassPt1F32_init
 .LVL17:
+	.loc 1 120 0
+	st.b	[%a12] 24, %d15
 	ret
-.LBE13:
+.LBE17:
 .LFE692:
 	.size	HLD_Vadc_initChannel, .-HLD_Vadc_initChannel
 .section .text.HLD_Vadc_initChannelConfig,"ax",@progbits
@@ -149,12 +158,12 @@ HLD_Vadc_initChannel:
 	.type	HLD_Vadc_initChannelConfig, @function
 HLD_Vadc_initChannelConfig:
 .LFB693:
-	.loc 1 125 0
+	.loc 1 131 0
 .LVL18:
-	.loc 1 126 0
+	.loc 1 132 0
 	mov	%d15, 0
 	st.w	[%a4]0, %d15
-	.loc 1 127 0
+	.loc 1 133 0
 	st.b	[%a4] 4, %d15
 	ret
 .LFE693:
@@ -165,9 +174,9 @@ HLD_Vadc_initChannelConfig:
 	.type	HLD_Vadc_forceStart, @function
 HLD_Vadc_forceStart:
 .LFB694:
-	.loc 1 131 0
+	.loc 1 137 0
 .LVL19:
-	.loc 1 135 0
+	.loc 1 141 0
 	movh.a	%a15, hi:HLD_Vadc+4
 	lea	%a15, [%a15] lo:HLD_Vadc+4
 	mov.aa	%a4, %a15
@@ -188,54 +197,116 @@ HLD_Vadc_forceStart:
 	.type	HLD_Vadc_getData, @function
 HLD_Vadc_getData:
 .LFB695:
-	.loc 1 140 0
+	.loc 1 146 0
 .LVL22:
-.LBB18:
-.LBB19:
+	.loc 1 148 0
+	ld.bu	%d15, [%a5] 24
+.LBB22:
+.LBB23:
 	.loc 2 1234 0
 	ld.a	%a2, [%a5] 4
-	ld.a	%a3, [%a2] 4
-	ld.bu	%d15, [%a5] 1
-.LVL23:
-.LBE19:
-.LBE18:
-	.loc 1 140 0
+.LBE23:
+.LBE22:
+	.loc 1 146 0
 	mov.aa	%a15, %a4
-.LBB23:
-.LBB22:
-.LBB20:
-.LBB21:
+.LBB29:
+.LBB26:
+	.loc 2 1234 0
+	ld.a	%a3, [%a2] 4
+.LBE26:
+.LBE29:
+	.loc 1 148 0
+	jnz	%d15, .L16
+.LVL23:
+.LBB30:
+.LBB31:
+	.loc 2 1234 0
+	ld.bu	%d15, [%a5] 1
+.LVL24:
+.LBB32:
+.LBB33:
 	.file 3 "0_Src/BaseSw/iLLD/TC23A/Tricore/Vadc/Std/IfxVadc.h"
 	.loc 3 2066 0
 	addi	%d15, %d15, 160
-.LVL24:
+.LVL25:
 	addsc.a	%a2, %a3, %d15, 2
 	ld.w	%d4, [%a2]0
-.LVL25:
-	extr.u	%d4, %d4, 0, 16
 .LVL26:
-.LBE21:
-.LBE20:
-.LBE22:
-.LBE23:
-	.loc 1 141 0
+	extr.u	%d4, %d4, 0, 16
+.LVL27:
+.LBE33:
+.LBE32:
+.LBE31:
+.LBE30:
+	.loc 1 154 0
 	st.w	[%a4]0, %d4
 	call	__floatunsidf
-.LVL27:
+.LVL28:
 	mov	%e4, %d3, %d2
 	mov	%d6, 0
 	movh	%d7, 16404
 	call	__muldf3
-.LVL28:
+.LVL29:
 	movh	%d7, 16560
 	mov	%e4, %d3, %d2
 	mov	%d6, 0
 	addi	%d7, %d7, -512
 	call	__divdf3
-.LVL29:
+.LVL30:
 	mov	%e4, %d3, %d2
 	call	__truncdfsf2
-.LVL30:
+.LVL31:
+	st.w	[%a15] 4, %d2
+	ret
+.LVL32:
+.L16:
+.LBB34:
+.LBB27:
+	.loc 2 1234 0
+	ld.bu	%d15, [%a5] 1
+.LVL33:
+.LBE27:
+.LBE34:
+	.loc 1 150 0
+	lea	%a12, [%a5] 12
+.LBB35:
+.LBB28:
+.LBB24:
+.LBB25:
+	.loc 3 2066 0
+	addi	%d15, %d15, 160
+.LVL34:
+	addsc.a	%a2, %a3, %d15, 2
+	ld.w	%d4, [%a2]0
+.LVL35:
+	extr.u	%d4, %d4, 0, 16
+.LVL36:
+.LBE25:
+.LBE24:
+.LBE28:
+.LBE35:
+	.loc 1 150 0
+	st.w	[%a4]0, %d4
+	call	__floatunsidf
+.LVL37:
+	mov	%e4, %d3, %d2
+	mov	%d6, 0
+	movh	%d7, 16404
+	call	__muldf3
+.LVL38:
+	movh	%d7, 16560
+	mov	%e4, %d3, %d2
+	mov	%d6, 0
+	addi	%d7, %d7, -512
+	call	__divdf3
+.LVL39:
+	mov	%e4, %d3, %d2
+	call	__truncdfsf2
+.LVL40:
+	mov.aa	%a4, %a12
+	mov	%d4, %d2
+	call	Ifx_LowPassPt1F32_do
+.LVL41:
 	st.w	[%a15] 4, %d2
 	ret
 .LFE695:
@@ -440,7 +511,7 @@ HLD_Vadc:
 	.file 18 "0_Src/AppSw/Tricore/HLD/Fix/AdcForceStart.h"
 .section .debug_info,"",@progbits
 .Ldebug_info0:
-	.uaword	0x9f03
+	.uaword	0x9fb5
 	.uahalf	0x3
 	.uaword	.Ldebug_abbrev0
 	.byte	0x4
@@ -449,7 +520,7 @@ HLD_Vadc:
 	.byte	0x1
 	.string	"0_Src/AppSw/Tricore/HLD/BasicModules/Vadc/Vadc.c"
 	.string	"C:\\\\Google drive\\\\RH_Workspace\\\\_AccumuatorManager_TC237"
-	.uaword	.Ldebug_ranges0+0x30
+	.uaword	.Ldebug_ranges0+0x40
 	.uaword	0
 	.uaword	0
 	.uaword	.Ldebug_line0
@@ -13485,10 +13556,10 @@ HLD_Vadc:
 	.byte	0x71
 	.uaword	0x929a
 	.uleb128 0x6
-	.byte	0x18
+	.byte	0x1c
 	.byte	0xe
 	.byte	0x75
-	.uaword	0x92f4
+	.uaword	0x930c
 	.uleb128 0x7
 	.uaword	.LASF54
 	.byte	0xe
@@ -13507,6 +13578,12 @@ HLD_Vadc:
 	.byte	0x7b
 	.uaword	0x9014
 	.byte	0xc
+	.uleb128 0x8
+	.string	"isLpfActivatied"
+	.byte	0xe
+	.byte	0x7c
+	.uaword	0x251
+	.byte	0x18
 	.byte	0
 	.uleb128 0x3
 	.string	"HLD_Vadc_Channel"
@@ -13517,7 +13594,7 @@ HLD_Vadc:
 	.byte	0x2
 	.byte	0xe
 	.byte	0x7f
-	.uaword	0x932d
+	.uaword	0x9345
 	.uleb128 0x7
 	.uaword	.LASF53
 	.byte	0xe
@@ -13535,12 +13612,12 @@ HLD_Vadc:
 	.string	"HLD_Vadc_Channel_In"
 	.byte	0xe
 	.byte	0x83
-	.uaword	0x930c
+	.uaword	0x9324
 	.uleb128 0x6
 	.byte	0x10
 	.byte	0xe
 	.byte	0x89
-	.uaword	0x936f
+	.uaword	0x9387
 	.uleb128 0x8
 	.string	"activated"
 	.byte	0xe
@@ -13558,33 +13635,33 @@ HLD_Vadc:
 	.byte	0x14
 	.byte	0xe
 	.byte	0x86
-	.uaword	0x9396
+	.uaword	0x93ae
 	.uleb128 0x8
 	.string	"channelIn"
 	.byte	0xe
 	.byte	0x88
-	.uaword	0x9396
+	.uaword	0x93ae
 	.byte	0
 	.uleb128 0x8
 	.string	"lpf"
 	.byte	0xe
 	.byte	0x8d
-	.uaword	0x9348
+	.uaword	0x9360
 	.byte	0x4
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x932d
+	.uaword	0x9345
 	.uleb128 0x3
 	.string	"HLD_Vadc_Channel_Config"
 	.byte	0xe
 	.byte	0x8f
-	.uaword	0x936f
+	.uaword	0x9387
 	.uleb128 0x6
 	.byte	0x8
 	.byte	0xe
 	.byte	0x91
-	.uaword	0x93e4
+	.uaword	0x93fc
 	.uleb128 0x8
 	.string	"rawData"
 	.byte	0xe
@@ -13602,12 +13679,12 @@ HLD_Vadc:
 	.string	"HLD_Vadc_Data"
 	.byte	0xe
 	.byte	0x95
-	.uaword	0x93bb
+	.uaword	0x93d3
 	.uleb128 0x6
 	.byte	0x1
 	.byte	0xf
 	.byte	0x31
-	.uaword	0x944a
+	.uaword	0x9462
 	.uleb128 0xe
 	.string	"Led107"
 	.byte	0xf
@@ -13649,7 +13726,7 @@ HLD_Vadc:
 	.byte	0x1
 	.byte	0xf
 	.byte	0x27
-	.uaword	0x9465
+	.uaword	0x947d
 	.uleb128 0x11
 	.string	"U"
 	.byte	0xf
@@ -13659,23 +13736,23 @@ HLD_Vadc:
 	.string	"B"
 	.byte	0xf
 	.byte	0x37
-	.uaword	0x93f9
+	.uaword	0x9411
 	.byte	0
 	.uleb128 0x3
 	.string	"Stm_LedState"
 	.byte	0xf
 	.byte	0x39
-	.uaword	0x944a
+	.uaword	0x9462
 	.uleb128 0x6
 	.byte	0x18
 	.byte	0xf
 	.byte	0x3b
-	.uaword	0x94c4
+	.uaword	0x94dc
 	.uleb128 0x8
 	.string	"stmSfr"
 	.byte	0xf
 	.byte	0x3d
-	.uaword	0x94c4
+	.uaword	0x94dc
 	.byte	0
 	.uleb128 0x8
 	.string	"stmConfig"
@@ -13687,13 +13764,13 @@ HLD_Vadc:
 	.string	"LedState"
 	.byte	0xf
 	.byte	0x3f
-	.uaword	0x9465
+	.uaword	0x947d
 	.byte	0x10
 	.uleb128 0x8
 	.string	"counter"
 	.byte	0xf
 	.byte	0x40
-	.uaword	0x94ca
+	.uaword	0x94e2
 	.byte	0x14
 	.byte	0
 	.uleb128 0x4
@@ -13705,12 +13782,12 @@ HLD_Vadc:
 	.string	"Stm_data"
 	.byte	0xf
 	.byte	0x41
-	.uaword	0x9479
+	.uaword	0x9491
 	.uleb128 0x6
 	.byte	0x1c
 	.byte	0x10
 	.byte	0x22
-	.uaword	0x9552
+	.uaword	0x956a
 	.uleb128 0x8
 	.string	"Gyro_x"
 	.byte	0x10
@@ -13758,12 +13835,12 @@ HLD_Vadc:
 	.string	"HLD_Imu_data_t"
 	.byte	0x10
 	.byte	0x2d
-	.uaword	0x94df
+	.uaword	0x94f7
 	.uleb128 0x6
 	.byte	0x20
 	.byte	0x10
 	.byte	0x42
-	.uaword	0x958c
+	.uaword	0x95a4
 	.uleb128 0x8
 	.string	"mutex"
 	.byte	0x10
@@ -13774,14 +13851,14 @@ HLD_Vadc:
 	.string	"data"
 	.byte	0x10
 	.byte	0x45
-	.uaword	0x9552
+	.uaword	0x956a
 	.byte	0x4
 	.byte	0
 	.uleb128 0x6
 	.byte	0xe
 	.byte	0x10
 	.byte	0x48
-	.uaword	0x9601
+	.uaword	0x9619
 	.uleb128 0x8
 	.string	"Gyro_x"
 	.byte	0x10
@@ -13829,31 +13906,31 @@ HLD_Vadc:
 	.byte	0x4c
 	.byte	0x10
 	.byte	0x30
-	.uaword	0x9632
+	.uaword	0x964a
 	.uleb128 0x8
 	.string	"data"
 	.byte	0x10
 	.byte	0x41
-	.uaword	0x9552
+	.uaword	0x956a
 	.byte	0
 	.uleb128 0x8
 	.string	"shared"
 	.byte	0x10
 	.byte	0x46
-	.uaword	0x9568
+	.uaword	0x9580
 	.byte	0x1c
 	.uleb128 0x8
 	.string	"MPU"
 	.byte	0x10
 	.byte	0x54
-	.uaword	0x958c
+	.uaword	0x95a4
 	.byte	0x3c
 	.byte	0
 	.uleb128 0x3
 	.string	"HLD_Imu_t"
 	.byte	0x10
 	.byte	0x57
-	.uaword	0x9601
+	.uaword	0x9619
 	.uleb128 0x23
 	.string	"IfxVadc_getResult"
 	.byte	0x3
@@ -13861,7 +13938,7 @@ HLD_Vadc:
 	.byte	0x1
 	.uaword	0x6655
 	.byte	0x3
-	.uaword	0x9694
+	.uaword	0x96ac
 	.uleb128 0x24
 	.uaword	.LASF52
 	.byte	0x3
@@ -13885,12 +13962,12 @@ HLD_Vadc:
 	.byte	0x1
 	.uaword	0x6655
 	.byte	0x3
-	.uaword	0x96c5
+	.uaword	0x96dd
 	.uleb128 0x24
 	.uaword	.LASF54
 	.byte	0x2
 	.uahalf	0x4d0
-	.uaword	0x96c5
+	.uaword	0x96dd
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
@@ -13901,12 +13978,12 @@ HLD_Vadc:
 	.uahalf	0x4ee
 	.byte	0x1
 	.byte	0x3
-	.uaword	0x970f
+	.uaword	0x9727
 	.uleb128 0x24
 	.uaword	.LASF52
 	.byte	0x2
 	.uahalf	0x4ee
-	.uaword	0x970f
+	.uaword	0x9727
 	.uleb128 0x24
 	.uaword	.LASF59
 	.byte	0x2
@@ -13932,7 +14009,7 @@ HLD_Vadc:
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x97fa
+	.uaword	0x9812
 	.uleb128 0x29
 	.string	"adcConfig"
 	.byte	0x1
@@ -13957,8 +14034,8 @@ HLD_Vadc:
 	.sleb128 -56
 	.uleb128 0x2b
 	.uaword	.LVL0
-	.uaword	0x9d1b
-	.uaword	0x9793
+	.uaword	0x9d9f
+	.uaword	0x97ab
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
@@ -13974,8 +14051,8 @@ HLD_Vadc:
 	.byte	0
 	.uleb128 0x2b
 	.uaword	.LVL1
-	.uaword	0x9d54
-	.uaword	0x97ae
+	.uaword	0x9dd8
+	.uaword	0x97c6
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
@@ -13991,8 +14068,8 @@ HLD_Vadc:
 	.byte	0
 	.uleb128 0x2b
 	.uaword	.LVL2
-	.uaword	0x9d96
-	.uaword	0x97c8
+	.uaword	0x9e1a
+	.uaword	0x97e0
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
@@ -14008,8 +14085,8 @@ HLD_Vadc:
 	.byte	0
 	.uleb128 0x2b
 	.uaword	.LVL4
-	.uaword	0x9dce
-	.uaword	0x97e2
+	.uaword	0x9e52
+	.uaword	0x97fa
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
@@ -14026,7 +14103,7 @@ HLD_Vadc:
 	.uleb128 0x2d
 	.uaword	.LVL5
 	.byte	0x1
-	.uaword	0x9dce
+	.uaword	0x9e52
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
@@ -14052,22 +14129,22 @@ HLD_Vadc:
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x9928
+	.uaword	0x9940
 	.uleb128 0x2e
 	.uaword	.LASF54
 	.byte	0x1
 	.byte	0x5e
-	.uaword	0x9928
+	.uaword	0x9940
 	.uaword	.LLST1
 	.uleb128 0x2e
 	.uaword	.LASF58
 	.byte	0x1
 	.byte	0x5e
-	.uaword	0x992e
+	.uaword	0x9946
 	.uaword	.LLST2
 	.uleb128 0x2f
-	.uaword	.LBB13
-	.uaword	.LBE13
+	.uaword	.LBB17
+	.uaword	.LBE17
 	.uleb128 0x2a
 	.uaword	.LASF59
 	.byte	0x1
@@ -14084,7 +14161,7 @@ HLD_Vadc:
 	.uaword	.LASF57
 	.byte	0x1
 	.byte	0x65
-	.uaword	0x970f
+	.uaword	0x9727
 	.uaword	.LLST5
 	.uleb128 0x29
 	.string	"adcChannelConfig"
@@ -14095,24 +14172,24 @@ HLD_Vadc:
 	.byte	0x91
 	.sleb128 -24
 	.uleb128 0x31
-	.uaword	0x96cb
-	.uaword	.LBB14
+	.uaword	0x96e3
+	.uaword	.LBB18
 	.uaword	.Ldebug_ranges0+0
 	.byte	0x1
 	.byte	0x73
-	.uaword	0x98dc
-	.uleb128 0x32
-	.uaword	0x96e9
-	.uaword	.LLST6
+	.uaword	0x98f4
 	.uleb128 0x32
 	.uaword	0x9701
+	.uaword	.LLST6
+	.uleb128 0x32
+	.uaword	0x9719
 	.uaword	.LLST3
 	.uleb128 0x32
-	.uaword	0x96f5
+	.uaword	0x970d
 	.uaword	.LLST3
 	.uleb128 0x33
 	.uaword	.LVL13
-	.uaword	0x9e09
+	.uaword	0x9e8d
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x55
@@ -14133,13 +14210,13 @@ HLD_Vadc:
 	.byte	0
 	.uleb128 0x2b
 	.uaword	.LVL10
-	.uaword	0x9e34
-	.uaword	0x98f6
+	.uaword	0x9eb8
+	.uaword	0x990e
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
 	.byte	0x2
-	.byte	0x8c
+	.byte	0x8d
 	.sleb128 0
 	.uleb128 0x2c
 	.byte	0x1
@@ -14150,8 +14227,8 @@ HLD_Vadc:
 	.byte	0
 	.uleb128 0x2b
 	.uaword	.LVL11
-	.uaword	0x9e6e
-	.uaword	0x9910
+	.uaword	0x9ef2
+	.uaword	0x9928
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
@@ -14162,12 +14239,12 @@ HLD_Vadc:
 	.byte	0x1
 	.byte	0x64
 	.byte	0x2
-	.byte	0x8d
+	.byte	0x8c
 	.sleb128 0
 	.byte	0
 	.uleb128 0x33
 	.uaword	.LVL17
-	.uaword	0x9eab
+	.uaword	0x9f2f
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x65
@@ -14178,34 +14255,34 @@ HLD_Vadc:
 	.byte	0x1
 	.byte	0x64
 	.byte	0x2
-	.byte	0x8d
+	.byte	0x8c
 	.sleb128 12
 	.byte	0
 	.byte	0
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x92f4
+	.uaword	0x930c
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x939c
+	.uaword	0x93b4
 	.uleb128 0x28
 	.byte	0x1
 	.string	"HLD_Vadc_initChannelConfig"
 	.byte	0x1
-	.byte	0x7c
+	.byte	0x82
 	.byte	0x1
 	.uaword	.LFB693
 	.uaword	.LFE693
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x9971
+	.uaword	0x9989
 	.uleb128 0x34
 	.uaword	.LASF58
 	.byte	0x1
-	.byte	0x7c
-	.uaword	0x992e
+	.byte	0x82
+	.uaword	0x9946
 	.byte	0x1
 	.byte	0x64
 	.byte	0
@@ -14213,24 +14290,24 @@ HLD_Vadc:
 	.byte	0x1
 	.string	"HLD_Vadc_forceStart"
 	.byte	0x1
-	.byte	0x82
+	.byte	0x88
 	.byte	0x1
 	.uaword	.LFB694
 	.uaword	.LFE694
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x99ce
+	.uaword	0x99e6
 	.uleb128 0x2a
 	.uaword	.LASF60
 	.byte	0x1
-	.byte	0x84
+	.byte	0x8a
 	.uaword	0x90c3
 	.uaword	.LLST9
 	.uleb128 0x2b
 	.uaword	.LVL20
-	.uaword	0x9ee8
-	.uaword	0x99bc
+	.uaword	0x9f6c
+	.uaword	0x99d4
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x64
@@ -14241,7 +14318,7 @@ HLD_Vadc:
 	.uleb128 0x2d
 	.uaword	.LVL21
 	.byte	0x1
-	.uaword	0x9ee8
+	.uaword	0x9f6c
 	.uleb128 0x2c
 	.byte	0x1
 	.byte	0x64
@@ -14254,65 +14331,109 @@ HLD_Vadc:
 	.byte	0x1
 	.string	"HLD_Vadc_getData"
 	.byte	0x1
-	.byte	0x8b
+	.byte	0x91
 	.byte	0x1
 	.uaword	.LFB695
 	.uaword	.LFE695
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x9a67
+	.uaword	0x9aeb
 	.uleb128 0x36
 	.string	"data"
 	.byte	0x1
-	.byte	0x8b
-	.uaword	0x9a67
+	.byte	0x91
+	.uaword	0x9aeb
 	.uaword	.LLST10
 	.uleb128 0x2e
 	.uaword	.LASF54
 	.byte	0x1
-	.byte	0x8b
-	.uaword	0x9928
+	.byte	0x91
+	.uaword	0x9940
 	.uaword	.LLST11
-	.uleb128 0x37
-	.uaword	0x9694
-	.uaword	.LBB18
+	.uleb128 0x31
+	.uaword	0x96ac
+	.uaword	.LBB22
 	.uaword	.Ldebug_ranges0+0x18
 	.byte	0x1
-	.byte	0x8d
+	.byte	0x96
+	.uaword	0x9a82
 	.uleb128 0x32
-	.uaword	0x96b8
-	.uaword	.LLST11
+	.uaword	0x96d0
+	.uaword	.LLST12
 	.uleb128 0x32
-	.uaword	0x96b8
-	.uaword	.LLST11
-	.uleb128 0x38
-	.uaword	0x9643
-	.uaword	.LBB20
-	.uaword	.LBE20
+	.uaword	0x96d0
+	.uaword	.LLST12
+	.uleb128 0x37
+	.uaword	0x965b
+	.uaword	.LBB24
+	.uaword	.LBE24
 	.byte	0x2
 	.uahalf	0x4d2
 	.uleb128 0x32
-	.uaword	0x966f
+	.uaword	0x9687
 	.uaword	.LLST14
 	.uleb128 0x32
-	.uaword	0x9663
+	.uaword	0x967b
 	.uaword	.LLST15
 	.uleb128 0x2f
-	.uaword	.LBB21
-	.uaword	.LBE21
+	.uaword	.LBB25
+	.uaword	.LBE25
+	.uleb128 0x38
+	.uaword	0x9699
+	.byte	0
+	.byte	0
+	.byte	0
 	.uleb128 0x39
-	.uaword	0x9681
+	.uaword	0x96ac
+	.uaword	.LBB30
+	.uaword	.LBE30
+	.byte	0x1
+	.byte	0x9a
+	.uaword	0x9ada
+	.uleb128 0x32
+	.uaword	0x96d0
+	.uaword	.LLST16
+	.uleb128 0x32
+	.uaword	0x96d0
+	.uaword	.LLST16
+	.uleb128 0x37
+	.uaword	0x965b
+	.uaword	.LBB32
+	.uaword	.LBE32
+	.byte	0x2
+	.uahalf	0x4d2
+	.uleb128 0x32
+	.uaword	0x9687
+	.uaword	.LLST18
+	.uleb128 0x32
+	.uaword	0x967b
+	.uaword	.LLST19
+	.uleb128 0x2f
+	.uaword	.LBB33
+	.uaword	.LBE33
+	.uleb128 0x38
+	.uaword	0x9699
 	.byte	0
 	.byte	0
+	.byte	0
+	.uleb128 0x33
+	.uaword	.LVL41
+	.uaword	0x9f8e
+	.uleb128 0x2c
+	.byte	0x1
+	.byte	0x64
+	.byte	0x2
+	.byte	0x8c
+	.sleb128 0
 	.byte	0
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x93e4
+	.uaword	0x93fc
 	.uleb128 0x9
 	.uaword	0x2d1
-	.uaword	0x9a7d
+	.uaword	0x9b01
 	.uleb128 0xa
 	.uaword	0x30b
 	.byte	0
@@ -14321,16 +14442,16 @@ HLD_Vadc:
 	.string	"IfxCpu_cfg_indexMap"
 	.byte	0x7
 	.byte	0x90
-	.uaword	0x9a9a
+	.uaword	0x9b1e
 	.byte	0x1
 	.byte	0x1
 	.uleb128 0x22
-	.uaword	0x9a6d
+	.uaword	0x9af1
 	.uleb128 0x3b
 	.string	"HLD_Vadc_AN0_G0CH0_X102_12"
 	.byte	0x1
 	.byte	0x24
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14339,7 +14460,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN1_G0CH1_X102_11"
 	.byte	0x1
 	.byte	0x25
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14348,7 +14469,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN2_G0CH2_X102_10"
 	.byte	0x1
 	.byte	0x26
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14357,7 +14478,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN3_G0CH3_X102_9"
 	.byte	0x1
 	.byte	0x27
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14366,7 +14487,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN9_G0CH9_X102_6"
 	.byte	0x1
 	.byte	0x28
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14375,7 +14496,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN10_G0CH10_X102_10"
 	.byte	0x1
 	.byte	0x29
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14384,7 +14505,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN11_G0CH11_X103_39"
 	.byte	0x1
 	.byte	0x2a
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14393,7 +14514,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN12_G1CH0_X103_40"
 	.byte	0x1
 	.byte	0x2b
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14402,7 +14523,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN13_G1CH1_X103_38"
 	.byte	0x1
 	.byte	0x2c
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14411,7 +14532,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN15_G1CH3_X102_8"
 	.byte	0x1
 	.byte	0x2d
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14420,7 +14541,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN16_G1CH4_X102_7"
 	.byte	0x1
 	.byte	0x2e
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14429,7 +14550,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN17_G1CH5_X103_37"
 	.byte	0x1
 	.byte	0x2f
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14438,7 +14559,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN20_G1CH8_X103_36"
 	.byte	0x1
 	.byte	0x30
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14447,7 +14568,7 @@ HLD_Vadc:
 	.string	"HLD_Vadc_AN21_G1CH9_X103_35"
 	.byte	0x1
 	.byte	0x31
-	.uaword	0x932d
+	.uaword	0x9345
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -14456,14 +14577,14 @@ HLD_Vadc:
 	.string	"g_Stm"
 	.byte	0x11
 	.byte	0x2a
-	.uaword	0x94cf
+	.uaword	0x94e7
 	.byte	0x1
 	.byte	0x1
 	.uleb128 0x3a
 	.string	"HLD_Imu"
 	.byte	0x10
 	.byte	0x5b
-	.uaword	0x9632
+	.uaword	0x964a
 	.byte	0x1
 	.byte	0x1
 	.uleb128 0x3b
@@ -14482,9 +14603,9 @@ HLD_Vadc:
 	.uahalf	0x28b
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x9d4e
+	.uaword	0x9dd2
 	.uleb128 0x3d
-	.uaword	0x9d4e
+	.uaword	0x9dd2
 	.uleb128 0x3d
 	.uaword	0x7612
 	.byte	0
@@ -14499,18 +14620,18 @@ HLD_Vadc:
 	.byte	0x1
 	.uaword	0x85fa
 	.byte	0x1
-	.uaword	0x9d85
+	.uaword	0x9e09
 	.uleb128 0x3d
-	.uaword	0x9d85
+	.uaword	0x9e09
 	.uleb128 0x3d
-	.uaword	0x9d8b
+	.uaword	0x9e0f
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
 	.uaword	0x88b2
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x9d91
+	.uaword	0x9e15
 	.uleb128 0x22
 	.uaword	0x8ee9
 	.uleb128 0x3c
@@ -14520,11 +14641,11 @@ HLD_Vadc:
 	.uahalf	0x33c
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x9dc8
+	.uaword	0x9e4c
 	.uleb128 0x3d
-	.uaword	0x9dc8
+	.uaword	0x9e4c
 	.uleb128 0x3d
-	.uaword	0x9d85
+	.uaword	0x9e09
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
@@ -14537,15 +14658,15 @@ HLD_Vadc:
 	.byte	0x1
 	.uaword	0x85fa
 	.byte	0x1
-	.uaword	0x9dfe
+	.uaword	0x9e82
 	.uleb128 0x3d
-	.uaword	0x970f
+	.uaword	0x9727
 	.uleb128 0x3d
-	.uaword	0x9dfe
+	.uaword	0x9e82
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x9e04
+	.uaword	0x9e88
 	.uleb128 0x22
 	.uaword	0x8fcb
 	.uleb128 0x3c
@@ -14555,7 +14676,7 @@ HLD_Vadc:
 	.uahalf	0x3a1
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x9e34
+	.uaword	0x9eb8
 	.uleb128 0x3d
 	.uaword	0x8b01
 	.uleb128 0x3d
@@ -14570,9 +14691,9 @@ HLD_Vadc:
 	.uahalf	0x387
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x9e68
+	.uaword	0x9eec
 	.uleb128 0x3d
-	.uaword	0x9e68
+	.uaword	0x9eec
 	.uleb128 0x3d
 	.uaword	0x8c2f
 	.byte	0
@@ -14587,15 +14708,15 @@ HLD_Vadc:
 	.byte	0x1
 	.uaword	0x85fa
 	.byte	0x1
-	.uaword	0x9ea0
+	.uaword	0x9f24
 	.uleb128 0x3d
-	.uaword	0x96c5
+	.uaword	0x96dd
 	.uleb128 0x3d
-	.uaword	0x9ea0
+	.uaword	0x9f24
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x9ea6
+	.uaword	0x9f2a
 	.uleb128 0x22
 	.uaword	0x8e06
 	.uleb128 0x3f
@@ -14605,29 +14726,43 @@ HLD_Vadc:
 	.byte	0x3f
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x9ed7
+	.uaword	0x9f5b
 	.uleb128 0x3d
-	.uaword	0x9ed7
+	.uaword	0x9f5b
 	.uleb128 0x3d
-	.uaword	0x9edd
+	.uaword	0x9f61
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
 	.uaword	0x9014
 	.uleb128 0x4
 	.byte	0x4
-	.uaword	0x9ee3
+	.uaword	0x9f67
 	.uleb128 0x22
 	.uaword	0x9070
-	.uleb128 0x40
+	.uleb128 0x3f
 	.byte	0x1
 	.string	"HLD_AdcForceStart"
 	.byte	0x12
 	.byte	0x31
 	.byte	0x1
 	.byte	0x1
+	.uaword	0x9f8e
 	.uleb128 0x3d
-	.uaword	0x970f
+	.uaword	0x9727
+	.byte	0
+	.uleb128 0x40
+	.byte	0x1
+	.string	"Ifx_LowPassPt1F32_do"
+	.byte	0xd
+	.byte	0x41
+	.byte	0x1
+	.uaword	0x22f
+	.byte	0x1
+	.uleb128 0x3d
+	.uaword	0x9f5b
+	.uleb128 0x3d
+	.uaword	0x22f
 	.byte	0
 	.byte	0
 .section .debug_abbrev,"",@progbits
@@ -15381,17 +15516,24 @@ HLD_Vadc:
 	.byte	0x1
 	.uleb128 0x31
 	.uleb128 0x13
-	.uleb128 0x52
+	.uleb128 0x11
 	.uleb128 0x1
-	.uleb128 0x55
-	.uleb128 0x6
+	.uleb128 0x12
+	.uleb128 0x1
 	.uleb128 0x58
 	.uleb128 0xb
 	.uleb128 0x59
-	.uleb128 0xb
+	.uleb128 0x5
 	.byte	0
 	.byte	0
 	.uleb128 0x38
+	.uleb128 0x34
+	.byte	0
+	.uleb128 0x31
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x39
 	.uleb128 0x1d
 	.byte	0x1
 	.uleb128 0x31
@@ -15403,13 +15545,8 @@ HLD_Vadc:
 	.uleb128 0x58
 	.uleb128 0xb
 	.uleb128 0x59
-	.uleb128 0x5
-	.byte	0
-	.byte	0
-	.uleb128 0x39
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x31
+	.uleb128 0xb
+	.uleb128 0x1
 	.uleb128 0x13
 	.byte	0
 	.byte	0
@@ -15526,6 +15663,8 @@ HLD_Vadc:
 	.uleb128 0xb
 	.uleb128 0x27
 	.uleb128 0xc
+	.uleb128 0x49
+	.uleb128 0x13
 	.uleb128 0x3c
 	.uleb128 0xc
 	.byte	0
@@ -15554,7 +15693,7 @@ HLD_Vadc:
 	.uaword	.LVL9
 	.uaword	.LVL15
 	.uahalf	0x1
-	.byte	0x6d
+	.byte	0x6c
 	.uaword	.LVL15
 	.uaword	.LVL16
 	.uahalf	0x4
@@ -15565,7 +15704,7 @@ HLD_Vadc:
 	.uaword	.LVL16
 	.uaword	.LFE692
 	.uahalf	0x1
-	.byte	0x6d
+	.byte	0x6c
 	.uaword	0
 	.uaword	0
 .LLST2:
@@ -15609,22 +15748,22 @@ HLD_Vadc:
 	.uaword	.LVL7
 	.uaword	.LVL15
 	.uahalf	0x1
-	.byte	0x6c
+	.byte	0x6d
 	.uaword	.LVL16
 	.uaword	.LFE692
 	.uahalf	0x1
-	.byte	0x6c
+	.byte	0x6d
 	.uaword	0
 	.uaword	0
 .LLST6:
 	.uaword	.LVL12
 	.uaword	.LVL15
 	.uahalf	0x1
-	.byte	0x6c
+	.byte	0x6d
 	.uaword	.LVL16
 	.uaword	.LFE692
 	.uahalf	0x1
-	.byte	0x6c
+	.byte	0x6d
 	.uaword	0
 	.uaword	0
 .LLST9:
@@ -15642,10 +15781,18 @@ HLD_Vadc:
 	.uaword	0
 .LLST10:
 	.uaword	.LVL22
-	.uaword	.LVL27-1
+	.uaword	.LVL28-1
 	.uahalf	0x1
 	.byte	0x64
-	.uaword	.LVL27-1
+	.uaword	.LVL28-1
+	.uaword	.LVL32
+	.uahalf	0x1
+	.byte	0x6f
+	.uaword	.LVL32
+	.uaword	.LVL37-1
+	.uahalf	0x1
+	.byte	0x64
+	.uaword	.LVL37-1
 	.uaword	.LFE695
 	.uahalf	0x1
 	.byte	0x6f
@@ -15653,10 +15800,21 @@ HLD_Vadc:
 	.uaword	0
 .LLST11:
 	.uaword	.LVL22
-	.uaword	.LVL27-1
+	.uaword	.LVL28-1
 	.uahalf	0x1
 	.byte	0x65
-	.uaword	.LVL27-1
+	.uaword	.LVL28-1
+	.uaword	.LVL32
+	.uahalf	0x4
+	.byte	0xf3
+	.uleb128 0x1
+	.byte	0x65
+	.byte	0x9f
+	.uaword	.LVL32
+	.uaword	.LVL37-1
+	.uahalf	0x1
+	.byte	0x65
+	.uaword	.LVL37-1
 	.uaword	.LFE695
 	.uahalf	0x4
 	.byte	0xf3
@@ -15665,12 +15823,25 @@ HLD_Vadc:
 	.byte	0x9f
 	.uaword	0
 	.uaword	0
+.LLST12:
+	.uaword	.LVL32
+	.uaword	.LVL37-1
+	.uahalf	0x1
+	.byte	0x65
+	.uaword	.LVL37-1
+	.uaword	.LFE695
+	.uahalf	0x3
+	.byte	0x8c
+	.sleb128 -12
+	.byte	0x9f
+	.uaword	0
+	.uaword	0
 .LLST14:
-	.uaword	.LVL23
-	.uaword	.LVL24
+	.uaword	.LVL33
+	.uaword	.LVL34
 	.uahalf	0x1
 	.byte	0x5f
-	.uaword	.LVL24
+	.uaword	.LVL34
 	.uaword	.LFE695
 	.uahalf	0x4
 	.byte	0x7f
@@ -15679,8 +15850,42 @@ HLD_Vadc:
 	.uaword	0
 	.uaword	0
 .LLST15:
+	.uaword	.LVL33
+	.uaword	.LVL37-1
+	.uahalf	0x1
+	.byte	0x63
+	.uaword	0
+	.uaword	0
+.LLST16:
 	.uaword	.LVL23
-	.uaword	.LVL27-1
+	.uaword	.LVL28-1
+	.uahalf	0x1
+	.byte	0x65
+	.uaword	.LVL28-1
+	.uaword	.LVL32
+	.uahalf	0x4
+	.byte	0xf3
+	.uleb128 0x1
+	.byte	0x65
+	.byte	0x9f
+	.uaword	0
+	.uaword	0
+.LLST18:
+	.uaword	.LVL24
+	.uaword	.LVL25
+	.uahalf	0x1
+	.byte	0x5f
+	.uaword	.LVL25
+	.uaword	.LVL32
+	.uahalf	0x4
+	.byte	0x7f
+	.sleb128 -160
+	.byte	0x9f
+	.uaword	0
+	.uaword	0
+.LLST19:
+	.uaword	.LVL24
+	.uaword	.LVL28-1
 	.uahalf	0x1
 	.byte	0x63
 	.uaword	0
@@ -15707,16 +15912,20 @@ HLD_Vadc:
 	.uaword	0
 .section .debug_ranges,"",@progbits
 .Ldebug_ranges0:
-	.uaword	.LBB14
-	.uaword	.LBE14
-	.uaword	.LBB17
-	.uaword	.LBE17
-	.uaword	0
-	.uaword	0
 	.uaword	.LBB18
 	.uaword	.LBE18
-	.uaword	.LBB23
-	.uaword	.LBE23
+	.uaword	.LBB21
+	.uaword	.LBE21
+	.uaword	0
+	.uaword	0
+	.uaword	.LBB22
+	.uaword	.LBE22
+	.uaword	.LBB29
+	.uaword	.LBE29
+	.uaword	.LBB34
+	.uaword	.LBE34
+	.uaword	.LBB35
+	.uaword	.LBE35
 	.uaword	0
 	.uaword	0
 	.uaword	.LFB691
@@ -15856,6 +16065,7 @@ HLD_Vadc:
 	.string	"reserved_58"
 .LASF46:
 	.string	"RESULT"
+	.extern	Ifx_LowPassPt1F32_do,STT_FUNC,0
 	.extern	HLD_AdcForceStart,STT_FUNC,0
 	.extern	Ifx_LowPassPt1F32_init,STT_FUNC,0
 	.extern	IfxVadc_setScan,STT_FUNC,0

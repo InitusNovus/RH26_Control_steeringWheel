@@ -8,35 +8,35 @@
 Task_init:
 .LFB691:
 	.file 1 "0_Src/AppSw/Tricore/Main/SchedulerTask.c"
-	.loc 1 89 0
-	.loc 1 92 0
+	.loc 1 75 0
+	.loc 1 78 0
 	call	HLD_GtmTom_init
 .LVL0:
-	.loc 1 94 0
+	.loc 1 80 0
 	call	HLD_Vadc_init
 .LVL1:
-	.loc 1 96 0
+	.loc 1 82 0
 	call	HLD_Lcd_init
 .LVL2:
-	.loc 1 97 0
+	.loc 1 83 0
 	call	HLD_LcdInterface_init
 .LVL3:
-	.loc 1 101 0
-	call	VoltageSensing_init
+	.loc 1 87 0
+	call	AccumualatorManager_init
 .LVL4:
-	.loc 1 102 0
+	.loc 1 88 0
 	call	HLD_Vadc_forceStart
 .LVL5:
-	.loc 1 105 0
+	.loc 1 91 0
 	movh.a	%a4, hi:Beep_pattern4
 	lea	%a4, [%a4] lo:Beep_pattern4
-	.loc 1 106 0
+	.loc 1 92 0
 	mov	%d15, 1
 	movh.a	%a15, hi:isInit
-	.loc 1 105 0
+	.loc 1 91 0
 	call	HLD_GtmTomBeeper_start
 .LVL6:
-	.loc 1 106 0
+	.loc 1 92 0
 	st.b	[%a15] lo:isInit, %d15
 	ret
 .LFE691:
@@ -49,7 +49,7 @@ Task_init:
 	.type	Task_1ms, @function
 Task_1ms:
 .LFB692:
-	.loc 1 118 0
+	.loc 1 104 0
 .LVL7:
 .LBB60:
 .LBB61:
@@ -59,7 +59,7 @@ Task_1ms:
 	ld.w	%d15, [%a15] 16
 .LBE61:
 .LBE60:
-	.loc 1 119 0
+	.loc 1 105 0
 	movh.a	%a2, hi:stm_buf
 .LBB64:
 .LBB62:
@@ -69,7 +69,7 @@ Task_1ms:
 	ld.w	%d2, [%a15] 44
 .LBE62:
 .LBE64:
-	.loc 1 119 0
+	.loc 1 105 0
 	lea	%a2, [%a2] lo:stm_buf
 .LBB65:
 .LBB63:
@@ -79,7 +79,7 @@ Task_1ms:
 .LVL8:
 .LBE63:
 .LBE65:
-	.loc 1 119 0
+	.loc 1 105 0
 	st.d	[%a2]0, %e8
 .LVL9:
 .LBB66:
@@ -121,7 +121,7 @@ Task_1ms:
 .LBE80:
 .LBE86:
 .LBE93:
-	.loc 1 121 0
+	.loc 1 107 0
 	movh	%d15, 15
 	addi	%d15, %d15, 16960
 .LBB94:
@@ -140,7 +140,7 @@ Task_1ms:
 	or	%d5, %d13, %d11
 .LBE69:
 .LBE95:
-	.loc 1 121 0
+	.loc 1 107 0
 	subx	%d8, %d4, %d8
 .LVL12:
 	subc	%d9, %d5, %d9
@@ -154,7 +154,7 @@ Task_1ms:
 .LBE82:
 .LBE88:
 .LBE96:
-	.loc 1 121 0
+	.loc 1 107 0
 	mul.u	%e4, %d8, %d15
 	madd	%d5, %d5, %d9, %d15
 .LBB97:
@@ -168,7 +168,7 @@ Task_1ms:
 .LBE83:
 .LBE89:
 .LBE97:
-	.loc 1 121 0
+	.loc 1 107 0
 	call	__floatundisf
 .LVL13:
 .LBB98:
@@ -181,7 +181,7 @@ Task_1ms:
 .LBE84:
 .LBE90:
 .LBE98:
-	.loc 1 121 0
+	.loc 1 107 0
 	movh.a	%a15, hi:ticToc_1ms_flag
 .LBB99:
 .LBB91:
@@ -193,7 +193,7 @@ Task_1ms:
 .LBE85:
 .LBE91:
 .LBE99:
-	.loc 1 121 0
+	.loc 1 107 0
 	lea	%a15, [%a15] lo:ticToc_1ms_flag
 	div.f	%d4, %d2, %d4
 	call	__fixunssfdi
@@ -208,7 +208,7 @@ Task_1ms:
 	.type	Task_IsrCb_1ms, @function
 Task_IsrCb_1ms:
 .LFB693:
-	.loc 1 124 0
+	.loc 1 110 0
 .LVL15:
 .LBB100:
 .LBB101:
@@ -216,7 +216,7 @@ Task_IsrCb_1ms:
 	ld.w	%d15, 0xf0000010
 .LBE101:
 .LBE100:
-	.loc 1 125 0
+	.loc 1 111 0
 	movh.a	%a2, hi:stm_buf_1ms
 .LBB104:
 .LBB102:
@@ -227,7 +227,7 @@ Task_IsrCb_1ms:
 .LVL16:
 .LBE102:
 .LBE104:
-	.loc 1 125 0
+	.loc 1 111 0
 	lea	%a15, [%a2] lo:stm_buf_1ms
 .LBB105:
 .LBB103:
@@ -237,15 +237,15 @@ Task_IsrCb_1ms:
 	st.w	[%a15] 4, %d15
 .LBE103:
 .LBE105:
-	.loc 1 128 0
+	.loc 1 114 0
 	call	HLD_GtmTomBeeper_run_1ms
 .LVL17:
-	.loc 1 129 0
+	.loc 1 115 0
 	movh.a	%a2, hi:isInit
 	ld.bu	%d15, [%a2] lo:isInit
 	jz	%d15, .L4
-	.loc 1 131 0
-	call	VoltageSensing_run
+	.loc 1 117 0
+	call	AccumulatorManager_run_1ms
 .LVL18:
 .L4:
 .LBB106:
@@ -260,7 +260,7 @@ Task_IsrCb_1ms:
 	or	%d3, %d4, %d5
 .LBE107:
 .LBE106:
-	.loc 1 135 0
+	.loc 1 121 0
 	ld.d	%e4, [%a15]0
 .LVL20:
 	movh	%d15, 15
@@ -280,7 +280,7 @@ Task_IsrCb_1ms:
 .LBE110:
 .LBE109:
 .LBE108:
-	.loc 1 135 0
+	.loc 1 121 0
 	call	__floatundisf
 .LVL21:
 	mov	%d15, %d2
@@ -297,7 +297,7 @@ Task_IsrCb_1ms:
 .LBE115:
 .LBE118:
 .LBE121:
-	.loc 1 135 0
+	.loc 1 121 0
 	movh.a	%a15, hi:ticToc_1ms
 .LBB122:
 .LBB119:
@@ -309,7 +309,7 @@ Task_IsrCb_1ms:
 .LBE116:
 .LBE119:
 .LBE122:
-	.loc 1 135 0
+	.loc 1 121 0
 	lea	%a15, [%a15] lo:ticToc_1ms
 .LBB123:
 .LBB120:
@@ -322,7 +322,7 @@ Task_IsrCb_1ms:
 .LBE117:
 .LBE120:
 .LBE123:
-	.loc 1 135 0
+	.loc 1 121 0
 	div.f	%d4, %d15, %d2
 	call	__fixunssfdi
 .LVL24:
@@ -336,7 +336,7 @@ Task_IsrCb_1ms:
 	.type	Task_10ms, @function
 Task_10ms:
 .LFB694:
-	.loc 1 141 0
+	.loc 1 127 0
 .LVL25:
 .LBB124:
 .LBB125:
@@ -344,7 +344,7 @@ Task_10ms:
 	ld.w	%d15, 0xf0000010
 .LBE125:
 .LBE124:
-	.loc 1 142 0
+	.loc 1 128 0
 	movh.a	%a15, hi:stm_buf
 .LBB127:
 .LBB126:
@@ -357,23 +357,23 @@ Task_10ms:
 .LVL26:
 .LBE126:
 .LBE127:
-	.loc 1 142 0
+	.loc 1 128 0
 	lea	%a15, [%a15] lo:stm_buf
 	st.d	[%a15]0, %e8
 .LBB128:
 .LBB129:
-	.loc 1 225 0
+	.loc 1 211 0
 	movh.a	%a15, hi:Task
 	lea	%a15, [%a15] lo:Task
 	ld.h	%d15, [%a15] 2
-	.loc 1 226 0
+	.loc 1 212 0
 	mov	%d2, 1000
-	.loc 1 225 0
+	.loc 1 211 0
 	add	%d15, 1
 	extr	%d15, %d15, 0, 16
-	.loc 1 226 0
+	.loc 1 212 0
 	jne	%d15, %d2, .L12
-	.loc 1 228 0
+	.loc 1 214 0
 	mov	%d15, 0
 .L12:
 	st.h	[%a15] 2, %d15
@@ -418,7 +418,7 @@ Task_10ms:
 .LBE144:
 .LBE150:
 .LBE157:
-	.loc 1 145 0
+	.loc 1 131 0
 	movh	%d15, 15
 	addi	%d15, %d15, 16960
 .LBB158:
@@ -437,7 +437,7 @@ Task_10ms:
 	or	%d5, %d13, %d11
 .LBE133:
 .LBE159:
-	.loc 1 145 0
+	.loc 1 131 0
 	subx	%d8, %d4, %d8
 .LVL30:
 	subc	%d9, %d5, %d9
@@ -451,7 +451,7 @@ Task_10ms:
 .LBE146:
 .LBE152:
 .LBE160:
-	.loc 1 145 0
+	.loc 1 131 0
 	mul.u	%e4, %d8, %d15
 	madd	%d5, %d5, %d9, %d15
 .LBB161:
@@ -465,7 +465,7 @@ Task_10ms:
 .LBE147:
 .LBE153:
 .LBE161:
-	.loc 1 145 0
+	.loc 1 131 0
 	call	__floatundisf
 .LVL31:
 .LBB162:
@@ -478,7 +478,7 @@ Task_10ms:
 .LBE148:
 .LBE154:
 .LBE162:
-	.loc 1 145 0
+	.loc 1 131 0
 	movh.a	%a15, hi:ticToc_10ms_s0
 .LBB163:
 .LBB155:
@@ -490,7 +490,7 @@ Task_10ms:
 .LBE149:
 .LBE155:
 .LBE163:
-	.loc 1 145 0
+	.loc 1 131 0
 	lea	%a15, [%a15] lo:ticToc_10ms_s0
 	div.f	%d4, %d2, %d4
 	call	__fixunssfdi
@@ -505,7 +505,7 @@ Task_10ms:
 	.type	Task_10ms_slot1, @function
 Task_10ms_slot1:
 .LFB695:
-	.loc 1 148 0
+	.loc 1 134 0
 .LVL33:
 .LBB164:
 .LBB165:
@@ -514,7 +514,7 @@ Task_10ms_slot1:
 	ld.w	%d15, [%a15] 16
 .LBE165:
 .LBE164:
-	.loc 1 149 0
+	.loc 1 135 0
 	movh.a	%a2, hi:stm_buf
 .LBB168:
 .LBB166:
@@ -524,7 +524,7 @@ Task_10ms_slot1:
 	ld.w	%d2, [%a15] 44
 .LBE166:
 .LBE168:
-	.loc 1 149 0
+	.loc 1 135 0
 	lea	%a2, [%a2] lo:stm_buf
 .LBB169:
 .LBB167:
@@ -534,7 +534,7 @@ Task_10ms_slot1:
 .LVL34:
 .LBE167:
 .LBE169:
-	.loc 1 149 0
+	.loc 1 135 0
 	st.d	[%a2]0, %e8
 .LVL35:
 .LBB170:
@@ -575,7 +575,7 @@ Task_10ms_slot1:
 .LBE184:
 .LBE190:
 .LBE197:
-	.loc 1 151 0
+	.loc 1 137 0
 	movh	%d15, 15
 	addi	%d15, %d15, 16960
 .LBB198:
@@ -594,7 +594,7 @@ Task_10ms_slot1:
 	or	%d5, %d13, %d11
 .LBE173:
 .LBE199:
-	.loc 1 151 0
+	.loc 1 137 0
 	subx	%d8, %d4, %d8
 .LVL38:
 	subc	%d9, %d5, %d9
@@ -608,7 +608,7 @@ Task_10ms_slot1:
 .LBE186:
 .LBE192:
 .LBE200:
-	.loc 1 151 0
+	.loc 1 137 0
 	mul.u	%e4, %d8, %d15
 	madd	%d5, %d5, %d9, %d15
 .LBB201:
@@ -622,7 +622,7 @@ Task_10ms_slot1:
 .LBE187:
 .LBE193:
 .LBE201:
-	.loc 1 151 0
+	.loc 1 137 0
 	call	__floatundisf
 .LVL39:
 .LBB202:
@@ -635,7 +635,7 @@ Task_10ms_slot1:
 .LBE188:
 .LBE194:
 .LBE202:
-	.loc 1 151 0
+	.loc 1 137 0
 	movh.a	%a15, hi:ticToc_10ms_s1
 .LBB203:
 .LBB195:
@@ -647,7 +647,7 @@ Task_10ms_slot1:
 .LBE189:
 .LBE195:
 .LBE203:
-	.loc 1 151 0
+	.loc 1 137 0
 	lea	%a15, [%a15] lo:ticToc_10ms_s1
 	div.f	%d4, %d2, %d4
 	call	__fixunssfdi
@@ -662,21 +662,21 @@ Task_10ms_slot1:
 	.type	Task_100ms, @function
 Task_100ms:
 .LFB696:
-	.loc 1 157 0
+	.loc 1 143 0
 .LBB204:
 .LBB205:
-	.loc 1 233 0
+	.loc 1 219 0
 	movh.a	%a15, hi:Task
 	lea	%a15, [%a15] lo:Task
 	ld.h	%d15, [%a15] 4
-	.loc 1 234 0
+	.loc 1 220 0
 	mov	%d2, 1000
-	.loc 1 233 0
+	.loc 1 219 0
 	add	%d15, 1
 	extr	%d15, %d15, 0, 16
-	.loc 1 234 0
+	.loc 1 220 0
 	jne	%d15, %d2, .L17
-	.loc 1 236 0
+	.loc 1 222 0
 	mov	%d15, 0
 .L17:
 	st.h	[%a15] 4, %d15
@@ -691,7 +691,7 @@ Task_100ms:
 	.type	Task_100ms_slot4, @function
 Task_100ms_slot4:
 .LFB697:
-	.loc 1 166 0
+	.loc 1 152 0
 .LVL41:
 .LBB206:
 .LBB207:
@@ -700,7 +700,7 @@ Task_100ms_slot4:
 	ld.w	%d15, [%a15] 16
 .LBE207:
 .LBE206:
-	.loc 1 167 0
+	.loc 1 153 0
 	movh.a	%a2, hi:stm_buf
 .LBB210:
 .LBB208:
@@ -711,7 +711,7 @@ Task_100ms_slot4:
 .LVL42:
 .LBE208:
 .LBE210:
-	.loc 1 167 0
+	.loc 1 153 0
 	lea	%a12, [%a2] lo:stm_buf
 .LBB211:
 .LBB209:
@@ -721,7 +721,7 @@ Task_100ms_slot4:
 	st.w	[%a12] 4, %d15
 .LBE209:
 .LBE211:
-	.loc 1 169 0
+	.loc 1 155 0
 	call	HLD_Lcd_run
 .LVL43:
 .LBB212:
@@ -736,7 +736,7 @@ Task_100ms_slot4:
 	or	%d3, %d4, %d5
 .LBE213:
 .LBE212:
-	.loc 1 171 0
+	.loc 1 157 0
 	ld.d	%e4, [%a12]0
 .LVL45:
 	movh	%d15, 15
@@ -756,7 +756,7 @@ Task_100ms_slot4:
 .LBE216:
 .LBE215:
 .LBE214:
-	.loc 1 171 0
+	.loc 1 157 0
 	call	__floatundisf
 .LVL46:
 	mov	%d15, %d2
@@ -773,7 +773,7 @@ Task_100ms_slot4:
 .LBE221:
 .LBE224:
 .LBE227:
-	.loc 1 171 0
+	.loc 1 157 0
 	movh.a	%a15, hi:ticToc_100ms_s4
 .LBB228:
 .LBB225:
@@ -785,7 +785,7 @@ Task_100ms_slot4:
 .LBE222:
 .LBE225:
 .LBE228:
-	.loc 1 171 0
+	.loc 1 157 0
 	lea	%a15, [%a15] lo:ticToc_100ms_s4
 .LBB229:
 .LBB226:
@@ -798,7 +798,7 @@ Task_100ms_slot4:
 .LBE223:
 .LBE226:
 .LBE229:
-	.loc 1 171 0
+	.loc 1 157 0
 	div.f	%d4, %d15, %d2
 	call	__fixunssfdi
 .LVL49:
@@ -812,7 +812,7 @@ Task_100ms_slot4:
 	.type	Task_100ms_slot14, @function
 Task_100ms_slot14:
 .LFB698:
-	.loc 1 174 0
+	.loc 1 160 0
 .LVL50:
 .LBB230:
 .LBB231:
@@ -821,7 +821,7 @@ Task_100ms_slot14:
 	ld.w	%d15, [%a15] 16
 .LBE231:
 .LBE230:
-	.loc 1 175 0
+	.loc 1 161 0
 	movh.a	%a2, hi:stm_buf
 .LBB234:
 .LBB232:
@@ -832,7 +832,7 @@ Task_100ms_slot14:
 .LVL51:
 .LBE232:
 .LBE234:
-	.loc 1 175 0
+	.loc 1 161 0
 	lea	%a12, [%a2] lo:stm_buf
 .LBB235:
 .LBB233:
@@ -842,7 +842,7 @@ Task_100ms_slot14:
 	st.w	[%a12] 4, %d15
 .LBE233:
 .LBE235:
-	.loc 1 177 0
+	.loc 1 163 0
 	call	HLD_Lcd_run1
 .LVL52:
 .LBB236:
@@ -857,7 +857,7 @@ Task_100ms_slot14:
 	or	%d3, %d4, %d5
 .LBE237:
 .LBE236:
-	.loc 1 179 0
+	.loc 1 165 0
 	ld.d	%e4, [%a12]0
 .LVL54:
 	movh	%d15, 15
@@ -877,7 +877,7 @@ Task_100ms_slot14:
 .LBE240:
 .LBE239:
 .LBE238:
-	.loc 1 179 0
+	.loc 1 165 0
 	call	__floatundisf
 .LVL55:
 	mov	%d15, %d2
@@ -894,7 +894,7 @@ Task_100ms_slot14:
 .LBE245:
 .LBE248:
 .LBE251:
-	.loc 1 179 0
+	.loc 1 165 0
 	movh.a	%a15, hi:ticToc_100ms_s14
 .LBB252:
 .LBB249:
@@ -906,7 +906,7 @@ Task_100ms_slot14:
 .LBE246:
 .LBE249:
 .LBE252:
-	.loc 1 179 0
+	.loc 1 165 0
 	lea	%a15, [%a15] lo:ticToc_100ms_s14
 .LBB253:
 .LBB250:
@@ -919,7 +919,7 @@ Task_100ms_slot14:
 .LBE247:
 .LBE250:
 .LBE253:
-	.loc 1 179 0
+	.loc 1 165 0
 	div.f	%d4, %d15, %d2
 	call	__fixunssfdi
 .LVL58:
@@ -933,7 +933,7 @@ Task_100ms_slot14:
 	.type	Task_100ms_slot24, @function
 Task_100ms_slot24:
 .LFB699:
-	.loc 1 182 0
+	.loc 1 168 0
 	ret
 .LFE699:
 	.size	Task_100ms_slot24, .-Task_100ms_slot24
@@ -943,7 +943,7 @@ Task_100ms_slot24:
 	.type	Task_100ms_slot34, @function
 Task_100ms_slot34:
 .LFB700:
-	.loc 1 186 0
+	.loc 1 172 0
 	ret
 .LFE700:
 	.size	Task_100ms_slot34, .-Task_100ms_slot34
@@ -953,7 +953,7 @@ Task_100ms_slot34:
 	.type	Task_100ms_slot44, @function
 Task_100ms_slot44:
 .LFB701:
-	.loc 1 190 0
+	.loc 1 176 0
 	ret
 .LFE701:
 	.size	Task_100ms_slot44, .-Task_100ms_slot44
@@ -963,7 +963,7 @@ Task_100ms_slot44:
 	.type	Task_100ms_slot5, @function
 Task_100ms_slot5:
 .LFB702:
-	.loc 1 194 0
+	.loc 1 180 0
 	ret
 .LFE702:
 	.size	Task_100ms_slot5, .-Task_100ms_slot5
@@ -973,21 +973,21 @@ Task_100ms_slot5:
 	.type	Task_1000ms, @function
 Task_1000ms:
 .LFB703:
-	.loc 1 202 0
+	.loc 1 188 0
 .LBB254:
 .LBB255:
-	.loc 1 241 0
+	.loc 1 227 0
 	movh.a	%a15, hi:Task
 	lea	%a15, [%a15] lo:Task
 	ld.h	%d15, [%a15] 6
-	.loc 1 242 0
+	.loc 1 228 0
 	mov	%d2, 1000
-	.loc 1 241 0
+	.loc 1 227 0
 	add	%d15, 1
 	extr	%d15, %d15, 0, 16
-	.loc 1 242 0
+	.loc 1 228 0
 	jne	%d15, %d2, .L27
-	.loc 1 244 0
+	.loc 1 230 0
 	mov	%d15, 0
 .L27:
 	st.h	[%a15] 6, %d15
@@ -1002,7 +1002,7 @@ Task_1000ms:
 	.type	Task_1000ms_slot3, @function
 Task_1000ms_slot3:
 .LFB704:
-	.loc 1 207 0
+	.loc 1 193 0
 	ret
 .LFE704:
 	.size	Task_1000ms_slot3, .-Task_1000ms_slot3
@@ -1082,20 +1082,6 @@ stm_buf_1ms:
 	.size	stm_buf, 8
 stm_buf:
 	.zero	8
-	.global	test_imu
-.section .bss.test_imu,"aw",@nobits
-	.align 2
-	.type	test_imu, @object
-	.size	test_imu, 4
-test_imu:
-	.zero	4
-	.global	Test
-.section .bss.Test,"aw",@nobits
-	.align 2
-	.type	Test, @object
-	.size	Test, 20004
-Test:
-	.zero	20004
 	.global	Task
 .section .bss.Task,"aw",@nobits
 	.align 1
@@ -1247,10 +1233,10 @@ Task:
 	.file 16 "0_Src/AppSw/Tricore/HLD/BasicModules/Vadc/Vadc.h"
 	.file 17 "0_Src/AppSw/Tricore/HLD/Lcd.h"
 	.file 18 "0_Src/AppSw/Tricore/HLD/LcdInterface.h"
-	.file 19 "0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.h"
+	.file 19 "0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.h"
 .section .debug_info,"",@progbits
 .Ldebug_info0:
-	.uaword	0x2e84
+	.uaword	0x2df1
 	.uahalf	0x3
 	.uaword	.Ldebug_abbrev0
 	.byte	0x4
@@ -4089,684 +4075,642 @@ Task:
 	.byte	0x24
 	.uaword	0x2394
 	.uleb128 0x18
-	.uahalf	0x4e24
-	.byte	0x1
-	.byte	0x25
-	.uaword	0x2453
-	.uleb128 0x7
-	.string	"cnt1"
-	.byte	0x1
-	.byte	0x27
-	.uaword	0x1d8
-	.byte	0
-	.uleb128 0x7
-	.string	"encTestStart"
-	.byte	0x1
-	.byte	0x28
-	.uaword	0x273
-	.byte	0x1
-	.uleb128 0x7
-	.string	"encTestCnt"
-	.byte	0x1
-	.byte	0x29
-	.uaword	0x211
-	.byte	0x2
-	.uleb128 0x7
-	.string	"encTest"
-	.byte	0x1
-	.byte	0x2a
-	.uaword	0x2453
-	.byte	0x4
-	.byte	0
-	.uleb128 0x8
-	.uaword	0x251
-	.uaword	0x2464
-	.uleb128 0x19
-	.uaword	0x314
-	.uahalf	0x1387
-	.byte	0
-	.uleb128 0x3
-	.string	"Task_testCnt_t"
-	.byte	0x1
-	.byte	0x2b
-	.uaword	0x2404
-	.uleb128 0x1a
 	.string	"IfxScuCcu_getStmFrequency"
 	.byte	0x3
 	.uahalf	0x430
 	.byte	0x1
 	.uaword	0x251
 	.byte	0x3
-	.uleb128 0x1b
+	.uleb128 0x19
 	.string	"IfxStm_getFrequency"
 	.byte	0x2
 	.uahalf	0x21f
 	.byte	0x1
 	.uaword	0x251
 	.byte	0x3
-	.uaword	0x24dc
-	.uleb128 0x1c
+	.uaword	0x2466
+	.uleb128 0x1a
 	.string	"stm"
 	.byte	0x2
 	.uahalf	0x21f
 	.uaword	0x2215
-	.uleb128 0x1d
+	.uleb128 0x1b
 	.string	"result"
 	.byte	0x2
 	.uahalf	0x221
 	.uaword	0x251
 	.byte	0
-	.uleb128 0x1b
+	.uleb128 0x19
 	.string	"IfxStm_get"
 	.byte	0x2
 	.uahalf	0x20e
 	.byte	0x1
 	.uaword	0x293
 	.byte	0x3
-	.uaword	0x2511
-	.uleb128 0x1c
+	.uaword	0x249b
+	.uleb128 0x1a
 	.string	"stm"
 	.byte	0x2
 	.uahalf	0x20e
 	.uaword	0x2215
-	.uleb128 0x1d
+	.uleb128 0x1b
 	.string	"result"
 	.byte	0x2
 	.uahalf	0x210
 	.uaword	0x293
 	.byte	0
-	.uleb128 0x1e
+	.uleb128 0x1c
 	.string	"Task_counter_service_10ms"
 	.byte	0x1
-	.byte	0xdf
+	.byte	0xd1
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x1e
+	.uleb128 0x1c
 	.string	"Task_counter_service_100ms"
 	.byte	0x1
-	.byte	0xe7
+	.byte	0xd9
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x1e
+	.uleb128 0x1c
 	.string	"Task_counter_service_1000ms"
 	.byte	0x1
-	.byte	0xef
+	.byte	0xe1
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x1f
+	.uleb128 0x1d
 	.byte	0x1
 	.string	"Task_init"
 	.byte	0x1
-	.byte	0x58
+	.byte	0x4a
 	.byte	0x1
 	.uaword	.LFB691
 	.uaword	.LFE691
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x25cf
-	.uleb128 0x20
+	.uaword	0x2559
+	.uleb128 0x1e
 	.uaword	.LVL0
-	.uaword	0x2d48
-	.uleb128 0x20
+	.uaword	0x2ca8
+	.uleb128 0x1e
 	.uaword	.LVL1
-	.uaword	0x2d5e
-	.uleb128 0x20
+	.uaword	0x2cbe
+	.uleb128 0x1e
 	.uaword	.LVL2
-	.uaword	0x2d72
-	.uleb128 0x20
+	.uaword	0x2cd2
+	.uleb128 0x1e
 	.uaword	.LVL3
-	.uaword	0x2d85
-	.uleb128 0x20
+	.uaword	0x2ce5
+	.uleb128 0x1e
 	.uaword	.LVL4
-	.uaword	0x2da1
-	.uleb128 0x20
+	.uaword	0x2d01
+	.uleb128 0x1e
 	.uaword	.LVL5
-	.uaword	0x2dbb
-	.uleb128 0x20
+	.uaword	0x2d20
+	.uleb128 0x1e
 	.uaword	.LVL6
-	.uaword	0x2dd5
+	.uaword	0x2d3a
 	.byte	0
-	.uleb128 0x21
+	.uleb128 0x1f
 	.byte	0x1
 	.string	"Task_1ms"
 	.byte	0x1
-	.byte	0x75
+	.byte	0x67
 	.byte	0x1
 	.uaword	.LFB692
 	.uaword	.LFE692
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x2682
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uaword	0x260c
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB60
 	.uaword	.Ldebug_ranges0+0
 	.byte	0x1
-	.byte	0x77
-	.uaword	0x2619
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x69
+	.uaword	0x25a3
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST0
 	.byte	0
 	.byte	0
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB66
 	.uaword	.Ldebug_ranges0+0x20
 	.byte	0x1
-	.byte	0x79
-	.uaword	0x2642
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x6b
+	.uaword	0x25cc
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x20
-	.uleb128 0x26
-	.uaword	0x2501
+	.uleb128 0x24
+	.uaword	0x248b
 	.byte	0
 	.byte	0
-	.uleb128 0x27
-	.uaword	0x249e
+	.uleb128 0x25
+	.uaword	0x2428
 	.uaword	.LBB70
 	.uaword	.Ldebug_ranges0+0x40
 	.byte	0x1
-	.byte	0x79
-	.uleb128 0x23
-	.uaword	0x24c0
+	.byte	0x6b
+	.uleb128 0x21
+	.uaword	0x244a
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x40
+	.uleb128 0x24
+	.uaword	0x2456
 	.uleb128 0x26
-	.uaword	0x24cc
-	.uleb128 0x28
-	.uaword	0x247a
+	.uaword	0x2404
 	.uaword	.LBB72
 	.uaword	.Ldebug_ranges0+0x40
 	.byte	0x2
 	.uahalf	0x223
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL10
-	.uaword	0x2e02
+	.uaword	0x2d67
 	.byte	0
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x21
+	.uleb128 0x1f
 	.byte	0x1
 	.string	"Task_IsrCb_1ms"
 	.byte	0x1
-	.byte	0x7b
+	.byte	0x6d
 	.byte	0x1
 	.uaword	.LFB693
 	.uaword	.LFE693
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x2759
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uaword	0x26e3
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB100
 	.uaword	.Ldebug_ranges0+0x80
 	.byte	0x1
-	.byte	0x7d
-	.uaword	0x26d2
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x6f
+	.uaword	0x265c
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x80
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST1
 	.byte	0
 	.byte	0
-	.uleb128 0x29
-	.uaword	0x24dc
+	.uleb128 0x27
+	.uaword	0x2466
 	.uaword	.LBB106
 	.uaword	.LBE106
 	.byte	0x1
-	.byte	0x87
-	.uaword	0x2703
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x79
+	.uaword	0x268d
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x2a
+	.uleb128 0x28
 	.uaword	.LBB107
 	.uaword	.LBE107
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST2
 	.byte	0
 	.byte	0
-	.uleb128 0x22
-	.uaword	0x249e
+	.uleb128 0x20
+	.uaword	0x2428
 	.uaword	.LBB108
 	.uaword	.Ldebug_ranges0+0xa0
 	.byte	0x1
-	.byte	0x87
-	.uaword	0x2746
-	.uleb128 0x23
-	.uaword	0x24c0
+	.byte	0x79
+	.uaword	0x26d0
+	.uleb128 0x21
+	.uaword	0x244a
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0xa0
+	.uleb128 0x24
+	.uaword	0x2456
 	.uleb128 0x26
-	.uaword	0x24cc
-	.uleb128 0x28
-	.uaword	0x247a
+	.uaword	0x2404
 	.uaword	.LBB110
 	.uaword	.Ldebug_ranges0+0xa0
 	.byte	0x2
 	.uahalf	0x223
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL23
-	.uaword	0x2e02
+	.uaword	0x2d67
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL17
-	.uaword	0x2e2a
-	.uleb128 0x20
+	.uaword	0x2d8f
+	.uleb128 0x1e
 	.uaword	.LVL18
-	.uaword	0x2e49
+	.uaword	0x2dae
 	.byte	0
-	.uleb128 0x21
+	.uleb128 0x1f
 	.byte	0x1
 	.string	"Task_10ms"
 	.byte	0x1
-	.byte	0x8c
+	.byte	0x7e
 	.byte	0x1
 	.uaword	.LFB694
 	.uaword	.LFE694
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x281c
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uaword	0x27a6
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB124
 	.uaword	.Ldebug_ranges0+0xc8
 	.byte	0x1
-	.byte	0x8e
-	.uaword	0x27a4
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x80
+	.uaword	0x272e
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0xc8
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST3
 	.byte	0
 	.byte	0
-	.uleb128 0x2b
-	.uaword	0x2511
+	.uleb128 0x29
+	.uaword	0x249b
 	.uaword	.LBB128
 	.uaword	.LBE128
 	.byte	0x1
-	.byte	0x90
-	.uleb128 0x22
-	.uaword	0x24dc
+	.byte	0x82
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB130
 	.uaword	.Ldebug_ranges0+0xe0
 	.byte	0x1
-	.byte	0x91
-	.uaword	0x27dc
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x83
+	.uaword	0x2766
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0xe0
-	.uleb128 0x26
-	.uaword	0x2501
+	.uleb128 0x24
+	.uaword	0x248b
 	.byte	0
 	.byte	0
-	.uleb128 0x27
-	.uaword	0x249e
+	.uleb128 0x25
+	.uaword	0x2428
 	.uaword	.LBB134
 	.uaword	.Ldebug_ranges0+0x100
 	.byte	0x1
-	.byte	0x91
-	.uleb128 0x23
-	.uaword	0x24c0
+	.byte	0x83
+	.uleb128 0x21
+	.uaword	0x244a
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x100
+	.uleb128 0x24
+	.uaword	0x2456
 	.uleb128 0x26
-	.uaword	0x24cc
-	.uleb128 0x28
-	.uaword	0x247a
+	.uaword	0x2404
 	.uaword	.LBB136
 	.uaword	.Ldebug_ranges0+0x100
 	.byte	0x2
 	.uahalf	0x223
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL28
-	.uaword	0x2e02
+	.uaword	0x2d67
 	.byte	0
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x21
+	.uleb128 0x1f
 	.byte	0x1
 	.string	"Task_10ms_slot1"
 	.byte	0x1
-	.byte	0x93
+	.byte	0x85
 	.byte	0x1
 	.uaword	.LFB695
 	.uaword	.LFE695
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x28d6
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uaword	0x2860
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB164
 	.uaword	.Ldebug_ranges0+0x140
 	.byte	0x1
-	.byte	0x95
-	.uaword	0x286d
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x87
+	.uaword	0x27f7
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x140
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST4
 	.byte	0
 	.byte	0
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB170
 	.uaword	.Ldebug_ranges0+0x160
 	.byte	0x1
-	.byte	0x97
-	.uaword	0x2896
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x89
+	.uaword	0x2820
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x160
-	.uleb128 0x26
-	.uaword	0x2501
+	.uleb128 0x24
+	.uaword	0x248b
 	.byte	0
 	.byte	0
-	.uleb128 0x27
-	.uaword	0x249e
+	.uleb128 0x25
+	.uaword	0x2428
 	.uaword	.LBB174
 	.uaword	.Ldebug_ranges0+0x180
 	.byte	0x1
-	.byte	0x97
-	.uleb128 0x23
-	.uaword	0x24c0
+	.byte	0x89
+	.uleb128 0x21
+	.uaword	0x244a
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x180
+	.uleb128 0x24
+	.uaword	0x2456
 	.uleb128 0x26
-	.uaword	0x24cc
-	.uleb128 0x28
-	.uaword	0x247a
+	.uaword	0x2404
 	.uaword	.LBB176
 	.uaword	.Ldebug_ranges0+0x180
 	.byte	0x2
 	.uahalf	0x223
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL36
-	.uaword	0x2e02
+	.uaword	0x2d67
 	.byte	0
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x1f
+	.uleb128 0x1d
 	.byte	0x1
 	.string	"Task_100ms"
 	.byte	0x1
-	.byte	0x9c
+	.byte	0x8e
 	.byte	0x1
 	.uaword	.LFB696
 	.uaword	.LFE696
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x2905
-	.uleb128 0x2b
-	.uaword	0x2530
+	.uaword	0x288f
+	.uleb128 0x29
+	.uaword	0x24ba
 	.uaword	.LBB204
 	.uaword	.LBE204
 	.byte	0x1
-	.byte	0x9e
+	.byte	0x90
 	.byte	0
-	.uleb128 0x21
+	.uleb128 0x1f
 	.byte	0x1
 	.string	"Task_100ms_slot4"
 	.byte	0x1
-	.byte	0xa5
+	.byte	0x97
 	.byte	0x1
 	.uaword	.LFB697
 	.uaword	.LFE697
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x29d5
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uaword	0x295f
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB206
 	.uaword	.Ldebug_ranges0+0x1c0
 	.byte	0x1
-	.byte	0xa7
-	.uaword	0x2957
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x99
+	.uaword	0x28e1
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x1c0
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST5
 	.byte	0
 	.byte	0
-	.uleb128 0x29
-	.uaword	0x24dc
+	.uleb128 0x27
+	.uaword	0x2466
 	.uaword	.LBB212
 	.uaword	.LBE212
 	.byte	0x1
-	.byte	0xab
-	.uaword	0x2988
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0x9d
+	.uaword	0x2912
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x2a
+	.uleb128 0x28
 	.uaword	.LBB213
 	.uaword	.LBE213
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST6
 	.byte	0
 	.byte	0
-	.uleb128 0x22
-	.uaword	0x249e
+	.uleb128 0x20
+	.uaword	0x2428
 	.uaword	.LBB214
 	.uaword	.Ldebug_ranges0+0x1e0
 	.byte	0x1
-	.byte	0xab
-	.uaword	0x29cb
-	.uleb128 0x23
-	.uaword	0x24c0
+	.byte	0x9d
+	.uaword	0x2955
+	.uleb128 0x21
+	.uaword	0x244a
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x1e0
+	.uleb128 0x24
+	.uaword	0x2456
 	.uleb128 0x26
-	.uaword	0x24cc
-	.uleb128 0x28
-	.uaword	0x247a
+	.uaword	0x2404
 	.uaword	.LBB216
 	.uaword	.Ldebug_ranges0+0x1e0
 	.byte	0x2
 	.uahalf	0x223
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL48
-	.uaword	0x2e02
+	.uaword	0x2d67
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL43
-	.uaword	0x2e62
+	.uaword	0x2dcf
 	.byte	0
-	.uleb128 0x21
+	.uleb128 0x1f
 	.byte	0x1
 	.string	"Task_100ms_slot14"
 	.byte	0x1
-	.byte	0xad
+	.byte	0x9f
 	.byte	0x1
 	.uaword	.LFB698
 	.uaword	.LFE698
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x2aa6
-	.uleb128 0x22
-	.uaword	0x24dc
+	.uaword	0x2a30
+	.uleb128 0x20
+	.uaword	0x2466
 	.uaword	.LBB230
 	.uaword	.Ldebug_ranges0+0x208
 	.byte	0x1
-	.byte	0xaf
-	.uaword	0x2a28
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0xa1
+	.uaword	0x29b2
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x208
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST7
 	.byte	0
 	.byte	0
-	.uleb128 0x29
-	.uaword	0x24dc
+	.uleb128 0x27
+	.uaword	0x2466
 	.uaword	.LBB236
 	.uaword	.LBE236
 	.byte	0x1
-	.byte	0xb3
-	.uaword	0x2a59
-	.uleb128 0x23
-	.uaword	0x24f5
+	.byte	0xa5
+	.uaword	0x29e3
+	.uleb128 0x21
+	.uaword	0x247f
 	.sleb128 -268435456
-	.uleb128 0x2a
+	.uleb128 0x28
 	.uaword	.LBB237
 	.uaword	.LBE237
-	.uleb128 0x25
-	.uaword	0x2501
+	.uleb128 0x23
+	.uaword	0x248b
 	.uaword	.LLST8
 	.byte	0
 	.byte	0
-	.uleb128 0x22
-	.uaword	0x249e
+	.uleb128 0x20
+	.uaword	0x2428
 	.uaword	.LBB238
 	.uaword	.Ldebug_ranges0+0x228
 	.byte	0x1
-	.byte	0xb3
-	.uaword	0x2a9c
-	.uleb128 0x23
-	.uaword	0x24c0
+	.byte	0xa5
+	.uaword	0x2a26
+	.uleb128 0x21
+	.uaword	0x244a
 	.sleb128 -268435456
-	.uleb128 0x24
+	.uleb128 0x22
 	.uaword	.Ldebug_ranges0+0x228
+	.uleb128 0x24
+	.uaword	0x2456
 	.uleb128 0x26
-	.uaword	0x24cc
-	.uleb128 0x28
-	.uaword	0x247a
+	.uaword	0x2404
 	.uaword	.LBB240
 	.uaword	.Ldebug_ranges0+0x228
 	.byte	0x2
 	.uahalf	0x223
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL57
-	.uaword	0x2e02
+	.uaword	0x2d67
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uaword	.LVL52
-	.uaword	0x2e74
+	.uaword	0x2de1
 	.byte	0
-	.uleb128 0x2c
+	.uleb128 0x2a
 	.byte	0x1
 	.string	"Task_100ms_slot24"
 	.byte	0x1
-	.byte	0xb5
+	.byte	0xa7
 	.byte	0x1
 	.uaword	.LFB699
 	.uaword	.LFE699
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uleb128 0x2c
+	.uleb128 0x2a
 	.byte	0x1
 	.string	"Task_100ms_slot34"
 	.byte	0x1
-	.byte	0xb9
+	.byte	0xab
 	.byte	0x1
 	.uaword	.LFB700
 	.uaword	.LFE700
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uleb128 0x2c
+	.uleb128 0x2a
 	.byte	0x1
 	.string	"Task_100ms_slot44"
 	.byte	0x1
-	.byte	0xbd
+	.byte	0xaf
 	.byte	0x1
 	.uaword	.LFB701
 	.uaword	.LFE701
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uleb128 0x2c
+	.uleb128 0x2a
 	.byte	0x1
 	.string	"Task_100ms_slot5"
 	.byte	0x1
-	.byte	0xc1
+	.byte	0xb3
 	.byte	0x1
 	.uaword	.LFB702
 	.uaword	.LFE702
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uleb128 0x1f
+	.uleb128 0x1d
 	.byte	0x1
 	.string	"Task_1000ms"
 	.byte	0x1
-	.byte	0xc9
+	.byte	0xbb
 	.byte	0x1
 	.uaword	.LFB703
 	.uaword	.LFE703
 	.byte	0x1
 	.byte	0x9c
 	.byte	0x1
-	.uaword	0x2b5d
-	.uleb128 0x2b
-	.uaword	0x2550
+	.uaword	0x2ae7
+	.uleb128 0x29
+	.uaword	0x24da
 	.uaword	.LBB254
 	.uaword	.LBE254
 	.byte	0x1
-	.byte	0xcb
+	.byte	0xbd
 	.byte	0
-	.uleb128 0x2c
+	.uleb128 0x2a
 	.byte	0x1
 	.string	"Task_1000ms_slot3"
 	.byte	0x1
-	.byte	0xce
+	.byte	0xc0
 	.byte	0x1
 	.uaword	.LFB704
 	.uaword	.LFE704
@@ -4775,140 +4719,122 @@ Task:
 	.byte	0x1
 	.uleb128 0x8
 	.uaword	0x2ea
-	.uaword	0x2b8f
+	.uaword	0x2b19
 	.uleb128 0x9
 	.uaword	0x314
 	.byte	0
 	.byte	0
-	.uleb128 0x2d
+	.uleb128 0x2b
 	.string	"IfxCpu_cfg_indexMap"
 	.byte	0x8
 	.byte	0x90
-	.uaword	0x2bac
+	.uaword	0x2b36
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x2e
-	.uaword	0x2b7f
+	.uleb128 0x2c
+	.uaword	0x2b09
 	.uleb128 0x8
 	.uaword	0x2137
-	.uaword	0x2bbc
-	.uleb128 0x2f
-	.byte	0
+	.uaword	0x2b46
 	.uleb128 0x2d
+	.byte	0
+	.uleb128 0x2b
 	.string	"Beep_pattern4"
 	.byte	0xb
 	.byte	0x4c
-	.uaword	0x2bb1
+	.uaword	0x2b3b
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x2d
+	.uleb128 0x2b
 	.string	"g_Stm"
 	.byte	0xe
 	.byte	0x2a
 	.uaword	0x2220
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x2d
+	.uleb128 0x2b
 	.string	"HLD_Imu"
 	.byte	0xd
 	.byte	0x5b
 	.uaword	0x2383
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"Task"
 	.byte	0x1
-	.byte	0x2f
+	.byte	0x28
 	.uaword	0x23f3
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	Task
-	.uleb128 0x30
-	.string	"Test"
-	.byte	0x1
-	.byte	0x30
-	.uaword	0x2464
-	.byte	0x1
-	.byte	0x5
-	.byte	0x3
-	.uaword	Test
-	.uleb128 0x30
-	.string	"test_imu"
-	.byte	0x1
-	.byte	0x36
-	.uaword	0x243
-	.byte	0x1
-	.byte	0x5
-	.byte	0x3
-	.uaword	test_imu
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"stm_buf"
 	.byte	0x1
-	.byte	0x38
+	.byte	0x2a
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	stm_buf
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"stm_buf_1ms"
 	.byte	0x1
-	.byte	0x39
+	.byte	0x2b
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	stm_buf_1ms
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"ticToc_1ms_flag"
 	.byte	0x1
-	.byte	0x3a
+	.byte	0x2c
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	ticToc_1ms_flag
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"ticToc_1ms"
 	.byte	0x1
-	.byte	0x3b
+	.byte	0x2d
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	ticToc_1ms
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"ticToc_10ms_s0"
 	.byte	0x1
-	.byte	0x3c
+	.byte	0x2e
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	ticToc_10ms_s0
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"ticToc_10ms_s1"
 	.byte	0x1
-	.byte	0x3d
+	.byte	0x2f
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	ticToc_10ms_s1
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"ticToc_100ms_s4"
 	.byte	0x1
-	.byte	0x3e
+	.byte	0x30
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	ticToc_100ms_s4
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"ticToc_100ms_s14"
 	.byte	0x1
-	.byte	0x3f
+	.byte	0x31
 	.uaword	0x293
 	.byte	0x1
 	.byte	0x5
@@ -4916,86 +4842,86 @@ Task:
 	.uaword	ticToc_100ms_s14
 	.uleb128 0x8
 	.uaword	0x2137
-	.uaword	0x2d1e
+	.uaword	0x2c7e
 	.uleb128 0x9
 	.uaword	0x314
 	.byte	0x1
 	.byte	0
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"test_M"
 	.byte	0x1
-	.byte	0x42
-	.uaword	0x2d0e
+	.byte	0x34
+	.uaword	0x2c6e
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	test_M
-	.uleb128 0x30
+	.uleb128 0x2e
 	.string	"isInit"
 	.byte	0x1
-	.byte	0x49
+	.byte	0x3b
 	.uaword	0x273
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.uaword	isInit
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_GtmTom_init"
 	.byte	0xf
 	.byte	0x2f
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_Vadc_init"
 	.byte	0x10
 	.byte	0xb2
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_Lcd_init"
 	.byte	0x11
 	.byte	0x5c
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_LcdInterface_init"
 	.byte	0x12
 	.byte	0x2e
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
-	.string	"VoltageSensing_init"
+	.string	"AccumualatorManager_init"
 	.byte	0x13
-	.byte	0x2c
+	.byte	0x39
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_Vadc_forceStart"
 	.byte	0x10
 	.byte	0xb5
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x32
+	.uleb128 0x30
 	.byte	0x1
 	.string	"HLD_GtmTomBeeper_start"
 	.byte	0xb
 	.byte	0x69
 	.byte	0x1
 	.byte	0x1
-	.uaword	0x2dfc
-	.uleb128 0x33
-	.uaword	0x2dfc
+	.uaword	0x2d61
+	.uleb128 0x31
+	.uaword	0x2d61
 	.byte	0
 	.uleb128 0x4
 	.byte	0x4
 	.uaword	0x2137
-	.uleb128 0x34
+	.uleb128 0x32
 	.byte	0x1
 	.string	"IfxScuCcu_getSourceFrequency"
 	.byte	0x3
@@ -5003,28 +4929,28 @@ Task:
 	.byte	0x1
 	.uaword	0x251
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_GtmTomBeeper_run_1ms"
 	.byte	0xb
 	.byte	0x5e
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
-	.string	"VoltageSensing_run"
+	.string	"AccumulatorManager_run_1ms"
 	.byte	0x13
-	.byte	0x2e
+	.byte	0x3a
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_Lcd_run"
 	.byte	0x11
 	.byte	0x5d
 	.byte	0x1
 	.byte	0x1
-	.uleb128 0x31
+	.uleb128 0x2f
 	.byte	0x1
 	.string	"HLD_Lcd_run1"
 	.byte	0x11
@@ -5336,45 +5262,23 @@ Task:
 	.byte	0
 	.byte	0
 	.uleb128 0x18
-	.uleb128 0x13
-	.byte	0x1
-	.uleb128 0xb
-	.uleb128 0x5
+	.uleb128 0x2e
+	.byte	0
+	.uleb128 0x3
+	.uleb128 0x8
 	.uleb128 0x3a
 	.uleb128 0xb
 	.uleb128 0x3b
-	.uleb128 0xb
-	.uleb128 0x1
+	.uleb128 0x5
+	.uleb128 0x27
+	.uleb128 0xc
+	.uleb128 0x49
 	.uleb128 0x13
+	.uleb128 0x20
+	.uleb128 0xb
 	.byte	0
 	.byte	0
 	.uleb128 0x19
-	.uleb128 0x21
-	.byte	0
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x2f
-	.uleb128 0x5
-	.byte	0
-	.byte	0
-	.uleb128 0x1a
-	.uleb128 0x2e
-	.byte	0
-	.uleb128 0x3
-	.uleb128 0x8
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
-	.uleb128 0x27
-	.uleb128 0xc
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x20
-	.uleb128 0xb
-	.byte	0
-	.byte	0
-	.uleb128 0x1b
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3
@@ -5393,7 +5297,7 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x1c
+	.uleb128 0x1a
 	.uleb128 0x5
 	.byte	0
 	.uleb128 0x3
@@ -5406,7 +5310,7 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x1d
+	.uleb128 0x1b
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -5419,7 +5323,7 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x1e
+	.uleb128 0x1c
 	.uleb128 0x2e
 	.byte	0
 	.uleb128 0x3
@@ -5434,7 +5338,7 @@ Task:
 	.uleb128 0xb
 	.byte	0
 	.byte	0
-	.uleb128 0x1f
+	.uleb128 0x1d
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -5459,7 +5363,7 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x20
+	.uleb128 0x1e
 	.uleb128 0x4109
 	.byte	0
 	.uleb128 0x11
@@ -5468,7 +5372,7 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x21
+	.uleb128 0x1f
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -5493,7 +5397,7 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x22
+	.uleb128 0x20
 	.uleb128 0x1d
 	.byte	0x1
 	.uleb128 0x31
@@ -5510,7 +5414,7 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x23
+	.uleb128 0x21
 	.uleb128 0x5
 	.byte	0
 	.uleb128 0x31
@@ -5519,14 +5423,14 @@ Task:
 	.uleb128 0xd
 	.byte	0
 	.byte	0
-	.uleb128 0x24
+	.uleb128 0x22
 	.uleb128 0xb
 	.byte	0x1
 	.uleb128 0x55
 	.uleb128 0x6
 	.byte	0
 	.byte	0
-	.uleb128 0x25
+	.uleb128 0x23
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x31
@@ -5535,14 +5439,14 @@ Task:
 	.uleb128 0x6
 	.byte	0
 	.byte	0
-	.uleb128 0x26
+	.uleb128 0x24
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x31
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x27
+	.uleb128 0x25
 	.uleb128 0x1d
 	.byte	0x1
 	.uleb128 0x31
@@ -5557,7 +5461,7 @@ Task:
 	.uleb128 0xb
 	.byte	0
 	.byte	0
-	.uleb128 0x28
+	.uleb128 0x26
 	.uleb128 0x1d
 	.byte	0x1
 	.uleb128 0x31
@@ -5572,7 +5476,7 @@ Task:
 	.uleb128 0x5
 	.byte	0
 	.byte	0
-	.uleb128 0x29
+	.uleb128 0x27
 	.uleb128 0x1d
 	.byte	0x1
 	.uleb128 0x31
@@ -5587,33 +5491,33 @@ Task:
 	.uleb128 0xb
 	.uleb128 0x1
 	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x28
+	.uleb128 0xb
+	.byte	0x1
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.byte	0
+	.byte	0
+	.uleb128 0x29
+	.uleb128 0x1d
+	.byte	0
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.uleb128 0x58
+	.uleb128 0xb
+	.uleb128 0x59
+	.uleb128 0xb
 	.byte	0
 	.byte	0
 	.uleb128 0x2a
-	.uleb128 0xb
-	.byte	0x1
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x12
-	.uleb128 0x1
-	.byte	0
-	.byte	0
-	.uleb128 0x2b
-	.uleb128 0x1d
-	.byte	0
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x12
-	.uleb128 0x1
-	.uleb128 0x58
-	.uleb128 0xb
-	.uleb128 0x59
-	.uleb128 0xb
-	.byte	0
-	.byte	0
-	.uleb128 0x2c
 	.uleb128 0x2e
 	.byte	0
 	.uleb128 0x3f
@@ -5636,7 +5540,7 @@ Task:
 	.uleb128 0xc
 	.byte	0
 	.byte	0
-	.uleb128 0x2d
+	.uleb128 0x2b
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -5653,19 +5557,19 @@ Task:
 	.uleb128 0xc
 	.byte	0
 	.byte	0
-	.uleb128 0x2e
+	.uleb128 0x2c
 	.uleb128 0x26
 	.byte	0
 	.uleb128 0x49
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x2f
+	.uleb128 0x2d
 	.uleb128 0x21
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x30
+	.uleb128 0x2e
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -5682,7 +5586,7 @@ Task:
 	.uleb128 0xa
 	.byte	0
 	.byte	0
-	.uleb128 0x31
+	.uleb128 0x2f
 	.uleb128 0x2e
 	.byte	0
 	.uleb128 0x3f
@@ -5699,7 +5603,7 @@ Task:
 	.uleb128 0xc
 	.byte	0
 	.byte	0
-	.uleb128 0x32
+	.uleb128 0x30
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -5718,14 +5622,14 @@ Task:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x33
+	.uleb128 0x31
 	.uleb128 0x5
 	.byte	0
 	.uleb128 0x49
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x34
+	.uleb128 0x32
 	.uleb128 0x2e
 	.byte	0
 	.uleb128 0x3f
@@ -6148,13 +6052,13 @@ Task:
 	.string	"STMCAP63_32"
 	.extern	HLD_Lcd_run1,STT_FUNC,0
 	.extern	HLD_Lcd_run,STT_FUNC,0
-	.extern	VoltageSensing_run,STT_FUNC,0
+	.extern	AccumulatorManager_run_1ms,STT_FUNC,0
 	.extern	HLD_GtmTomBeeper_run_1ms,STT_FUNC,0
 	.extern	IfxScuCcu_getSourceFrequency,STT_FUNC,0
 	.extern	HLD_GtmTomBeeper_start,STT_FUNC,0
 	.extern	Beep_pattern4,STT_OBJECT,-1
 	.extern	HLD_Vadc_forceStart,STT_FUNC,0
-	.extern	VoltageSensing_init,STT_FUNC,0
+	.extern	AccumualatorManager_init,STT_FUNC,0
 	.extern	HLD_LcdInterface_init,STT_FUNC,0
 	.extern	HLD_Lcd_init,STT_FUNC,0
 	.extern	HLD_Vadc_init,STT_FUNC,0

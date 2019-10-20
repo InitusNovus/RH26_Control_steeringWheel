@@ -47,16 +47,8 @@
 #define HLD_FOURTH_CANNODE	FALSE
 
 
-
-/*Gpt macros*/
-#define ENCODER_A					IfxGpt120_T3INA_P02_6_IN
-#define ENCODER_B					IfxGpt120_T3EUDA_P02_7_IN
-
 /*GtmTom macros*/
 #define BEEPER                      IfxGtm_TOM0_4_TOUT22_P33_0_OUT
-#define SERVO						IfxGtm_TOM0_7_TOUT32_P33_10_OUT
-#define SERVO_IR					IfxGtm_TOM0_9_TOUT10_P00_1_OUT	//arbitrary value
-
 #define GTMTOMPWM0					IfxGtm_TOM1_1_TOUT31_P33_9_OUT
 
 /*GtmTim macros*/
@@ -139,6 +131,13 @@
 #define UI_LED2						IfxPort_P00_6
 #define UI_LED3						IfxPort_P33_1
 
+
+/* Not used macros */
+#define ENCODER_A					IfxGpt120_T3INA_P02_6_IN
+#define ENCODER_B					IfxGpt120_T3EUDA_P02_7_IN
+
+#define SERVO						IfxGtm_TOM0_7_TOUT32_P33_10_OUT
+#define SERVO_IR					IfxGtm_TOM0_9_TOUT10_P00_1_OUT	//arbitrary value
 
 /*
 Line scan macros

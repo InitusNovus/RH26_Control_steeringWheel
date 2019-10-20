@@ -10,15 +10,15 @@ LED_blinking:
 	.file 1 "0_Src/AppSw/Tricore/User/LED_Test.c"
 	.loc 1 7 0
 	.loc 1 10 0
-	movh.a	%a15, hi:LED_counter.21218
-	ld.bu	%d15, [%a15] lo:LED_counter.21218
+	movh.a	%a15, hi:LED_counter.21219
+	ld.bu	%d15, [%a15] lo:LED_counter.21219
 	add	%d15, 1
 	and	%d15, 255
 	.loc 1 12 0
 	eq	%d2, %d15, 16
 	jnz	%d2, .L2
 	.loc 1 10 0
-	st.b	[%a15] lo:LED_counter.21218, %d15
+	st.b	[%a15] lo:LED_counter.21219, %d15
 .LVL0:
 .LBB4:
 .LBB5:
@@ -34,7 +34,7 @@ LED_blinking:
 .LBE4:
 	.loc 1 14 0
 	mov	%d15, 0
-	st.b	[%a15] lo:LED_counter.21218, %d15
+	st.b	[%a15] lo:LED_counter.21219, %d15
 .LBB8:
 .LBB6:
 	.loc 2 54 0
@@ -54,10 +54,10 @@ LED_blinking:
 .LBE9:
 .LFE691:
 	.size	LED_blinking, .-LED_blinking
-.section .bss.LED_counter.21218,"aw",@nobits
-	.type	LED_counter.21218, @object
-	.size	LED_counter.21218, 1
-LED_counter.21218:
+.section .bss.LED_counter.21219,"aw",@nobits
+	.type	LED_counter.21219, @object
+	.size	LED_counter.21219, 1
+LED_counter.21219:
 	.zero	1
 .section .debug_frame,"",@progbits
 .Lframe0:
@@ -2638,7 +2638,7 @@ LED_counter.21218:
 	.uaword	0x1a9
 	.byte	0x5
 	.byte	0x3
-	.uaword	LED_counter.21218
+	.uaword	LED_counter.21219
 	.uleb128 0x1c
 	.uaword	0x204f
 	.uaword	.LBB4
