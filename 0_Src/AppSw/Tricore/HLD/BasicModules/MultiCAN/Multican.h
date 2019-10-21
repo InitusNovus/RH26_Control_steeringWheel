@@ -48,7 +48,8 @@
 /******************************************************************************/
 /*-----------------------------Data Structures--------------------------------*/
 /******************************************************************************/
-typedef struct{
+typedef struct
+{
 	boolean 				isUpdated;
 	IfxMultican_Can_MsgObj	msgObj;
 	IfxMultican_MsgObjId	msgObjId;
@@ -60,7 +61,8 @@ typedef struct{
 }HLD_MultiCan_Message;
 
 
-typedef struct{
+typedef struct
+{
 	sint8					nodeId;
 	boolean					canId;
 	uint64					msgId;
@@ -68,7 +70,8 @@ typedef struct{
 }HLD_Multican_msgConfig;
 
 
-typedef struct{
+typedef struct
+{
 	sint8					nodeId;
 	IfxMultican_Can_Node 	ifxCanNode;
 	IfxMultican_Rxd_In		*rxPin;
@@ -78,27 +81,23 @@ typedef struct{
 
 typedef struct
 {
+    IfxMultican_Can			can;
+    HLD_MultiCan_Can_Node   node0;
+    HLD_MultiCan_Can_Node   node1;
+    HLD_MultiCan_Can_Node   node2;
+#if HLD_BOARD == HLD_BOARD_SB275
+    HLD_MultiCan_Can_Node   node3;
+#endif
+    uint8					msgCnt;
+}HLD_Multican_Module;
+
+typedef struct
+{
     struct
     {
-    	struct{
-    		IfxMultican_Can			can;
-    		HLD_MultiCan_Can_Node   node0;
-    		HLD_MultiCan_Can_Node   node1;
-    		HLD_MultiCan_Can_Node   node2;
-#if HLD_BOARD == HLD_BOARD_SB275
-    		HLD_MultiCan_Can_Node   node3;
-#endif
-    		uint8					msgCnt;
-
-    	}can0;
+		HLD_Multican_Module can0;
 #if HLD_BOARD == HLD_BOARD_AK237
-    	struct{
-    		IfxMultican_Can			can;
-    		HLD_MultiCan_Can_Node   node0;
-    		HLD_MultiCan_Can_Node   node1;
-    		HLD_MultiCan_Can_Node   node2;
-    		uint8					msgCnt;
-    	}can1;
+		HLD_Multican_Module can1;
 #endif
     }drivers;
 } Multican_t;
