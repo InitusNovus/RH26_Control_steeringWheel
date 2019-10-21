@@ -165,6 +165,10 @@
 		</toolchain>
 	</architecture>
 	
+
+	<selection>
+		<variant rootPaths="*/Scheduler" branches ="AMS"/>
+	</selection>
 	<!-- Toolchain configurations -->
 	<specificInclude internalPaths= "*/Sfr/*, */BaseSw/*/Tricore, */BaseSw/*/Platform, */BaseSw/*/CpuGeneric" />
 </root>
