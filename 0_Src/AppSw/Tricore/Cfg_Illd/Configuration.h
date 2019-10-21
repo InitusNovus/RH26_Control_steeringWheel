@@ -35,7 +35,7 @@
 #include "ConfigurationIsr.h"
 #include "_Impl/IfxGlobal_cfg.h"
 #include "IfxPort_PinMap.h"
-
+ 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
 /******************************************************************************/
@@ -45,6 +45,33 @@
 
 #define HLD_BOARD 			HLD_BOARD_AK237
 #define HLD_FOURTH_CANNODE	FALSE
+
+/*MultiCAN macros*/
+#define CAN0NODE0IN					IfxMultican_RXD0B_P20_7_IN//IfxMultican_RXD0A_P02_1_IN
+#define CAN0NODE0OUT				IfxMultican_TXD0_P20_8_OUT//IfxMultican_TXD0_P02_0_OUT
+
+#define CAN0NODE1IN					IfxMultican_RXD1A_P15_3_IN
+#define CAN0NODE1OUT				IfxMultican_TXD1_P15_2_OUT
+
+#define CAN0NODE2IN					IfxMultican_RXD2B_P02_3_IN
+#define CAN0NODE2OUT				IfxMultican_TXD2_P02_2_OUT
+/* CAN0NODE2 has lower priority */
+
+#define CAN1NODE0IN					IfxMultican1_RXD0G_P00_5_IN
+#define CAN1NODE0OUT				IfxMultican1_TXD0_P00_4_OUT
+
+#define CAN1NODE1IN					IfxMultican1_RXD1F_P02_7_IN
+#define CAN1NODE1OUT				IfxMultican1_TXD1_P02_5_OUT
+
+#define CAN1NODE2IN					IfxMultican1_RXD2E_P20_9_IN
+#define CAN1NODE2OUT				IfxMultican1_TXD2_P20_10_OUT
+
+
+/*Led port macros*/
+#define LED107						IfxPort_P13_0
+#define LED108						IfxPort_P13_1
+#define LED109						IfxPort_P13_2
+#define LED110						IfxPort_P13_3
 
 
 /*GtmTom macros*/
@@ -66,25 +93,6 @@
 #define GPT12T4IN					IfxGpt120_T4INA_P02_8_IN
 
 
-/*MultiCAN macros*/
-#define CAN0NODE0IN					IfxMultican_RXD0A_P02_1_IN
-#define CAN0NODE0OUT				IfxMultican_TXD0_P02_0_OUT
-
-#define CAN0NODE1IN					IfxMultican_RXD1A_P15_3_IN
-#define CAN0NODE1OUT				IfxMultican_TXD1_P15_2_OUT
-
-#define CAN0NODE2IN					IfxMultican_RXD2B_P02_3_IN
-#define CAN0NODE2OUT				IfxMultican_TXD2_P02_2_OUT
-/* CAN0NODE2 has lower priority */
-
-#define CAN1NODE0IN					IfxMultican1_RXD0G_P00_5_IN
-#define CAN1NODE0OUT				IfxMultican1_TXD0_P00_4_OUT
-
-#define CAN1NODE1IN					IfxMultican1_RXD1F_P02_7_IN
-#define CAN1NODE1OUT				IfxMultican1_TXD1_P02_5_OUT
-
-#define CAN1NODE2IN					IfxMultican1_RXD2E_P20_9_IN
-#define CAN1NODE2OUT				IfxMultican1_TXD2_P20_10_OUT
 
 /*Ccu6 macros*/
 
@@ -93,12 +101,6 @@
 #define MOTOR_U5_INH				IfxPort_P02_0
 #define MOTOR_U6_INH				IfxPort_P02_2
 
-
-/*Led port macros*/
-#define LED107						IfxPort_P13_0
-#define LED108						IfxPort_P13_1
-#define LED109						IfxPort_P13_2
-#define LED110						IfxPort_P13_3
 
 /*Qspi2 macros*/
 #define QSPI2_SCLK					IfxQspi2_SCLK_P15_6_OUT
