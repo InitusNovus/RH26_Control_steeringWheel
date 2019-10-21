@@ -5176,7 +5176,7 @@ Discarded input sections
 
 Linker version: GNU ld version (GNU Binutils) 2.20 (TriCore) using BFD version (GNU Binutils) 2.20 (v2.3), Tool Version v2.7
 Name of linker executable: c:/hightec/toolchains/tricore/v4.9.3.0-infineon-1.0/bin/../lib/gcc/tricore/4.9.4/../../../../tricore/bin/ld.exe
-Date of link run: Mon Oct 21 07:43:12 2019
+Date of link run: Tue Oct 22 06:16:36 2019
 Name of linker map file: 2_Out/Tricore_Gnuc/_AccumuatorManager_TC237_tc.map
 
 >>> Symbols (global (S = g) and static (S = l); sorted by address)

@@ -14,4 +14,4 @@ typedef enum
     IfxSent_ChannelId_3 = 3,
     IfxSent_ChannelId_none = -1
 } IfxSent_ChannelId;
-# 30 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxSent_cfg.c" 2
+# 31 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxSent_cfg.c" 2
