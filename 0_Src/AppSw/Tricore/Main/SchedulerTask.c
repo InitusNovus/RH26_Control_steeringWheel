@@ -14,7 +14,6 @@
 #include "HLD.h"
 #include "User.h"
 
-#include "AccumulatorManager.h"
 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
@@ -77,15 +76,13 @@ void Task_init (void)
 	{
 		HLD_GtmTom_init();
 
-		HLD_Vadc_init();
 
 		HLD_Lcd_init();
 		HLD_LcdInterface_init();
 	}
 
 	{
-		AccumualatorManager_init();
-		HLD_Vadc_forceStart();
+
 	}
 
 	HLD_GtmTomBeeper_start(Beep_pattern4);
@@ -114,7 +111,7 @@ void Task_IsrCb_1ms (void)
 	HLD_GtmTomBeeper_run_1ms();
 	if(isInit)
 	{
-		AccumulatorManager_run_1ms();
+		
 	}
 
 
