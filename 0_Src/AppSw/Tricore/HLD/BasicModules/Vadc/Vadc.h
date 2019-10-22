@@ -158,6 +158,7 @@ IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN2_G0CH2_X102_10;
 IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN3_G0CH3_X102_9;
 IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN9_G0CH9_X102_6;
 IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN10_G0CH10_X102_5;
+
 IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN11_G0CH11_X103_39;
 IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN12_G1CH0_X103_40;
 IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN13_G1CH1_X103_38;
@@ -170,7 +171,7 @@ IFX_EXTERN HLD_Vadc_Channel_In HLD_Vadc_AN21_G1CH9_X103_35;
 #elif HLD_BOARD == HLD_BOARD_SB275
 
 #endif
-
+//TODO: SB275 vadc pin
 
 /******************************************************************************/
 /*-------------------------Function Prototypes--------------------------------*/
