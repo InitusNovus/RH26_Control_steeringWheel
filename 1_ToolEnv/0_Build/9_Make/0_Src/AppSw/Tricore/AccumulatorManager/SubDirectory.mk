@@ -38,6 +38,7 @@
 # Include sub folder make files
 include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor/SubDirectory.mk
 include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/SubDirectory.mk
+include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/TemperatureSensing/SubDirectory.mk
 include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/SubDirectory.mk
 
 # Make-Rules:

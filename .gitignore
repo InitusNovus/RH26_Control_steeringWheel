@@ -151,3 +151,4 @@ Module.symvers
 Mkfile.old
 dkms.conf
 >>>>>>> b96586e3a75de724aa5797f182fc0790918efef4
+tool/AppKit_TC23x.wsx
