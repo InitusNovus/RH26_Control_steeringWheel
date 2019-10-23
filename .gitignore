@@ -152,3 +152,4 @@ Mkfile.old
 dkms.conf
 >>>>>>> b96586e3a75de724aa5797f182fc0790918efef4
 tool/AppKit_TC23x.wsx
+1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/SubDirectory.mk
