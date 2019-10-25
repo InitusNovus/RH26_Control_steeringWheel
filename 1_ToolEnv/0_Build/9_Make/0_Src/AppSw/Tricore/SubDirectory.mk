@@ -30,28 +30,14 @@
 # (support@infineon.com).
 # 
 # -----------------------------------------------------------------------------
-# Subdirectory make file for 0_Src/AppSw/Tricore/AccumulatorManager
+# Subdirectory make file for 0_Src/AppSw/Tricore
 # !! Generated make file, modifications could be overwritten !!
 #------------------------------------------------------------------------------
 
 
 # Include sub folder make files
-include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor/SubDirectory.mk
-include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/CanCommunication/SubDirectory.mk
-include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/SubDirectory.mk
-include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/Gpio_Debounce/SubDirectory.mk
-include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/TemperatureSensing/SubDirectory.mk
-include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/SubDirectory.mk
-
-# Make-Rules:
-# Make-rules for architecture: Tricore
-
-#Make-rule to build file: AccumulatorManager.c
-B_GEN_DEP_FILES+= 2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.d
-B_GEN_OBJS_TRICORE_TC+= 2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.o
-
-2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.o: 0_Src/AppSw/Tricore/AccumulatorManager/AccumulatorManager.c $(B_GEN_CONFIG_TRICORE_GNUC)
-	@mkdir -p $(@D)
-	@-rm -f $(B_GEN_ELF_TRICORE_TC) $(B_GEN_HEX_TRICORE_TC)
-	@echo 'Building source file AccumulatorManager.c for Tricore'
-	$(B_GEN_TRICORE_GNUC_CC) $(B_GNUC_TRICORE_CC_OPTIONS) @$(B_GEN_INC_LISTFILE_TRICORE) $(B_GEN_EXT_INCLUDE_PATHS) -c $< -o $@ -save-temps=obj -MMD
+include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/AccumulatorManager/SubDirectory.mk
+include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/HLD/SubDirectory.mk
+include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/Main/SubDirectory.mk
+include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/User/SubDirectory.mk
+include 1_ToolEnv/0_Build/9_Make/0_Src/AppSw/Tricore/Scheduler/SubDirectory.mk
