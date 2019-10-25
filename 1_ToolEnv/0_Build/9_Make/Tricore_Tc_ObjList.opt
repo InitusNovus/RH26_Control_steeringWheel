@@ -11,6 +11,7 @@
 "2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor/AdcSensor.o"
 "2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/CanCommunication/CanCommunication.o"
 "2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing/CurrentSensing.o"
+"2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/Gpio_Debounce/Gpio_Debounce.o"
 "2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/TemperatureSensing/TemperatureSensing.o"
 "2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing/VoltageSensing.o"
 "2_Out/Tricore_Gnuc/Gnuc_Files/0_Src/AppSw/Tricore/HLD/AbstractionLayer/Led.o"

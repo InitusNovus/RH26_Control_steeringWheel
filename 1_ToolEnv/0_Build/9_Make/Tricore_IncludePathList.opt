@@ -8,6 +8,7 @@
 "-I0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor"
 "-I0_Src/AppSw/Tricore/AccumulatorManager/CanCommunication"
 "-I0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing"
+"-I0_Src/AppSw/Tricore/AccumulatorManager/Gpio_Debounce"
 "-I0_Src/AppSw/Tricore/AccumulatorManager/TemperatureSensing"
 "-I0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing"
 "-I0_Src/AppSw/Tricore/HLD/AbstractionLayer"

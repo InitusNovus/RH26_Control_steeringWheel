@@ -22,6 +22,7 @@
  0_Src/AppSw/Tricore/AccumulatorManager/AdcSensor \
  0_Src/AppSw/Tricore/AccumulatorManager/CanCommunication \
  0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing \
+ 0_Src/AppSw/Tricore/AccumulatorManager/Gpio_Debounce \
  0_Src/AppSw/Tricore/AccumulatorManager/TemperatureSensing \
  0_Src/AppSw/Tricore/AccumulatorManager/VoltageSensing \
  0_Src/AppSw/Tricore/HLD/AbstractionLayer \
@@ -186,6 +187,8 @@
 0_Src/AppSw/Tricore/AccumulatorManager/CanCommunication:
 
 0_Src/AppSw/Tricore/AccumulatorManager/CurrentSensing:
+
+0_Src/AppSw/Tricore/AccumulatorManager/Gpio_Debounce:
 
 0_Src/AppSw/Tricore/AccumulatorManager/TemperatureSensing:
 

@@ -44,28 +44,18 @@
 #define HLD_BOARD_SB275		1
 
 #define HLD_BOARD 			HLD_BOARD_AK237
-#define HLD_FOURTH_CANNODE	FALSE
+
+
+/* GPIO macro */
+#define ACCUMULATORMANAGER_GPIO0	IfxPort_P33_9
+#define ACCUMULATORMANAGER_GPIO1	IfxPort_P14_7
+#define ACCUMULATORMANAGER_GPIO2	IfxPort_P10_6
+#define ACCUMULATORMANAGER_GPIO3	IfxPort_P11_8
 
 /*MultiCAN macros*/
 #define CAN0NODE0IN					IfxMultican_RXD0B_P20_7_IN//IfxMultican_RXD0A_P02_1_IN
 #define CAN0NODE0OUT				IfxMultican_TXD0_P20_8_OUT//IfxMultican_TXD0_P02_0_OUT
-
-#define CAN0NODE1IN					IfxMultican_RXD1A_P15_3_IN
-#define CAN0NODE1OUT				IfxMultican_TXD1_P15_2_OUT
-
-#define CAN0NODE2IN					IfxMultican_RXD2B_P02_3_IN
-#define CAN0NODE2OUT				IfxMultican_TXD2_P02_2_OUT
-/* CAN0NODE2 has lower priority */
-
-#define CAN1NODE0IN					IfxMultican1_RXD0G_P00_5_IN
-#define CAN1NODE0OUT				IfxMultican1_TXD0_P00_4_OUT
-
-#define CAN1NODE1IN					IfxMultican1_RXD1F_P02_7_IN
-#define CAN1NODE1OUT				IfxMultican1_TXD1_P02_5_OUT
-
-#define CAN1NODE2IN					IfxMultican1_RXD2E_P20_9_IN
-#define CAN1NODE2OUT				IfxMultican1_TXD2_P20_10_OUT
-
+#define HLD_FOURTH_CANNODE	FALSE
 
 /*Led port macros*/
 #define LED107						IfxPort_P13_0
@@ -73,6 +63,21 @@
 #define LED109						IfxPort_P13_2
 #define LED110						IfxPort_P13_3
 
+
+
+/************************ Not Used Macros ************************/
+
+/* MultiCan macros */
+#define CAN0NODE1IN					IfxMultican_RXD1A_P15_3_IN
+#define CAN0NODE1OUT				IfxMultican_TXD1_P15_2_OUT
+#define CAN0NODE2IN					IfxMultican_RXD2B_P02_3_IN
+#define CAN0NODE2OUT				IfxMultican_TXD2_P02_2_OUT
+#define CAN1NODE0IN					IfxMultican1_RXD0G_P00_5_IN
+#define CAN1NODE0OUT				IfxMultican1_TXD0_P00_4_OUT
+#define CAN1NODE1IN					IfxMultican1_RXD1F_P02_7_IN
+#define CAN1NODE1OUT				IfxMultican1_TXD1_P02_5_OUT
+#define CAN1NODE2IN					IfxMultican1_RXD2E_P20_9_IN
+#define CAN1NODE2OUT				IfxMultican1_TXD2_P20_10_OUT
 
 /*GtmTom macros*/
 #define BEEPER                      IfxGtm_TOM0_4_TOUT22_P33_0_OUT
@@ -134,41 +139,11 @@
 #define UI_LED3						IfxPort_P33_1
 
 
-/* Not used macros */
 #define ENCODER_A					IfxGpt120_T3INA_P02_6_IN
 #define ENCODER_B					IfxGpt120_T3EUDA_P02_7_IN
 
 #define SERVO						IfxGtm_TOM0_7_TOUT32_P33_10_OUT
 #define SERVO_IR					IfxGtm_TOM0_9_TOUT10_P00_1_OUT	//arbitrary value
-
-/*
-Line scan macros
-#define TSL1401_SI					IfxPort_P33_3
-#define TSL1401_CLK					IfxPort_P33_2
-#define TSL1401_AO_1				9
-#define TSL1401_AO_2				10
-#define TSL1401_AO_3				3
-
-#define MMA7361_AO_1				9		//G1CH9
-#define MMA7361_AO_2				8		//G1CH8
-#define MMA7361_AO_3				5		//G1CH5
-
-#define OBSTACLE_LF_PORT			&MODULE_P22
-#define OBSTACLE_LM_PORT			&MODULE_P22
-#define OBSTACLE_LC_PORT			&MODULE_P22
-#define OBSTACLE_LF_INDEX			0
-#define OBSTACLE_LM_INDEX			1
-#define OBSTACLE_LC_INDEX			2
-
-#define OBSTACLE_RF_PORT			&MODULE_P15
-#define OBSTACLE_RM_PORT			&MODULE_P15
-#define OBSTACLE_RC_PORT			&MODULE_P15
-#define OBSTACLE_RF_INDEX			4
-#define OBSTACLE_RM_INDEX			5
-#define OBSTACLE_RC_INDEX			6
-
-#define STEERING_METHOD				IfxPort_P00_8
-*/
 
 /** \addtogroup IfxLld_Demo_Template_SrcDoc_Config
  * \{ */
