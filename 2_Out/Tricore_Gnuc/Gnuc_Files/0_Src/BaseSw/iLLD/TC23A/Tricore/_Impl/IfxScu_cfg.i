@@ -41,4 +41,4 @@ typedef enum
     IfxScu_PMCSR_REQSLP_Sleep = 2U,
     IfxScu_PMCSR_REQSLP_Stby = 3U
 } IfxScu_PMCSR_REQSLP;
-# 29 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxScu_cfg.c" 2
+# 30 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxScu_cfg.c" 2

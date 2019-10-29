@@ -221,4 +221,4 @@ typedef enum
     IfxDma_ChannelId_14,
     IfxDma_ChannelId_15
 } IfxDma_ChannelId;
-# 29 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxDma_cfg.c" 2
+# 30 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxDma_cfg.c" 2

@@ -7176,4 +7176,4 @@ struct IfxGtm_Tom_TGC
     Ifx_GTM_TOM_TGC0_OUTEN_CTRL OUTEN_CTRL;
     Ifx_GTM_TOM_TGC0_OUTEN_STAT OUTEN_STAT;
 };
-# 29 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxGtm_cfg.c" 2
+# 30 "0_Src/BaseSw/iLLD/TC23A/Tricore/_Impl/IfxGtm_cfg.c" 2
