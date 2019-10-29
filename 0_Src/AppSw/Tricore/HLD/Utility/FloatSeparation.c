@@ -77,6 +77,10 @@ void Separate_int_frac (sint32* intPart, uint32* fracPart, float32 num, uint32 r
 		fracpart = 0;
 	}
 
+	if(negative)
+	{
+		intpart = - intpart;
+	}
 	*intPart = intpart;
 	*fracPart = fracpart;
 }
