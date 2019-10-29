@@ -16,11 +16,9 @@
 #include "UD_buttons.h"
 #include "Numbers5076i.h"
 
-#include "N0_75110.h"
-#include "test_test.h"
-#include "test1.h"
 
-//#include "PwmGenerator.h"
+#include "AccumulatorManager.h"
+#include "FloatSeparation.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -177,7 +175,7 @@ void HLD_LcdInterface_init(void)
 		HLD_LcdInterface_setButton(4);
 		HLD_LcdInterface_setButton(5);
 		HLD_LcdInterface_setButton(6);
-	HLD_LcdInterface_drawButton();
+	// HLD_LcdInterface_drawButton();
 	HLD_LcdInterface_setPage();
 }
 void HLD_LcdInterface_setPage(void)
@@ -231,7 +229,7 @@ void HLD_LcdInterface_setPage3 (void)
 */
 void HLD_LcdInterface_page1 (void)
 {
-
+/* 
 	{
 		HLD_LcdInterface_doButton(0, "");
 	}
@@ -251,7 +249,17 @@ void HLD_LcdInterface_page1 (void)
 		HLD_LcdInterface_doButton(5, "");
 	}
 
-//	Lcd_sprintf_col(LCD_LINE0, 0, "RPM %5d", conMsg1.rpm);
+ */	
+	sint32 intPart;
+	uint32 fracPart;
+	Separate_int_frac(&intPart, &fracPart, VoltageSensor0.value, 2);
+	Lcd_sprintf_col(LINE1, 0, "Vlt0 %4d.%02u",intPart, fracPart);
+	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[0].value, 2);
+	Lcd_sprintf_col(LINE2, 0, "Crt0 %4d.%02u",intPart, fracPart);
+	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[1].value, 2);
+	Lcd_sprintf_col(LINE3, 0, "Crt1 %4d.%02u",intPart, fracPart);
+	Separate_int_frac(&intPart, &fracPart, temperatureHighest, 1);
+	Lcd_sprintf_col(LINE4, 0, "TmpH %4d.%01u",intPart, fracPart);
 //	Lcd_sprintf_col(LCD_LINE1, 0, "CUR %5d A", conMsg1.motCurrent);
 
 }
