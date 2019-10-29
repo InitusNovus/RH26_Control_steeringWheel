@@ -507,7 +507,8 @@ int Lcd_sprintf_col_inv_enl(uint8 ln, uint16 col, uint16 k, char const *fmt, ...
 }
 IFX_INLINE void HLD_Lcd_clearInterface(void)
 {
-	GLCD_clreaWindow(0,24,320,168,COLOR_WHITE);
+	// GLCD_clreaWindow(0,24,320,168,COLOR_WHITE);
+	GLCD_clreaWindow(0,24,320,192,COLOR_WHITE);
 }
 
 IFX_STATIC void HLD_Lcd_clearChart(ArrayChart_t* arrayChart,unsigned short color)
