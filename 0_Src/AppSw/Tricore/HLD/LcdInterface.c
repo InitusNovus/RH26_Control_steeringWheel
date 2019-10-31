@@ -250,16 +250,21 @@ void HLD_LcdInterface_page1 (void)
 	}
 
  */	
+	float32 Velocity = 34.13;
 	sint32 intPart;
 	uint32 fracPart;
 	Separate_int_frac(&intPart, &fracPart, VoltageSensor0.value, 2);
 	Lcd_sprintf_col_inv_revised(LINE1, 0, "V %4d.%02u",intPart, fracPart);
+	Separate_int_frac(&intPart, &fracPart, temperatureHighest, 1);
+	Lcd_sprintf_col_inv_revised(LINE1, 160, "T %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[0].value, 2);
 	Lcd_sprintf_col_inv_revised(LINE2, 0, "C0 %3d.%02u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[1].value, 2);
-	Lcd_sprintf_col_inv_revised(LINE3, 0, "C1 %3d.%02u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, temperatureHighest, 1);
-	Lcd_sprintf_col_inv_revised(LINE4, 0, "T %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE2, 160, "C1 %3d.%02u",intPart, fracPart);
+	// Lcd_sprintf_col_inv_revised(LINE3, 0, "C1 %3d.%02u",intPart, fracPart);
+	// Lcd_sprintf_col_inv_revised(LINE4, 0, "T %4d.%01u",intPart, fracPart);
+	Separate_int_frac(&intPart, &fracPart, Velocity, 2);
+	Lcd_sprintf_col_inv_revised_font2(LINE8, 0, "%2d.%02u", intPart, fracPart);
 	
 	// Lcd_sprintf_col(LINE6, 0, "TEST %4d.%02u",-128, 2);
 //	Lcd_sprintf_col(LCD_LINE1, 0, "CUR %5d A", conMsg1.motCurrent);
@@ -299,21 +304,21 @@ void HLD_LcdInterface_page2 (void)
 	sint32 intPart;
 	uint32 fracPart;
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[0], 1);
-	Lcd_sprintf_col(LINE1, 0, "Tmp0 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE1, 0, "Tmp0 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[1], 1);
-	Lcd_sprintf_col(LINE2, 0, "Tmp1 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE2, 0, "Tmp1 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[2], 1);
-	Lcd_sprintf_col(LINE3, 0, "Tmp2 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE3, 0, "Tmp2 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[3], 1);
-	Lcd_sprintf_col(LINE4, 0, "Tmp3 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE4, 0, "Tmp3 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[4], 1);
-	Lcd_sprintf_col(LINE5, 0, "Tmp4 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE5, 0, "Tmp4 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[5], 1);
-	Lcd_sprintf_col(LINE6, 0, "Tmp5 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE6, 0, "Tmp5 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[6], 1);
-	Lcd_sprintf_col(LINE7, 0, "Tmp6 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE7, 0, "Tmp6 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[7], 1);
-	Lcd_sprintf_col(LINE8, 0, "Tmp7 %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE8, 0, "Tmp7 %4d.%01u",intPart, fracPart);
 
 
 }

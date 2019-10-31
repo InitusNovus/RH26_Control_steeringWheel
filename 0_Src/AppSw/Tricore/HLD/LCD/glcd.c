@@ -24,6 +24,7 @@
 #include "system_tc2x.h"
 #include "glcd.h"
 #include "font.h"
+#include "font2.h"
 
 #include "bsp.h"
 
@@ -796,6 +797,44 @@ static void GLCD_drawChar_inv(unsigned int x, unsigned int y, const unsigned sho
 		glcd_set_position(Xaddress, y);
 	}
 }
+static void GLCD_drawChar_inv_font2(unsigned int x, unsigned int y, const unsigned short *c)
+{
+	unsigned int index = 0;
+	int  i = 0;
+	unsigned int Xaddress = x;
+	int j = 0;
+
+	glcd_set_position(Xaddress, y - CHAR_HEIGHT2 +1);
+
+	for (index = 0; index < CHAR_HEIGHT2; ++index)
+	{
+		glcd_start_GRAM_write();	/* Prepare to write GRAM */	
+		for(j = 0; j < 4; j++)
+		{
+			// for (i = CHAR_WIDTH2/4; i >0; --i)
+			for (i = 0; i < CHAR_WIDTH2/4; ++i)
+			{
+				// if ((c[(index + 1) * 4 - j - 1] & (1 << (i+1))) == 0x00)
+				if ((c[(index + 1) * 4 - j - 1] & (1 << (i))) == 0x00)
+				{
+					wr_dat_endless(BackColor);
+				}
+				else
+				{
+					wr_dat_endless(TextColor);
+				}
+			}
+		}
+#ifdef USE_NORMAL_VDIR
+		++Xaddress;
+#else
+		//		--Xaddress;
+		++Xaddress;
+#endif /* USE_NORMAL_VDIR */
+		wr_end_transfer();
+		glcd_set_position(Xaddress, y);
+	}
+}
 static void GLCD_drawChar_inv_enl(unsigned int x, unsigned int y, unsigned int k, const unsigned short *c)
 {
 	unsigned int index = 0;
@@ -849,6 +888,11 @@ void GLCD_displayChar_inv(unsigned int ln, unsigned int col, unsigned char c)
 {
 	c -= 32;
 	GLCD_drawChar_inv(ln, col, &ASCII_Table[c * CHAR_HEIGHT]);
+}
+void GLCD_displayChar_inv_font2(unsigned int ln, unsigned int col, unsigned char c)
+{
+	c -= 48;
+	GLCD_drawChar_inv_font2(ln, col, &ASCII_Table2[c * CHAR_HEIGHT2 * 4]);
 }
 void GLCD_displayChar_inv_enl(unsigned int ln, unsigned int col, unsigned char k, unsigned char c)
 {
@@ -915,6 +959,20 @@ void GLCD_displayStringLn_col_inv_revised(unsigned int ln, unsigned int col, con
 	{
 		GLCD_displayChar_inv(ln, refcolumn, *s);
 		refcolumn -= CHAR_WIDTH;				/* next column position */
+		s++;									/* next character */
+		i++;									/* count characters */
+	}
+}
+void GLCD_displayStringLn_col_inv_revised_font2(unsigned int ln, unsigned int col, const char *s)
+{
+	unsigned int i = 0;
+	unsigned int refcolumn = LCD_WIDTH - col - CHAR_WIDTH2;
+
+	/* write the string character by character on LCD */
+	while ((*s != 0) & (i < (LCD_WIDTH / CHAR_WIDTH2)))
+	{
+		GLCD_displayChar_inv_font2(ln, refcolumn, *s);
+		refcolumn -= CHAR_WIDTH2;				/* next column position */
 		s++;									/* next character */
 		i++;									/* count characters */
 	}
