@@ -492,6 +492,19 @@ int Lcd_sprintf_col_inv(uint8 ln, uint16 col, char const *fmt, ...)
 
 	return ret;
 }
+int Lcd_sprintf_col_inv_revised(uint8 ln, uint16 col, char const *fmt, ...)
+{
+	int ret;
+	va_list ap;
+
+	va_start(ap, fmt);
+	//	ret = usr_vsprintf(buf, fmt, ap);
+	ret = vsprintf(g_Lcd.text, fmt, ap);
+	va_end(ap);
+	GLCD_displayStringLn_col_inv_revised(ln, col, g_Lcd.text);
+
+	return ret;
+}
 int Lcd_sprintf_col_inv_enl(uint8 ln, uint16 col, uint16 k, char const *fmt, ...)
 {
 	int ret;

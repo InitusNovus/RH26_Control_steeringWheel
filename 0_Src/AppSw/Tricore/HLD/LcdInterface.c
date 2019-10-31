@@ -253,15 +253,15 @@ void HLD_LcdInterface_page1 (void)
 	sint32 intPart;
 	uint32 fracPart;
 	Separate_int_frac(&intPart, &fracPart, VoltageSensor0.value, 2);
-	Lcd_sprintf_col(LINE1, 0, "Vlt0 %4d.%02u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE1, 0, "V %4d.%02u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[0].value, 2);
-	Lcd_sprintf_col(LINE2, 0, "Crt0 %4d.%02u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE2, 0, "C0 %3d.%02u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[1].value, 2);
-	Lcd_sprintf_col(LINE3, 0, "Crt1 %4d.%02u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE3, 0, "C1 %3d.%02u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, temperatureHighest, 1);
-	Lcd_sprintf_col(LINE4, 0, "TmpH %4d.%01u",intPart, fracPart);
+	Lcd_sprintf_col_inv_revised(LINE4, 0, "T %4d.%01u",intPart, fracPart);
 	
-	Lcd_sprintf_col(LINE6, 0, "TEST %4d.%02u",-128, 2);
+	// Lcd_sprintf_col(LINE6, 0, "TEST %4d.%02u",-128, 2);
 //	Lcd_sprintf_col(LCD_LINE1, 0, "CUR %5d A", conMsg1.motCurrent);
 
 }

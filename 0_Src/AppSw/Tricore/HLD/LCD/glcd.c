@@ -905,6 +905,20 @@ void GLCD_displayStringLn_col_inv(unsigned int ln, unsigned int col, const char 
 		i++;									/* count characters */
 	}
 }
+void GLCD_displayStringLn_col_inv_revised(unsigned int ln, unsigned int col, const char *s)
+{
+	unsigned int i = 0;
+	unsigned int refcolumn = LCD_WIDTH - col - CHAR_WIDTH;
+
+	/* write the string character by character on LCD */
+	while ((*s != 0) & (i < (LCD_WIDTH / CHAR_WIDTH)))
+	{
+		GLCD_displayChar_inv(ln, refcolumn, *s);
+		refcolumn -= CHAR_WIDTH;				/* next column position */
+		s++;									/* next character */
+		i++;									/* count characters */
+	}
+}
 void GLCD_displayStringLn_col_inv_enl(unsigned int ln, unsigned int col, unsigned int k, const char *s)
 {
 	unsigned int i = 0;

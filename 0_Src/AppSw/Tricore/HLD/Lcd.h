@@ -119,6 +119,7 @@ IFX_EXTERN int Lcd_sprintf(uint8 ln, char const *fmt, ...);
  */
 IFX_EXTERN int Lcd_sprintf_col(uint8 ln, uint16 col, char const *fmt, ...);
 IFX_EXTERN int Lcd_sprintf_col_inv(uint8 ln, uint16 col, char const *fmt, ...);
+int Lcd_sprintf_col_inv_revised(uint8 ln, uint16 col, char const *fmt, ...);
 /******************************************************************************/
 /*---------------------Inline Function Implementations------------------------*/
 /******************************************************************************/
