@@ -91,6 +91,7 @@ extern void GLCD_putPixel(unsigned int x, unsigned int y);
 extern int  GLCD_getLineNo(unsigned int line);
 extern void GLCD_displayStringLn_col_inv_revised(unsigned int ln, unsigned int col, const char *s);
 extern void GLCD_displayStringLn_col_inv_revised_font2(unsigned int ln, unsigned int col, const char *s);
+extern void GLCD_displayStringLn_col_inv_revised_font2_full(unsigned int ln, unsigned int col);
 
 /* support for touchscreen */
 extern int  GLCD_GetTouchXY(unsigned int *x, unsigned int *y);

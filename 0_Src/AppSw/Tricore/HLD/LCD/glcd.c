@@ -891,8 +891,24 @@ void GLCD_displayChar_inv(unsigned int ln, unsigned int col, unsigned char c)
 }
 void GLCD_displayChar_inv_font2(unsigned int ln, unsigned int col, unsigned char c)
 {
-	c -= 48;
+	if(47 < c && c < 58)
+	{
+		c -= 48;
+	}
+	else
+	{
+		c = 10;
+	}
+	
 	GLCD_drawChar_inv_font2(ln, col, &ASCII_Table2[c * CHAR_HEIGHT2 * 4]);
+
+}
+void GLCD_displayChar_inv_font2_full(unsigned int ln, unsigned int col)
+{
+	unsigned char c = 11;
+	
+	GLCD_drawChar_inv_font2(ln, col, &ASCII_Table2[c * CHAR_HEIGHT2 * 4]);
+
 }
 void GLCD_displayChar_inv_enl(unsigned int ln, unsigned int col, unsigned char k, unsigned char c)
 {
@@ -974,6 +990,19 @@ void GLCD_displayStringLn_col_inv_revised_font2(unsigned int ln, unsigned int co
 		GLCD_displayChar_inv_font2(ln, refcolumn, *s);
 		refcolumn -= CHAR_WIDTH2;				/* next column position */
 		s++;									/* next character */
+		i++;									/* count characters */
+	}
+}
+void GLCD_displayStringLn_col_inv_revised_font2_full(unsigned int ln, unsigned int col)
+{
+	unsigned int i = 0;
+	unsigned int refcolumn = LCD_WIDTH - col - CHAR_WIDTH2;
+
+	/* write the string character by character on LCD */
+	while (i == 0)
+	{
+		GLCD_displayChar_inv_font2_full(ln, refcolumn);
+		refcolumn -= CHAR_WIDTH2;				/* next column position */
 		i++;									/* count characters */
 	}
 }

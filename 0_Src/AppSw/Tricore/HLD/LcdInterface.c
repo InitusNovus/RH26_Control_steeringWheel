@@ -43,7 +43,6 @@
 /******************************************************************************/
 /*--------------------------------Enumerations--------------------------------*/
 /******************************************************************************/
-
 /******************************************************************************/
 /*-----------------------------Data Structures--------------------------------*/
 /*****************************************************************************/
@@ -68,6 +67,14 @@ typedef struct
 	float32 inc6;
 	float32 inc7;
 }LcdInterface_Increment;
+typedef struct 
+{
+	boolean Indicator0:1;
+	boolean Indicator1:1;
+	boolean Indicator2:1;
+	boolean Indicator3:1;
+	boolean Indicator4:1;
+}LcdInterface_Indicator;
 /******************************************************************************/
 /*------------------------------Global variables------------------------------*/
 /******************************************************************************/
@@ -109,6 +116,15 @@ LcdInterface_Increment Increment =
 {
 		.inc0 = 5000,
 		.inc2 = 0.050000,
+};
+
+LcdInterface_Indicator Indicator = 
+{
+	.Indicator0 = FALSE,
+	.Indicator1 = FALSE,
+	.Indicator2 = FALSE,
+	.Indicator3 = FALSE,
+	.Indicator4 = FALSE,
 };
 
 volatile sint32 test = 0;
@@ -156,6 +172,7 @@ IFX_STATIC void HLD_LcdInterface_doButton(uint8 buttonNum,char const *fmt, ...);
  * */
 IFX_STATIC float32 floatVar(float32);
 IFX_STATIC void HLD_LcdInterface_drawButton(void);
+IFX_STATIC void LcdInterface_displayIndicator(void);
 /******************************************************************************/
 /*------------------------Private Variables/Constants-------------------------*/
 /******************************************************************************/
@@ -250,7 +267,8 @@ void HLD_LcdInterface_page1 (void)
 	}
 
  */	
-	float32 Velocity = 34.13;
+	GLCD_setTextColor(COLOR_BLACK);
+	float32 Velocity = 34.13;	//FIXME
 	sint32 intPart;
 	uint32 fracPart;
 	Separate_int_frac(&intPart, &fracPart, VoltageSensor0.value, 2);
@@ -264,7 +282,12 @@ void HLD_LcdInterface_page1 (void)
 	// Lcd_sprintf_col_inv_revised(LINE3, 0, "C1 %3d.%02u",intPart, fracPart);
 	// Lcd_sprintf_col_inv_revised(LINE4, 0, "T %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, Velocity, 2);
-	Lcd_sprintf_col_inv_revised_font2(LINE8, 0, "%2d.%02u", intPart, fracPart);
+	Lcd_sprintf_col_inv_revised_font2(LINE9, 90, "%2d", intPart);
+	Lcd_sprintf_col_inv_revised(LINE7, 90 + CHAR_WIDTH2 * 2, "kph");
+
+	LcdInterface_displayIndicator();
+	
+
 	
 	// Lcd_sprintf_col(LINE6, 0, "TEST %4d.%02u",-128, 2);
 //	Lcd_sprintf_col(LCD_LINE1, 0, "CUR %5d A", conMsg1.motCurrent);
@@ -593,3 +616,51 @@ IFX_STATIC void HLD_LcdInterface_drawButton(void)
 	}
 }
 
+IFX_STATIC void LcdInterface_displayIndicator(void)
+{
+	if(Indicator.Indicator0)
+	{
+		GLCD_setTextColor(COLOR_GREEN);
+	}
+	else
+	{
+		GLCD_setTextColor(COLOR_RED);
+	}
+	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 0);
+	if(Indicator.Indicator1)
+	{
+		GLCD_setTextColor(COLOR_GREEN);
+	}
+	else
+	{
+		GLCD_setTextColor(COLOR_RED);
+	}
+	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 64);
+	if(Indicator.Indicator2)
+	{
+		GLCD_setTextColor(COLOR_GREEN);
+	}
+	else
+	{
+		GLCD_setTextColor(COLOR_RED);
+	}
+	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 128);
+	if(Indicator.Indicator3)
+	{
+		GLCD_setTextColor(COLOR_GREEN);
+	}
+	else
+	{
+		GLCD_setTextColor(COLOR_RED);
+	}
+	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 192);
+	if(Indicator.Indicator4)
+	{
+		GLCD_setTextColor(COLOR_GREEN);
+	}
+	else
+	{
+		GLCD_setTextColor(COLOR_RED);
+	}
+	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 256);
+}
