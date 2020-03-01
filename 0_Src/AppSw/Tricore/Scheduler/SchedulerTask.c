@@ -84,7 +84,6 @@ void Task_init (void)
 	}
 
 	{
-		AccumualatorManager_init();
 		HLD_Vadc_forceStart();
 	}
 
@@ -116,7 +115,7 @@ void Task_IsrCb_1ms (void)
 	HLD_GtmTomBeeper_run_1ms();
 	if(isInit)
 	{
-		AccumulatorManager_run_1ms();
+
 	}
 
 
