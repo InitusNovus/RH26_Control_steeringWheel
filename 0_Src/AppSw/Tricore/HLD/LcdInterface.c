@@ -16,8 +16,6 @@
 #include "UD_buttons.h"
 #include "Numbers5076i.h"
 
-
-#include "AccumulatorManager.h"
 #include "FloatSeparation.h"
 
 #include <stdio.h>
@@ -271,14 +269,14 @@ void HLD_LcdInterface_page1 (void)
 	float32 Velocity = 34.13;	//FIXME
 	sint32 intPart;
 	uint32 fracPart;
-	Separate_int_frac(&intPart, &fracPart, VoltageSensor0.value, 2);
-	Lcd_sprintf_col_inv_revised(LINE1, 0, "V %4d.%02u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, temperatureHighest, 1);
-	Lcd_sprintf_col_inv_revised(LINE1, 160, "T %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[0].value, 2);
-	Lcd_sprintf_col_inv_revised(LINE2, 0, "C0 %3d.%02u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[1].value, 2);
-	Lcd_sprintf_col_inv_revised(LINE2, 160, "C1 %3d.%02u",intPart, fracPart);
+	// Separate_int_frac(&intPart, &fracPart, VoltageSensor0.value, 2);
+	// Lcd_sprintf_col_inv_revised(LINE1, 0, "V %4d.%02u",intPart, fracPart);
+	// Separate_int_frac(&intPart, &fracPart, temperatureHighest, 1);
+	// Lcd_sprintf_col_inv_revised(LINE1, 160, "T %4d.%01u",intPart, fracPart);
+	// Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[0].value, 2);
+	// Lcd_sprintf_col_inv_revised(LINE2, 0, "C0 %3d.%02u",intPart, fracPart);
+	// Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[1].value, 2);
+	// Lcd_sprintf_col_inv_revised(LINE2, 160, "C1 %3d.%02u",intPart, fracPart);
 	// Lcd_sprintf_col_inv_revised(LINE3, 0, "C1 %3d.%02u",intPart, fracPart);
 	// Lcd_sprintf_col_inv_revised(LINE4, 0, "T %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, Velocity, 2);
@@ -326,7 +324,7 @@ void HLD_LcdInterface_page2 (void)
 //	Lcd_sprintf_col(LCD_LINE2, 0, "CON %5xh", conMsg2.swStat.U);
 	sint32 intPart;
 	uint32 fracPart;
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[0], 1);
+/* 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[0], 1);
 	Lcd_sprintf_col_inv_revised(LINE1, 0, "Tmp0 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[1], 1);
 	Lcd_sprintf_col_inv_revised(LINE2, 0, "Tmp1 %4d.%01u",intPart, fracPart);
@@ -342,7 +340,7 @@ void HLD_LcdInterface_page2 (void)
 	Lcd_sprintf_col_inv_revised(LINE7, 0, "Tmp6 %4d.%01u",intPart, fracPart);
 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[7], 1);
 	Lcd_sprintf_col_inv_revised(LINE8, 0, "Tmp7 %4d.%01u",intPart, fracPart);
-
+ */
 
 }
 void HLD_LcdInterface_page2_1 (void)
