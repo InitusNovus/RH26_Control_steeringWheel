@@ -51,6 +51,8 @@ extern "C" {
 #define LCD_HEIGHT		240
 #define CHAR_HEIGHT		24
 #define CHAR_WIDTH		16
+#define CHAR_HEIGHT2	65
+#define CHAR_WIDTH2		64
 #define MAX_LINES		(LCD_HEIGHT / CHAR_HEIGHT)
 
 #ifdef USE_NORMAL_VDIR
@@ -78,6 +80,7 @@ extern void GLCD_clear(unsigned short color);
 extern void GLCD_setTextColor(unsigned short color);
 extern void GLCD_setBackColor(unsigned short color);
 extern void GLCD_displayChar(unsigned int ln, unsigned int col, unsigned char c);
+extern void GLCD_displayChar_inv_font2(unsigned int ln, unsigned int col, unsigned char c);
 extern void GLCD_displayStringLn(unsigned int ln, const char *s);
 extern void GLCD_displayStringLn_col(unsigned int ln, unsigned int col, const char *s);
 extern void GLCD_displayStringLn_col_inv(unsigned int ln, unsigned int col, const char *s);
@@ -86,6 +89,9 @@ extern void GLCD_clreaWindow(unsigned int x, unsigned int y, unsigned int w, uns
 extern void GLCD_clearLn(unsigned int ln);
 extern void GLCD_putPixel(unsigned int x, unsigned int y);
 extern int  GLCD_getLineNo(unsigned int line);
+extern void GLCD_displayStringLn_col_inv_revised(unsigned int ln, unsigned int col, const char *s);
+extern void GLCD_displayStringLn_col_inv_revised_font2(unsigned int ln, unsigned int col, const char *s);
+extern void GLCD_displayStringLn_col_inv_revised_font2_full(unsigned int ln, unsigned int col);
 
 /* support for touchscreen */
 extern int  GLCD_GetTouchXY(unsigned int *x, unsigned int *y);
