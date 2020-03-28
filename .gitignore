@@ -151,5 +151,6 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-tool/AppKit_TC23x.wsx
-1_ToolEnv/0_Build/9_Make/
+tool/
+1_ToolEnv/
+2_Out/
