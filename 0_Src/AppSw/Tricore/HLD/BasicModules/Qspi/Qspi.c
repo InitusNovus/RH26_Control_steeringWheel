@@ -197,9 +197,9 @@ static void HLD_Qspi1Module_init(void)
 		spiMasterChannelConfig.base.mode.clockPolarity = SpiIf_ClockPolarity_idleLow;
 		//spiMasterChannelConfig.base.mode.clockPolarity = SpiIf_ClockPolarity_idleLow;
 
-		/*		*/
-
-		const IfxQspi_SpiMaster_Output slsOutput = {&IfxQspi1_SLSO10_P11_8_OUT,
+		/*THIS IS DUMMY SLAVE PORT, DEFINED BUT NOT USED*
+		 *  NOT CONNECTED TO REAL MICROSD SLAVE PORT	*/
+		const IfxQspi_SpiMaster_Output slsOutput = {&QSPI1_SD_SLSO10_DUMMY,
 				IfxPort_OutputMode_pushPull,
 				IfxPort_PadDriver_cmosAutomotiveSpeed1};
 
@@ -223,6 +223,9 @@ static void HLD_Qspi1Module_init(void)
 				&spiMasterChannelConfig);
 	}
 	printf("QSPI1 microSD initialized\n");
+
+	/*set slave pin as individual GPIO port for independent control*/
+	IfxPort_setPinMode(QSPI1_SD_SLSO0.pin.port, QSPI1_SD_SLSO0.pin.pinIndex, IfxPort_OutputMode_pushPull);
 
 }
 
