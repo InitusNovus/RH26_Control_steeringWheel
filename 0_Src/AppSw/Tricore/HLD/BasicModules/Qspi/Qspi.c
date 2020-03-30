@@ -52,8 +52,8 @@ IFX_INTERRUPT(ISR_dma_ch4, 0, ISR_PRIORITY_DMA_CH4);
 
 void ISR_qspi2_Er(void)
 {
-    IfxCpu_enableInterrupts();
-    IfxQspi_SpiMaster_isrError(&g_QspiCam.drivers.spiMaster);
+	IfxCpu_enableInterrupts();
+	IfxQspi_SpiMaster_isrError(&g_QspiCam.drivers.spiMaster);
 	HLD_GtmTomBeeper_start(Beep_pattern3);
 }
 
@@ -61,7 +61,7 @@ void ISR_dma_ch3(void)
 {
 	IfxCpu_enableInterrupts();
 	IfxQspi_SpiMaster_isrDmaTransmit(&g_QspiCam.drivers.spiMaster);
-//	HLD_GtmTomBeeper_start(Beep_pattern1);
+	//	HLD_GtmTomBeeper_start(Beep_pattern1);
 	QspiTest1 ++;
 }
 
@@ -69,33 +69,167 @@ void ISR_dma_ch4(void)
 {
 	IfxCpu_enableInterrupts();
 	IfxQspi_SpiMaster_isrDmaReceive(&g_QspiCam.drivers.spiMaster);
-//	HLD_GtmTomBeeper_start(Beep_pattern2);
+	//	HLD_GtmTomBeeper_start(Beep_pattern2);
 	QspiTest2 ++;
 }
 #else
+IFX_INTERRUPT(ISR_qspi1_Tx, 0, ISR_PRIORITY_QSPI1_TX);
+IFX_INTERRUPT(ISR_qspi1_Rx, 0, ISR_PRIORITY_QSPI1_RX);
+IFX_INTERRUPT(ISR_qspi1_Er, 0, ISR_PRIORITY_QSPI1_ER);
+void ISR_qspi1_Tx(void)
+{
+	IfxCpu_enableInterrupts();
+	IfxQspi_SpiMaster_isrTransmit(&g_Qspi.drivers1.spiMaster);
+}
+void ISR_qspi1_Rx(void)
+{
+	IfxCpu_enableInterrupts();
+	IfxQspi_SpiMaster_isrReceive(&g_Qspi.drivers1.spiMaster);
+}
+void ISR_qspi1_Er(void)
+{
+	IfxCpu_enableInterrupts();
+	IfxQspi_SpiMaster_isrError(&g_Qspi.drivers1.spiMaster);
+}
+
 IFX_INTERRUPT(ISR_qspi2_Tx, 0, ISR_PRIORITY_QSPI2_TX);
 IFX_INTERRUPT(ISR_qspi2_Rx, 0, ISR_PRIORITY_QSPI2_RX);
 IFX_INTERRUPT(ISR_qspi2_Er, 0, ISR_PRIORITY_QSPI2_ER);
 void ISR_qspi2_Tx(void)
 {
-    IfxCpu_enableInterrupts();
-    IfxQspi_SpiMaster_isrTransmit(&g_Qspi.drivers.spiMaster);
+	IfxCpu_enableInterrupts();
+	IfxQspi_SpiMaster_isrTransmit(&g_Qspi.drivers2.spiMaster);
 }
 void ISR_qspi2_Rx(void)
 {
-    IfxCpu_enableInterrupts();
-    IfxQspi_SpiMaster_isrReceive(&g_Qspi.drivers.spiMaster);
+	IfxCpu_enableInterrupts();
+	IfxQspi_SpiMaster_isrReceive(&g_Qspi.drivers2.spiMaster);
 }
 void ISR_qspi2_Er(void)
 {
-    IfxCpu_enableInterrupts();
-    IfxQspi_SpiMaster_isrError(&g_Qspi.drivers.spiMaster);
+	IfxCpu_enableInterrupts();
+	IfxQspi_SpiMaster_isrError(&g_Qspi.drivers2.spiMaster);
 }
 #endif
 
-static void HLD_QspiModule_init(void)
+
+/*Qspi1 module for using microSD*/
+static void HLD_Qspi1Module_init(void)
 {
-	printf("QspiModule_init() called\n");
+	printf("QspiModule1_init() called\n");
+	IfxQspi_SpiMaster_Config        spiMasterConfig;
+	IfxQspi_SpiMaster_ChannelConfig spiMasterChannelConfig;
+	Ifx_QSPI                       *qspi1SFR;
+	{
+		/* create module config */
+		//
+
+		IfxQspi_SpiMaster_initModuleConfig(&spiMasterConfig, &MODULE_QSPI1);
+
+		//
+
+		/* set the maximum baudrate */
+		spiMasterConfig.base.maximumBaudrate = 40000000;
+
+		/* ISR priorities and interrupt target */
+#ifdef DMA_
+		spiMasterConfig.base.txPriority    = ISR_PRIORITY_DMA_CH3;
+		spiMasterConfig.base.rxPriority    = ISR_PRIORITY_DMA_CH4;
+		spiMasterConfig.base.erPriority    = ISR_PRIORITY_QSPI2_ER;
+		spiMasterConfig.base.isrProvider   = (IfxSrc_Tos)IfxCpu_getCoreIndex();
+		spiMasterConfig.dma.txDmaChannelId = IFX_QSPI2_TX_CHANNELID;
+		spiMasterConfig.dma.rxDmaChannelId = IFX_QSPI2_RX_CHANNELID;
+		spiMasterConfig.dma.useDma         = 1;
+#else
+		spiMasterConfig.base.txPriority    = ISR_PRIORITY_QSPI1_TX;
+		spiMasterConfig.base.rxPriority    = ISR_PRIORITY_QSPI1_RX;
+		spiMasterConfig.base.erPriority    = ISR_PRIORITY_QSPI1_ER;
+		spiMasterConfig.base.isrProvider   = (IfxSrc_Tos)IfxCpu_getCoreIndex();
+#endif
+		//		spiMasterConfig.txFifoMode		   = IfxQspi_FifoMode_singleMove;
+		//		spiMasterConfig.rxFifoMode		   = IfxQspi_FifoMode_singleMove;
+		spiMasterConfig.rxFifoThreshold = IfxQspi_RxFifoInt_0;
+		/* pin configuration */
+		/*		const IfxQspi_SpiMaster_Pins pins = {&IfxQspi2_SCLK_P15_6_OUT,                                SCLK
+					IfxPort_OutputMode_pushPull,
+					&IfxQspi2_MTSR_P15_5_OUT,  IfxPort_OutputMode_pushPull,  MTSR
+					&IfxQspi2_MRSTB_P15_7_IN,  IfxPort_InputMode_pullDown,   MRST
+					IfxPort_PadDriver_cmosAutomotiveSpeed3                    pad driver mode
+			};*/
+		/*		*/
+
+
+		const IfxQspi_SpiMaster_Pins pins = {&QSPI1_SD_SCLK,
+				IfxPort_OutputMode_pushPull,
+				&QSPI1_SD_MTSR,  IfxPort_OutputMode_pushPull,
+				&QSPI1_SD_MRST,  IfxPort_InputMode_pullUp,
+				IfxPort_PadDriver_cmosAutomotiveSpeed3
+		};
+
+
+
+
+
+		spiMasterConfig.pins = &pins;
+
+		/* initialize module */
+		IfxQspi_SpiMaster_initModule(&g_Qspi.drivers1.spiMaster, &spiMasterConfig);
+#ifdef DMA_
+		{
+			qspi2SFR = spiMasterConfig.qspi;
+			volatile Ifx_SRC_SRCR *src = IfxQspi_getErrorSrc(qspi2SFR);
+			IfxSrc_init(src, (IfxSrc_Tos)IfxCpu_getCoreIndex(), ISR_PRIORITY_QSPI2_ER);
+			IfxSrc_enable(src);
+		}
+#endif
+	}
+
+	{
+		/* create channel config */
+		IfxQspi_SpiMaster_initChannelConfig(&spiMasterChannelConfig,
+				&g_Qspi.drivers1.spiMaster);
+
+		/* set the baudrate for this channel */
+		spiMasterChannelConfig.base.baudrate = 300000;
+		spiMasterChannelConfig.channelBasedCs  = IfxQspi_SpiMaster_ChannelBasedCs_disabled;
+		//spiMasterChannelConfig.base.mode.shiftClock = SpiIf_ShiftClock_shiftTransmitDataOnLeadingEdge;
+		spiMasterChannelConfig.base.mode.shiftClock = SpiIf_ShiftClock_shiftTransmitDataOnTrailingEdge;
+		spiMasterChannelConfig.base.mode.clockPolarity = SpiIf_ClockPolarity_idleLow;
+		//spiMasterChannelConfig.base.mode.clockPolarity = SpiIf_ClockPolarity_idleLow;
+
+		/*		*/
+
+		const IfxQspi_SpiMaster_Output slsOutput = {&IfxQspi1_SLSO10_P11_8_OUT,
+				IfxPort_OutputMode_pushPull,
+				IfxPort_PadDriver_cmosAutomotiveSpeed1};
+
+
+		/*		const IfxQspi_SpiMaster_Output slsOutput = {&QSPI1_SD_SLSO0,
+							IfxPort_OutputMode_pushPull,
+							IfxPort_PadDriver_cmosAutomotiveSpeed1};*/
+
+
+
+
+
+		//				IfxPort_PadDriver_cmosAutomotiveSpeed3};
+
+		spiMasterChannelConfig.sls.output.pin    = slsOutput.pin;
+		spiMasterChannelConfig.sls.output.mode   = slsOutput.mode;
+		spiMasterChannelConfig.sls.output.driver = slsOutput.driver;
+
+		/* initialize channel */
+		IfxQspi_SpiMaster_initChannel(&g_Qspi.drivers1.spiMasterChannel,
+				&spiMasterChannelConfig);
+	}
+	printf("QSPI1 microSD initialized\n");
+
+}
+
+
+static void HLD_Qspi2Module_init(void)
+{
+	printf("QspiModule2_init() called\n");
 	IfxQspi_SpiMaster_Config        spiMasterConfig;
 	IfxQspi_SpiMaster_ChannelConfig spiMasterChannelConfig;
 	Ifx_QSPI                       *qspi2SFR;
@@ -121,11 +255,11 @@ static void HLD_QspiModule_init(void)
 		spiMasterConfig.base.erPriority    = ISR_PRIORITY_QSPI2_ER;
 		spiMasterConfig.base.isrProvider   = (IfxSrc_Tos)IfxCpu_getCoreIndex();
 #endif
-//		spiMasterConfig.txFifoMode		   = IfxQspi_FifoMode_singleMove;
-//		spiMasterConfig.rxFifoMode		   = IfxQspi_FifoMode_singleMove;
+		//		spiMasterConfig.txFifoMode		   = IfxQspi_FifoMode_singleMove;
+		//		spiMasterConfig.rxFifoMode		   = IfxQspi_FifoMode_singleMove;
 		spiMasterConfig.rxFifoThreshold = IfxQspi_RxFifoInt_1;
 		/* pin configuration */
-/*		const IfxQspi_SpiMaster_Pins pins = {&IfxQspi2_SCLK_P15_6_OUT,                                SCLK
+		/*		const IfxQspi_SpiMaster_Pins pins = {&IfxQspi2_SCLK_P15_6_OUT,                                SCLK
 				IfxPort_OutputMode_pushPull,
 				&IfxQspi2_MTSR_P15_5_OUT,  IfxPort_OutputMode_pushPull,  MTSR
 				&IfxQspi2_MRSTB_P15_7_IN,  IfxPort_InputMode_pullDown,   MRST
@@ -134,15 +268,15 @@ static void HLD_QspiModule_init(void)
 		const IfxQspi_SpiMaster_Pins pins = {&QSPI2_SCLK,                               /* SCLK */
 				IfxPort_OutputMode_pushPull,
 				&QSPI2_MTSR,  IfxPort_OutputMode_pushPull, /* MTSR */
-//				&QSPI2_MRST,  IfxPort_InputMode_pullDown,  /* MRST */
+				//				&QSPI2_MRST,  IfxPort_InputMode_pullDown,  /* MRST */
 				&QSPI2_MRST,  IfxPort_InputMode_pullUp,  /* MRST */
-//				&QSPI2_MRST,  IfxPort_InputMode_noPullDevice,  /* MRST */
+				//				&QSPI2_MRST,  IfxPort_InputMode_noPullDevice,  /* MRST */
 				IfxPort_PadDriver_cmosAutomotiveSpeed3                   /* pad driver mode */
 		};
 		spiMasterConfig.pins = &pins;
 
 		/* initialize module */
-		IfxQspi_SpiMaster_initModule(&g_Qspi.drivers.spiMaster, &spiMasterConfig);
+		IfxQspi_SpiMaster_initModule(&g_Qspi.drivers2.spiMaster, &spiMasterConfig);
 #ifdef DMA_
 		{
 			qspi2SFR = spiMasterConfig.qspi;
@@ -156,11 +290,11 @@ static void HLD_QspiModule_init(void)
 	{
 		/* create channel config */
 		IfxQspi_SpiMaster_initChannelConfig(&spiMasterChannelConfig,
-				&g_Qspi.drivers.spiMaster);
+				&g_Qspi.drivers2.spiMaster);
 
 		/* set the baudrate for this channel */
 		spiMasterChannelConfig.base.baudrate = 1000000;
-//		spiMasterChannelConfig.base.baudrate = 500000;
+		//		spiMasterChannelConfig.base.baudrate = 500000;
 		spiMasterChannelConfig.channelBasedCs  = IfxQspi_SpiMaster_ChannelBasedCs_disabled;
 		spiMasterChannelConfig.base.mode.shiftClock = SpiIf_ShiftClock_shiftTransmitDataOnLeadingEdge;
 		//spiMasterChannelConfig.base.mode.shiftClock = SpiIf_ShiftClock_shiftTransmitDataOnTrailingEdge;
@@ -170,14 +304,14 @@ static void HLD_QspiModule_init(void)
 		const IfxQspi_SpiMaster_Output slsOutput = {&QSPI2_SLSO0,
 				IfxPort_OutputMode_pushPull,
 				IfxPort_PadDriver_cmosAutomotiveSpeed1};
-//				IfxPort_PadDriver_cmosAutomotiveSpeed3};
+		//				IfxPort_PadDriver_cmosAutomotiveSpeed3};
 
 		spiMasterChannelConfig.sls.output.pin    = slsOutput.pin;
 		spiMasterChannelConfig.sls.output.mode   = slsOutput.mode;
 		spiMasterChannelConfig.sls.output.driver = slsOutput.driver;
 
 		/* initialize channel */
-		IfxQspi_SpiMaster_initChannel(&g_Qspi.drivers.spiMasterChannel,
+		IfxQspi_SpiMaster_initChannel(&g_Qspi.drivers2.spiMasterChannel,
 				&spiMasterChannelConfig);
 	}
 	printf("QspiModule initialized\n");
@@ -185,15 +319,13 @@ static void HLD_QspiModule_init(void)
 
 
 
-
-
 void HLD_Qspi_init(void)
 {
 	printf("Qspi_init() called\n");
 	/* disable interrupts */
-    boolean interruptState = IfxCpu_disableInterrupts();
+	boolean interruptState = IfxCpu_disableInterrupts();
 
-	HLD_QspiModule_init();
+	HLD_Qspi2Module_init();
 
 	printf("Qspi initialized\n");
 	/* enable interrupts again */
@@ -228,7 +360,7 @@ sint16 HLD_Qspi_getSint16(uint8 addressLow,uint8 addressHigh)
 	return (sint16)((uint16)(highbyte<<8)|lowbyte);
 }
 
-*/
+ */
 #if QSPI_DEFAULT == QSPI_DEFAULT_MPU9250
 
 void HLD_Qspi_writeReg(uint8 address, uint8 value)
