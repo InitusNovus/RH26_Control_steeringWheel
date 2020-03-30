@@ -54,10 +54,14 @@
 #define ISR_PRIORITY_STM_INT0       40 /**< \brief Define the System Timer Interrupt priority.  */
 //#define ISR_PRIORITY_STM_INT0       0 /**< \brief Define the System Timer Interrupt priority.  */
 
-#define ISR_PRIORITY_PRINTF_ASC0_TX 5  /**< \brief Define the ASC0 transmit interrupt priority used by printf.c */
-#define ISR_PRIORITY_PRINTF_ASC0_EX 6  /**< \brief Define the ASC0 error interrupt priority used by printf.c */
+#define ISR_PRIORITY_PRINTF_ASC0_TX 7  /**< \brief Define the ASC0 transmit interrupt priority used by printf.c */
+#define ISR_PRIORITY_PRINTF_ASC0_EX 8  /**< \brief Define the ASC0 error interrupt priority used by printf.c */
 //#define ISR_PRIORITY_PRINTF_ASC0_TX 45  /**< \brief Define the ASC0 transmit interrupt priority used by printf.c */
 //#define ISR_PRIORITY_PRINTF_ASC0_EX 46  /**< \brief Define the ASC0 error interrupt priority used by printf.c */
+
+#define ISR_PRIORITY_QSPI1_ER       11 /**< \brief Define the Qspi2 error interrupt priority.  */
+#define ISR_PRIORITY_QSPI1_TX       5  /**< \brief Define the Qspi2 transmit interrupt priority.  */
+#define ISR_PRIORITY_QSPI1_RX       6  /**< \brief Define the Qspi2 receive interrupt priority.  */
 
 //#define ISR_PRIORITY_QSPI2_TX       1  /**< \brief Define the Qspi2 transmit interrupt priority.  */
 //#define ISR_PRIORITY_QSPI2_RX       2  /**< \brief Define the Qspi2 receive interrupt priority.  */
