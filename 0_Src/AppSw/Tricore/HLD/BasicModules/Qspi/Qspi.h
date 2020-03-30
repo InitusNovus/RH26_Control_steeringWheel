@@ -33,7 +33,12 @@ typedef struct{
 	struct{
         IfxQspi_SpiMaster         spiMaster;        /**< \brief Spi Master handle */
         IfxQspi_SpiMaster_Channel spiMasterChannel;
-	}drivers;
+	}drivers1;
+
+	struct{
+        IfxQspi_SpiMaster         spiMaster;        /**< \brief Spi Master handle */
+        IfxQspi_SpiMaster_Channel spiMasterChannel;
+	}drivers2;
 	uint8 rx[2];
 }Qspi_t;
 /******************************************************************************/
