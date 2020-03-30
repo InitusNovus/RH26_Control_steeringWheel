@@ -113,6 +113,7 @@
 #define QSPI1_SD_MTSR				IfxQspi1_MTSR_P10_3_OUT
 #define QSPI1_SD_MRST				IfxQspi1_MRSTA_P10_1_IN
 #define QSPI1_SD_SLSO0				IfxQspi1_SLSO9_P10_5_OUT
+#define QSPI1_SD_SLSO10_DUMMY		IfxQspi1_SLSO10_P11_8_OUT
 
 /*Qspi2 macros*/
 #define QSPI2_SCLK					IfxQspi2_SCLK_P15_6_OUT
