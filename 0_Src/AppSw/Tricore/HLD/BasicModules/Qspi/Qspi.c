@@ -224,7 +224,8 @@ static void HLD_Qspi1Module_init(void)
 	}
 	printf("QSPI1 microSD initialized\n");
 
-	/*set slave pin as individual GPIO port for independent control*/
+	/*set slave pin as individual GPIO port
+	 *cuz microSD slave control is different from SPI slave control*/
 	IfxPort_setPinMode(QSPI1_SD_SLSO0.pin.port, QSPI1_SD_SLSO0.pin.pinIndex, IfxPort_OutputMode_pushPull);
 
 }
@@ -328,6 +329,7 @@ void HLD_Qspi_init(void)
 	/* disable interrupts */
 	boolean interruptState = IfxCpu_disableInterrupts();
 
+	HLD_Qspi1Module_init();
 	HLD_Qspi2Module_init();
 
 	printf("Qspi initialized\n");
