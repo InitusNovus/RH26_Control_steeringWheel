@@ -144,6 +144,8 @@
 
 #include "AbstractionLayer/microSD/microSD.h"
 
+#include "MicroSD_Demo.h"
+
 #if HLD_BOARD == HLD_BOARD_SB275
 #include "UserInterface.h"
 #elif HLD_BOARD == HLD_BOARD_AK237
