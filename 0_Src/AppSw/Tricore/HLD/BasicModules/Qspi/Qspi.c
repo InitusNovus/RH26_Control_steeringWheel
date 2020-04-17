@@ -129,7 +129,7 @@ static void HLD_Qspi1Module_init(void)
 		//
 
 		/* set the maximum baudrate */
-		spiMasterConfig.base.maximumBaudrate = 40000000;
+		spiMasterConfig.base.maximumBaudrate = 20000000;
 
 		/* ISR priorities and interrupt target */
 #ifdef DMA_
