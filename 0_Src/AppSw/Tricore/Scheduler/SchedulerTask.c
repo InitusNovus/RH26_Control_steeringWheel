@@ -80,6 +80,12 @@ void Task_init (void)
 
 		HLD_Lcd_init();
 		HLD_LcdInterface_init();
+		HLD_Qspi_init();
+	}
+	{
+		MicroSD_Demo_initSD();
+		MicroSD_Demo_run();
+		MicroSD_Demo_stop();
 	}
 
 	{
@@ -111,7 +117,7 @@ void Task_IsrCb_1ms (void)
 	stm_buf_1ms = IfxStm_get(&MODULE_STM0);
 
 //	HLD_GtmTim_run_1ms();
-	HLD_GtmTomBeeper_run_1ms();
+	//HLD_GtmTomBeeper_run_1ms();
 	if(isInit)
 	{
 
@@ -126,7 +132,6 @@ void Task_IsrCb_1ms (void)
 void Task_10ms (void)			//Slot 0
 {
 	stm_buf = IfxStm_get(&MODULE_STM0);
-
 	Task_counter_service_10ms();
 	ticToc_10ms_s0 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }
@@ -134,14 +139,18 @@ void Task_10ms_slot1 (void)
 {
 	stm_buf = IfxStm_get(&MODULE_STM0);
 
+
+
 	ticToc_10ms_s1 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }
 /**********************************************************************/
 /*********************************100ms********************************/
 /**********************************************************************/
+boolean flg;
 void Task_100ms (void)
 {
 	Task_counter_service_100ms();
+
 	if(Task.counter_100ms%2 == 0)
 	{
 //		LED_blinking();
