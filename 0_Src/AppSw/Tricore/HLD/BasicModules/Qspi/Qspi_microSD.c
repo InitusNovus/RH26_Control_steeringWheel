@@ -9,7 +9,7 @@
 /******************************************************************************/
 /*----------------------------------Includes----------------------------------*/
 /******************************************************************************/
-#include "Qspi_Mpu9250.h"
+#include "Qspi_microSD.h"
 #include "Bsp.h"
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
@@ -72,26 +72,26 @@ void HLD_microSD_slaveDeselect(void)
 void HLD_microSD_TxByte(uint8 data)
 {
 	//uint8 dummy;
-	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers2.spiMasterChannel) == SpiIf_Status_busy );
-	IfxQspi_SpiMaster_exchange(&g_Qspi.drivers2.spiMasterChannel, &data, NULL_PTR, 1);
-	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers2.spiMasterChannel) == SpiIf_Status_busy );
+	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers1.spiMasterChannel) == SpiIf_Status_busy );
+	IfxQspi_SpiMaster_exchange(&g_Qspi.drivers1.spiMasterChannel, &data, NULL_PTR, 1);
+	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers1.spiMasterChannel) == SpiIf_Status_busy );
 	//waitTime(TimeConst_10us*3);
 
 }
 
 void HLD_microSD_TxBuffer(uint8 *buffer, uint16 len)
 {
-	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers2.spiMasterChannel) == SpiIf_Status_busy );
-	IfxQspi_SpiMaster_exchange(&g_Qspi.drivers2.spiMasterChannel, buffer, NULL_PTR, len);
-	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers2.spiMasterChannel) == SpiIf_Status_busy );
+	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers1.spiMasterChannel) == SpiIf_Status_busy );
+	IfxQspi_SpiMaster_exchange(&g_Qspi.drivers1.spiMasterChannel, buffer, NULL_PTR, len);
+	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers1.spiMasterChannel) == SpiIf_Status_busy );
 }
 
 uint8 HLD_microSD_RxByte(void)
 {
 	uint8 data, dummy = 0xFF;
-	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers2.spiMasterChannel) == SpiIf_Status_busy );
-	IfxQspi_SpiMaster_exchange(&g_Qspi.drivers2.spiMasterChannel, &dummy, &data, 1);
-	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers2.spiMasterChannel) == SpiIf_Status_busy );
+	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers1.spiMasterChannel) == SpiIf_Status_busy );
+	IfxQspi_SpiMaster_exchange(&g_Qspi.drivers1.spiMasterChannel, &dummy, &data, 1);
+	while( IfxQspi_SpiMaster_getStatus(&g_Qspi.drivers1.spiMasterChannel) == SpiIf_Status_busy );
 	//waitTime(TimeConst_10us*3);
 	//rxbyte = data;
 	return data;
@@ -102,6 +102,6 @@ void HLD_microSD_RxBytePtr(uint8 *buff)
 	*buff = HLD_microSD_RxByte();
 }
 
-void HLD_microSD_setBaudRate_40MHz(){
-	IfxQspi_SpiMaster_setChannelBaudrate(&g_Qspi.drivers2.spiMasterChannel, 40000000);
+void HLD_microSD_setBaudRate_fastmode(){
+	IfxQspi_SpiMaster_setChannelBaudrate(&g_Qspi.drivers1.spiMasterChannel, 20000000);
 }

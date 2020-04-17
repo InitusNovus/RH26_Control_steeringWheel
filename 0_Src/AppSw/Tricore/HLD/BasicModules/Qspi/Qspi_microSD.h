@@ -54,7 +54,7 @@ IFX_EXTERN void HLD_microSD_TxByte(uint8 data);
 IFX_EXTERN void HLD_microSD_TxBuffer(uint8 *buffer, uint16 len);
 IFX_EXTERN uint8 HLD_microSD_RxByte(void);
 IFX_EXTERN void HLD_microSD_RxBytePtr(uint8 *buff);
-IFX_EXTERN void HLD_microSD_setBaudRate_40MHz();
+IFX_EXTERN void HLD_microSD_setBaudRate_fastmode();
 
 /******************************************************************************/
 /*---------------------Inline Function Implementations------------------------*/
