@@ -14,6 +14,9 @@
 #include "microSD.h"
 #include "HLD.h"
 #include "diskio.h"
+#include "SysSe/Bsp/Bsp.h"
+#include "IfxScuWdt.h"
+#include <stdio.h>
 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
@@ -106,8 +109,6 @@ static void HLD_microSD_PowerOn(void)
 		HLD_microSD_TxByte(0xFF);
 	}
 
-	//printf("10cyclefinished\n");
-
 	/* slave select */
 	HLD_microSD_slaveSelect();
 
@@ -131,16 +132,10 @@ static void HLD_microSD_PowerOn(void)
 
 	do{
 		rxbyte = HLD_microSD_RxByte();
-		if(rxbyte != 0xFF)
-		{
-			//printf("response = %d\n",rxbyte);
-		}
 		cnt--;
 	}while((rxbyte != 0x01) && cnt);
 
 	cnt11 = cnt;
-
-	//printf("PowerOn_RxByteFinished %d \n",rxbyte);
 
 	HLD_microSD_slaveDeselect();
 	HLD_microSD_TxByte(0XFF);
@@ -299,14 +294,14 @@ DSTATUS HLD_microSD_disk_initialize(BYTE drv)
 	/* send GO_IDLE_STATE command */
 	if (HLD_microSD_SendCmd(CMD0, 0) == 1)
 	{
-		printf("go idle finished \n");
+
 		/* timeout 1 sec */
 		HLD_microSD.timer1 = 1000;
 
 		/* SDC V2+ accept CMD8 command, http://elm-chan.org/docs/mmc/mmc_e.html */
 		if (HLD_microSD_SendCmd(CMD8, 0x1AA) == 1)
 		{
-			printf("sendcmd finished \n");
+
 			/* operation condition register */
 			for (n = 0; n < 4; n++)
 			{
@@ -316,7 +311,7 @@ DSTATUS HLD_microSD_disk_initialize(BYTE drv)
 			/* voltage range 2.7-3.6V */
 			if (ocr[2] == 0x01 && ocr[3] == 0xAA)
 			{
-				printf("ocrRangeFinished \n");
+
 				/* ACMD41 with HCS bit */
 				do {
 					if (HLD_microSD_SendCmd(CMD55, 0) <= 1 && HLD_microSD_SendCmd(CMD41, 1UL << 30) == 0) break;
@@ -325,7 +320,7 @@ DSTATUS HLD_microSD_disk_initialize(BYTE drv)
 				/* READ_OCR */
 				if (HLD_microSD.timer1 && HLD_microSD_SendCmd(CMD58, 0) == 0)
 				{
-					printf("readOCR finished \n");
+
 					/* Check CCS bit */
 					for (n = 0; n < 4; n++)
 					{
@@ -364,7 +359,7 @@ DSTATUS HLD_microSD_disk_initialize(BYTE drv)
 
 	g_microSD.cardType = type;
 
-	{
+/*	{
 		 //wait SD ready
 		if (HLD_microSD_ReadyWait() == 0xFF)
 		{
@@ -384,30 +379,30 @@ DSTATUS HLD_microSD_disk_initialize(BYTE drv)
 				cmd6test[i] = HLD_microSD_RxByte();
 			}
 		}
-	}
-/*	for(int i = 0; i<200; i++){
-		cmd6test[i] = HLD_microSD_RxByte();
 	}*/
+
 	HLD_microSD_slaveDeselect();
 
-	HLD_microSD_setBaudRate_40MHz();
+	//HLD_microSD_setBaudRate_fastmode();
 
 	/* Idle */
 	HLD_microSD_slaveDeselect();
 	HLD_microSD_RxByte();
 
 	/* Clear STA_NOINIT */
-	if (type)
+	if (g_microSD.cardType)
 	{
 		g_microSD.stat &= ~STA_NOINIT;
+
 	}
 	else
 	{
 		/* Initialization failed */
 		HLD_microSD_PowerOff();
+		printf("MicroSD initialization failed\n");
 	}
 
-	fprintf("g_microSD.stat = %d",g_microSD.stat);
+	//fprintf("g_microSD.stat = %d",g_microSD.stat);
 
 	return g_microSD.stat;
 }
