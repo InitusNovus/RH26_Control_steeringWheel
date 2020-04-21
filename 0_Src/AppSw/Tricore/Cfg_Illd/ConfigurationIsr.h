@@ -59,6 +59,11 @@
 //#define ISR_PRIORITY_PRINTF_ASC0_TX 45  /**< \brief Define the ASC0 transmit interrupt priority used by printf.c */
 //#define ISR_PRIORITY_PRINTF_ASC0_EX 46  /**< \brief Define the ASC0 error interrupt priority used by printf.c */
 
+#define ISR_PRIORITY_ASC0_ASC_TX	12
+#define ISR_PRIORITY_ASC0_ASC_RX	13
+#define ISR_PRIORITY_ASC0_ASC_ER	14
+#define ISR_PROVIDER_ASC_0    IfxSrc_Tos_cpu0
+
 //#define ISR_PRIORITY_QSPI2_TX       1  /**< \brief Define the Qspi2 transmit interrupt priority.  */
 //#define ISR_PRIORITY_QSPI2_RX       2  /**< \brief Define the Qspi2 receive interrupt priority.  */
 #define ISR_PRIORITY_QSPI2_ER       10 /**< \brief Define the Qspi2 error interrupt priority.  */
