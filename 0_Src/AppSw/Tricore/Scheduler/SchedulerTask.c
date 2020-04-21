@@ -81,12 +81,16 @@ void Task_init (void)
 		HLD_Lcd_init();
 		HLD_LcdInterface_init();
 	}
+	{
+		HLD_AsclinAsc_moduleInit();
+		AsclinAsc_wifi_sendConfigATCmd();
+	}
 
 	{
 		HLD_Vadc_forceStart();
 	}
 
-	HLD_GtmTomBeeper_start(Beep_pattern4);
+	//HLD_GtmTomBeeper_start(Beep_pattern4);
 	isInit = TRUE;
 	// HLD_GtmTomBeeper_start(GrandfathersElevenMonth);
 //	HLD_GtmTomBeeper_start(KartRider);
@@ -111,7 +115,7 @@ void Task_IsrCb_1ms (void)
 	stm_buf_1ms = IfxStm_get(&MODULE_STM0);
 
 //	HLD_GtmTim_run_1ms();
-	HLD_GtmTomBeeper_run_1ms();
+	//HLD_GtmTomBeeper_run_1ms();
 	if(isInit)
 	{
 
