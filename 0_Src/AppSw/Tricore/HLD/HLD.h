@@ -135,6 +135,9 @@
 #include "Qspi.h"
 #include "Qspi_Mpu9250.h"
 
+#include "AsclinAsc.h"
+#include "AsclinAsc_wifi.h"
+
 #include "Multican.h"
 
 #include "Vadc.h"

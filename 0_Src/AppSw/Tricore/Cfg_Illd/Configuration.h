@@ -122,6 +122,11 @@
 #define QSPI2_SLSO0					IfxQspi2_SLSO4_P14_7_OUT
 
 
+/*Asclin0 macros */
+#define ASC0_RX						IfxAsclin0_RXC_P00_1_IN
+#define ASC0_TX						IfxAsclin0_TX_P00_0_OUT
+
+
 /*UserInterface macros*/
 //#define START_BTN					IfxPort_P00_1
 #define UI_BTN1						IfxPort_P00_9
