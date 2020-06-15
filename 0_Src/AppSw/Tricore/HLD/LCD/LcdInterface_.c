@@ -39,40 +39,50 @@ typedef enum
 	PageLayout3,
 	PageLayout4,
 } LcdInterface_PageLayout_t;
-typedef struct _LcdInterface_Page_t
+typedef union _LcdInterface_PageValue_t
 {
-	LcdInterface_PageLayout_t LcdInterface_PageLayout;
-	union {
 		struct
 		{
-			float32 inc0;
-			float32 inc1;
-			float32 inc2;
-			float32 inc3;
-			float32 inc4;
-			float32 inc5;
-			float32 inc6;
-			float32 inc7;
+			float32 val0;
+			float32 val1;
+			float32 val2;
+			float32 val3;
+			float32 val4;
+			float32 val5;
+			float32 val6;
+			float32 val7;
 		} S;
 		float32 A[8];
-	} Increment;
+}LcdInterface_PageValue_t;
 
-	struct
-	{
-		boolean Button0set : 1;
-		boolean Button1set : 1;
-		boolean Button2set : 1;
-		boolean Button3set : 1;
-		boolean Button4set : 1;
-		boolean Button5set : 1;
-		boolean Button6set : 1;
-	};
-
+typedef struct _LcdInterface_PageButtonSet_t
+{
+	boolean Button0set : 1;
+	boolean Button1set : 1;
+	boolean Button2set : 1;
+	boolean Button3set : 1;
+	boolean Button4set : 1;
+	boolean Button5set : 1;
+	boolean Button6set : 1;
+}LcdInterface_PageButtonSet_t;
+typedef struct _LcdInterface_PageIndicator_t
+{
 	boolean Indicator0 : 1;
+	char Indicator0Name[NAME_LENGTH];
 	boolean Indicator1 : 1;
+	char Indicator1Name[NAME_LENGTH];
 	boolean Indicator2 : 1;
+	char Indicator2Name[NAME_LENGTH];
 	boolean Indicator3 : 1;
+	char Indicator3Name[NAME_LENGTH];
 	boolean Indicator4 : 1;
+	char Indicator4Name[NAME_LENGTH];	
+}LcdInterface_PageIndicator_t;
+typedef struct _LcdInterface_Page_t
+{
+	LcdInterface_PageValue_t *LcdInterface_PageValue;
+	LcdInterface_PageButtonSet_t *LcdInterface_PageButtonSet;
+	LcdInterface_PageIndicator_t *Indicator;
 	struct _LcdInterface_Page_t *next;
 	struct _LcdInterface_Page_t *prev;
 } LcdInterface_Page_t;
