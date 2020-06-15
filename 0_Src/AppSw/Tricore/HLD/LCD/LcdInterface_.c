@@ -39,21 +39,28 @@ typedef enum
 	PageLayout3,
 	PageLayout4,
 } LcdInterface_PageLayout_t;
-typedef union _LcdInterface_PageValue_t
+
+typedef struct _LcdInterface_PageValue_t
 {
-		struct
-		{
-			float32 val0;
-			float32 val1;
-			float32 val2;
-			float32 val3;
-			float32 val4;
-			float32 val5;
-			float32 val6;
-			float32 val7;
-		} S;
-		float32 A[8];
+	float32 value;
+	uint8 digit;
 }LcdInterface_PageValue_t;
+
+typedef union _LcdInterface_PageValueSet_t
+{
+	struct
+	{
+		LcdInterface_PageValue_t value0;
+		LcdInterface_PageValue_t value1;
+		LcdInterface_PageValue_t value2;
+		LcdInterface_PageValue_t value3;
+		LcdInterface_PageValue_t value4;
+		LcdInterface_PageValue_t value5;
+		LcdInterface_PageValue_t value6;
+		LcdInterface_PageValue_t value7;
+	}S;
+	LcdInterface_PageValue_t A[8];
+}LcdInterface_PageValueSet_t;
 
 typedef struct _LcdInterface_PageButtonSet_t
 {
@@ -80,6 +87,7 @@ typedef struct _LcdInterface_PageIndicator_t
 }LcdInterface_PageIndicator_t;
 typedef struct _LcdInterface_Page_t
 {
+	LcdInterface_PageLayout_t LcdInterface_PageLayout;
 	LcdInterface_PageValue_t *LcdInterface_PageValue;
 	LcdInterface_PageButtonSet_t *LcdInterface_PageButtonSet;
 	LcdInterface_PageIndicator_t *Indicator;
