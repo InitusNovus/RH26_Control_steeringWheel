@@ -81,16 +81,19 @@ void Task_init (void)
 		HLD_Lcd_init();
 		HLD_LcdInterface_init();
 	}
-
 	{
-		HLD_Vadc_forceStart();
+		// HLD_AsclinAsc_moduleInit();
+		// AsclinAsc_wifi_sendConfigATCmd();
+	}
+	{
+		// HLD_Vadc_forceStart();
 	}
 
 	HLD_GtmTomBeeper_start(Beep_pattern4);
 	isInit = TRUE;
 	// HLD_GtmTomBeeper_start(GrandfathersElevenMonth);
-//	HLD_GtmTomBeeper_start(KartRider);
-//	HLD_GtmTomBeeper_start(test_M);
+	// HLD_GtmTomBeeper_start(KartRider);
+	// HLD_GtmTomBeeper_start(test_M);
 	// HLD_GtmTomBeeper_start(Grandfathers_clock);
 	// HLD_GtmTomBeeper_start(My_heart_will_go_on);
 }
@@ -104,19 +107,16 @@ void Task_1ms (void)
 {
 	stm_buf = IfxStm_get(&MODULE_STM0);
 
-	ticToc_1ms_flag = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
+	ticToc_1ms_flag = (IfxStm_get(&MODULE_STM0) - stm_buf) * 1000000 / (IfxStm_getFrequency(&MODULE_STM0));
 }
 void Task_IsrCb_1ms (void)
 {
 	stm_buf_1ms = IfxStm_get(&MODULE_STM0);
 
-//	HLD_GtmTim_run_1ms();
-	HLD_GtmTomBeeper_run_1ms();
 	if(isInit)
 	{
-
+		HLD_GtmTomBeeper_run_1ms();
 	}
-
 
 	ticToc_1ms = (IfxStm_get(&MODULE_STM0) - stm_buf_1ms)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }
@@ -187,7 +187,6 @@ void Task_100ms_slot5(void)
 void Task_1000ms (void)
 {
 	Task_counter_service_1000ms();
-//	HLD_GtmTomBeeper_start(Beep_pattern4);
 }
 void Task_1000ms_slot3 (void)
 {
