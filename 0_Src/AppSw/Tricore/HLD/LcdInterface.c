@@ -18,6 +18,8 @@
 
 #include "FloatSeparation.h"
 
+#include "SteeringWheel_main.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 /******************************************************************************/
@@ -132,6 +134,8 @@ sint32 kph;
 uint8 a;
 uint8 b;
 uint8 c;
+
+extern uint8 testS;
 /******************************************************************************/
 /*-------------------------Function Prototypes--------------------------------*/
 /******************************************************************************/
@@ -183,40 +187,14 @@ IFX_STATIC void LcdInterface_displayIndicator(void);
  */
 void HLD_LcdInterface_init(void)
 {
-		HLD_LcdInterface_setButton(0);
-		HLD_LcdInterface_setButton(1);
-		HLD_LcdInterface_setButton(2);
-		HLD_LcdInterface_setButton(3);
-		HLD_LcdInterface_setButton(4);
-		HLD_LcdInterface_setButton(5);
-		HLD_LcdInterface_setButton(6);
-	// HLD_LcdInterface_drawButton();
+
 	HLD_LcdInterface_setPage();
 }
 void HLD_LcdInterface_setPage(void)
 {
 	GLCD_setBackColor(COLOR_DARKGREY);
 	GLCD_setTextColor(COLOR_WHITE);
-/*
-	{
-		GLCD_bitmap(0,LCD_LINE0-23,UD_buttons_WIDTH, UD_buttons_HEIGHT,UD_buttons_image);
-	}
-	{
-		GLCD_bitmap(0,LCD_LINE1-23,UD_buttons_WIDTH, UD_buttons_HEIGHT,UD_buttons_image);
-	}
-	{
-		GLCD_bitmap(0,LCD_LINE2-23,UD_buttons_WIDTH, UD_buttons_HEIGHT,UD_buttons_image);
-	}
-	{
-		GLCD_bitmap(0,LCD_LINE3-23,UD_buttons_WIDTH, UD_buttons_HEIGHT,UD_buttons_image);
-	}
-	{
-		GLCD_bitmap(0,LCD_LINE4-23,UD_buttons_WIDTH, UD_buttons_HEIGHT,UD_buttons_image);
-	}
-	{
-		GLCD_bitmap(0,LCD_LINE5-23,UD_buttons_WIDTH, UD_buttons_HEIGHT,UD_buttons_image);
-	}
-*/
+
 	GLCD_setBackColor(COLOR_WHITE);
 	GLCD_setTextColor(COLOR_BLACK);
 }
@@ -242,67 +220,61 @@ void HLD_LcdInterface_setPage3 (void)
 
 }
 */
+//TODO: Color setting
+#define HV_VOLT_LOW
+#define HV_CELL_LOW
+#define PAGE1_MID_X 110
 void HLD_LcdInterface_page1 (void)
 {
-/* 
-	{
-		HLD_LcdInterface_doButton(0, "");
-	}
-	{
-		HLD_LcdInterface_doButton(1, "");
-	}
-	{
-		HLD_LcdInterface_doButton(2, "");
-	}
-	{
-		HLD_LcdInterface_doButton(3, "");
-	}
-	{
-		HLD_LcdInterface_doButton(4, "");
-	}
-	{
-		HLD_LcdInterface_doButton(5, "");
-	}
-
- */	
 	GLCD_setTextColor(COLOR_BLACK);
-	float32 Velocity = 34.13;	//FIXME
-	sint32 intPart;
-	uint32 fracPart;
-	// Separate_int_frac(&intPart, &fracPart, VoltageSensor0.value, 2);
-	// Lcd_sprintf_col_inv_revised(LINE1, 0, "V %4d.%02u",intPart, fracPart);
-	// Separate_int_frac(&intPart, &fracPart, temperatureHighest, 1);
-	// Lcd_sprintf_col_inv_revised(LINE1, 160, "T %4d.%01u",intPart, fracPart);
-	// Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[0].value, 2);
-	// Lcd_sprintf_col_inv_revised(LINE2, 0, "C0 %3d.%02u",intPart, fracPart);
-	// Separate_int_frac(&intPart, &fracPart, CurrentSensing.CurrentSensor[1].value, 2);
-	// Lcd_sprintf_col_inv_revised(LINE2, 160, "C1 %3d.%02u",intPart, fracPart);
-	// Lcd_sprintf_col_inv_revised(LINE3, 0, "C1 %3d.%02u",intPart, fracPart);
-	// Lcd_sprintf_col_inv_revised(LINE4, 0, "T %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, Velocity, 2);
-	Lcd_sprintf_col_inv_revised_font2(LINE9, 90, "%2d", intPart);
-	Lcd_sprintf_col_inv_revised(LINE7, 90 + CHAR_WIDTH2 * 2, "kph");
+	// GLCD_setBackColor(COLOR_BLACK);
+	// float32 Velocity = 34.13;
+	// float32 Velocity = (float32)testS;
 
-	LcdInterface_displayIndicator();
+	// Lcd_sprintf_col_inv_revised_font2(LINE9, 90-CHAR_WIDTH2, "%03d", intPart);
 	
+	uint8 Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
+	uint16 HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
+	uint16 HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;
+	uint8 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
 
-	
-	// Lcd_sprintf_col(LINE6, 0, "TEST %4d.%02u",-128, 2);
-//	Lcd_sprintf_col(LCD_LINE1, 0, "CUR %5d A", conMsg1.motCurrent);
+	Lcd_sprintf_col_inv_revised(20, 192, "HV %3d.%d", HV_Voltage/10, HV_Voltage%10);
+	Lcd_sprintf_col_inv_revised(50, 192, "CL %d.%03d", HV_LowCellVoltage/10000, (HV_LowCellVoltage%10000)/10);
 
+	// LcdInterface_displayIndicator();
+	Lcd_sprintf_col_inv_revised_font2(10, 0, "%03d", Velocity);
+	Lcd_sprintf_col_inv_revised(
+	    192, 192, "R2D %d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
 }
 void HLD_LcdInterface_page1_1 (void)
 {
-//	Lcd_sprintf_col(LCD_LINE2, 0, "BAT %5d", conMsg1.batVoltage/10);
-//	Lcd_sprintf_col(LCD_LINE2, 9*LCD_CHAR_W, ".%01d V", conMsg1.batVoltage%10);
-//
-//	Lcd_sprintf_col(LCD_LINE3, 0, "TPS");
-//	Lcd_sprintf_col(LCD_LINE3, 6*LCD_CHAR_W,"%3d", conMsg2.tps);
-//
-//	Lcd_sprintf_col(LCD_LINE4, 0, "TMP");
-//	Lcd_sprintf_col(LCD_LINE4, 6*LCD_CHAR_W, "%3d %3d", conMsg2.conTemp, conMsg2.motTemp);
-// 	Lcd_sprintf_col(LCD_LINE0, 3*LCD_CHAR_W, "Duty:%3d%%", (uint32)PwmGenerator_getPercentDuty());
-//	Lcd_sprintf_col(LCD_LINE2, 3*LCD_CHAR_W, "Freq:%3dkHz", (uint32)(PwmGenerator_getFrequency()/1000));
+	uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage;
+	uint8 Inverter1Temp = SteeringWheel_main.canMsg3.S.inverter1Temp;
+	uint8 Inverter2Temp = SteeringWheel_main.canMsg3.S.inverter2Temp;
+	uint8 InverterTemp = (Inverter1Temp > Inverter2Temp) ? Inverter1Temp : Inverter2Temp;
+	uint8 Motor1Temp = SteeringWheel_main.canMsg3.S.motor1Temp;
+	uint8 Motor2Temp = SteeringWheel_main.canMsg3.S.motor2Temp;
+	uint8 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
+	uint8 CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;
+	uint8 soc = SteeringWheel_main.canMsg1.S.soc;
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16, "T");
+	GLCD_setTextColor(COLOR_DARKGREY);
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2)*CHAR_WIDTH, "I");
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+1*6)*CHAR_WIDTH, "M");
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+2*6)*CHAR_WIDTH, "C");
+	GLCD_setTextColor(COLOR_BLACK);
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+2)*CHAR_WIDTH, "%2d", InverterTemp);
+	GLCD_setTextColor(COLOR_BLACK);
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+1*6+2)*CHAR_WIDTH, "%2d", MotorTemp);
+	GLCD_setTextColor(COLOR_BLACK);
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+2*6+2)*CHAR_WIDTH, "%2d", CellTempHi);
+	GLCD_setTextColor(COLOR_BLACK);
+	Lcd_sprintf_col_inv_revised_font2(152, 0, "%02d", soc < 100 ? soc : 99);
+	GLCD_setTextColor(COLOR_BLACK);
+	Lcd_sprintf_col_inv_revised(162, 192, "LV %2d.%02d", LV_Voltage / 100, LV_Voltage % 100);
+	GLCD_setTextColor(COLOR_BLACK);
+	// Lcd_sprintf_col_inv_revised(100, 5, "T I %2d  M %2d  C %2d", InverterTemp, MotorTemp, CellTempHi);
+	// Lcd_sprintf_col_inv_revised(100, 5, "T I %2d  M %2d  C %2d", InverterTemp, MotorTemp, CellTempHi);
 }
 
 /*
@@ -316,31 +288,6 @@ void HLD_LcdInterface_page1_1 (void)
  */
 void HLD_LcdInterface_page2 (void)
 {
-/*
-	Lcd_sprintf_col(LCD_LINE0,0, "%8x", HLD_Multican_msg0.data[0]);
-	Lcd_sprintf_col(LCD_LINE1,0, "%8x", HLD_Multican_msg0.data[1]);
-*/
-//	Lcd_sprintf_col(LCD_LINE1, 0, "SW  %5xh", conMsg2.conStat.U);
-//	Lcd_sprintf_col(LCD_LINE2, 0, "CON %5xh", conMsg2.swStat.U);
-	sint32 intPart;
-	uint32 fracPart;
-/* 	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[0], 1);
-	Lcd_sprintf_col_inv_revised(LINE1, 0, "Tmp0 %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[1], 1);
-	Lcd_sprintf_col_inv_revised(LINE2, 0, "Tmp1 %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[2], 1);
-	Lcd_sprintf_col_inv_revised(LINE3, 0, "Tmp2 %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[3], 1);
-	Lcd_sprintf_col_inv_revised(LINE4, 0, "Tmp3 %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[4], 1);
-	Lcd_sprintf_col_inv_revised(LINE5, 0, "Tmp4 %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[5], 1);
-	Lcd_sprintf_col_inv_revised(LINE6, 0, "Tmp5 %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[6], 1);
-	Lcd_sprintf_col_inv_revised(LINE7, 0, "Tmp6 %4d.%01u",intPart, fracPart);
-	Separate_int_frac(&intPart, &fracPart, TemperatureSensing.temperature[7], 1);
-	Lcd_sprintf_col_inv_revised(LINE8, 0, "Tmp7 %4d.%01u",intPart, fracPart);
- */
 
 }
 void HLD_LcdInterface_page2_1 (void)
@@ -428,71 +375,11 @@ IFX_STATIC void HLD_LcdInterface_doButton5Down(void)
 /*Button6*/
 IFX_STATIC void HLD_LcdInterface_doButton6Up(void)
 {
-	/*
-	if(Increment.inc3 < 100+1e-3 && Increment.inc3 > 100-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 500;
-	}
-	else if(Increment.inc3 < 500+1e-3 && Increment.inc3 > 500-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 1000;
-	}
-	else if(Increment.inc3 < 1000+1e-3 && Increment.inc3 > 1000-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 5000;
-	}
-	else if(Increment.inc3 < 5000+1e-3 && Increment.inc3 > 5000-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 10000;
-	}
-	else if(Increment.inc3 < 10000+1e-3 && Increment.inc3 > 10000-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern3);
-	}
-	else
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern3);
-		Increment.inc3 = 1000;
-	}
-	 */
+
 }
 IFX_STATIC void HLD_LcdInterface_doButton6Down(void)
 {
-	/*
-	if(Increment.inc3 < 10000+1e-3 && Increment.inc3 > 10000-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 5000;
-	}
-	else if(Increment.inc3 < 5000+1e-3 && Increment.inc3 > 5000-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 1000;
-	}
-	else if(Increment.inc3 < 1000+1e-3 && Increment.inc3 > 1000-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 500;
-	}
-	else if(Increment.inc3 < 500+1e-3 && Increment.inc3 > 500-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern1);
-		Increment.inc3 = 100;
-	}
-	else if(Increment.inc3 < 100+1e-3 && Increment.inc3 > 100-1e-3)
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern3);
-	}
-	else
-	{
-		HLD_GtmTomBeeper_start(Beep_pattern3);
-		Increment.inc3 = 1000;
-	}
-	 */
+
 }
 
 /******************************************************************************/
@@ -624,7 +511,7 @@ IFX_STATIC void LcdInterface_displayIndicator(void)
 	{
 		GLCD_setTextColor(COLOR_RED);
 	}
-	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 0);
+	Lcd_sprintf_col_inv_revised_font2_full(LINE3, 0);
 	if(Indicator.Indicator1)
 	{
 		GLCD_setTextColor(COLOR_GREEN);
@@ -633,7 +520,7 @@ IFX_STATIC void LcdInterface_displayIndicator(void)
 	{
 		GLCD_setTextColor(COLOR_RED);
 	}
-	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 64);
+	Lcd_sprintf_col_inv_revised_font2_full(LINE3, 64);
 	if(Indicator.Indicator2)
 	{
 		GLCD_setTextColor(COLOR_GREEN);
@@ -642,7 +529,7 @@ IFX_STATIC void LcdInterface_displayIndicator(void)
 	{
 		GLCD_setTextColor(COLOR_RED);
 	}
-	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 128);
+	Lcd_sprintf_col_inv_revised_font2_full(LINE3, 128);
 	if(Indicator.Indicator3)
 	{
 		GLCD_setTextColor(COLOR_GREEN);
@@ -651,7 +538,7 @@ IFX_STATIC void LcdInterface_displayIndicator(void)
 	{
 		GLCD_setTextColor(COLOR_RED);
 	}
-	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 192);
+	Lcd_sprintf_col_inv_revised_font2_full(LINE3, 192);
 	if(Indicator.Indicator4)
 	{
 		GLCD_setTextColor(COLOR_GREEN);
@@ -660,5 +547,6 @@ IFX_STATIC void LcdInterface_displayIndicator(void)
 	{
 		GLCD_setTextColor(COLOR_RED);
 	}
-	Lcd_sprintf_col_inv_revised_font2_full(LINE5, 256);
+	Lcd_sprintf_col_inv_revised_font2_full(LINE3, 256);
+	GLCD_setTextColor(COLOR_BLACK);
 }

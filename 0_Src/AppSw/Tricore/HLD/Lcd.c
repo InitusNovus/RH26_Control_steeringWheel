@@ -152,14 +152,14 @@ void HLD_Lcd_init(void)
 	GLCD_setTextColor(COLOR_BLACK);
 
 
-	GLCD_setTextColor(COL_RGB565(  0x1d,   0x24,   0x75));
+	// GLCD_setTextColor(COL_RGB565(  0x1d,   0x24,   0x75));
 
 
 //	GLCD_bitmap(0,240-Background_HEIGHT,Background_WIDTH,Background_HEIGHT,Background_image);
-	GLCD_bitmap(0,0,LR_buttons_WIDTH, LR_buttons_HEIGHT,LR_buttons_image);
+	// GLCD_bitmap(0,0,LR_buttons_WIDTH, LR_buttons_HEIGHT,LR_buttons_image);
 
-	GLCD_setTextColor(COLOR_LIGHTGREY);
-	Lcd_sprintf_col(LINE9, 320-6*16, "V%d.%d.%d",HLD_VERSION_MAJOR,HLD_VERSION_MINOR,HLD_VERSION_PATCH);
+	// GLCD_setTextColor(COLOR_LIGHTGREY);
+	// Lcd_sprintf_col_inv(LINE9, 320-6*16, "V%d.%d.%d",HLD_VERSION_MAJOR,HLD_VERSION_MINOR,HLD_VERSION_PATCH);
 /*
 	GLCD_setBackColor(COL_RGB565(  29,   36,   117));
 	GLCD_setTextColor(COL_RGB565(  93,   93,   96));
@@ -202,7 +202,7 @@ void HLD_Lcd_run(void)
 	if(g_Lcd.isRun)
 	{
 		/*Array Button*/
-		if(g_Lcd.arrayEnabled)
+/* 		if(g_Lcd.arrayEnabled)
 		{
 			if(HLD_Lcd_getButton(&arrayButton))
 			{
@@ -221,11 +221,11 @@ void HLD_Lcd_run(void)
 		else
 		{
 			g_Lcd.array = FALSE;
-		}
+		} */
 		/********************************************************************/
 		/***********************Variable Display mode************************/
 		/********************************************************************/
-		if(g_Lcd.array == FALSE)
+		// if(g_Lcd.array == FALSE)
 		{
 			/***********************Button Routines**********************/
 			/*Page U/D buttons*/
@@ -276,127 +276,7 @@ void HLD_Lcd_run(void)
 			}break;
 			}
 		}
-/*
 
-		******************************************************************
-		************************Array Display mode************************
-		******************************************************************
-		else
-		{
-			**********************Button Routines*********************
-			Page U/D buttons
-			if(HLD_Lcd_getButton(&pageUpButton))
-			{
-				if(g_Lcd.arrayPage < g_Lcd.arrayLastPage)
-				{
-					g_Lcd.arrayPage++;
-					HLD_Lcd_clearInterface();
-					HLD_GtmTomBeeper_start(Beep_pattern1);
-				}
-				else
-				{
-					HLD_GtmTomBeeper_start(Beep_pattern3);
-				}
-			}
-			else if(HLD_Lcd_getButton(&pageDownButton))
-			{
-				if(g_Lcd.arrayPage > 1)
-				{
-					g_Lcd.arrayPage--;
-					HLD_Lcd_clearInterface();
-					HLD_GtmTomBeeper_start(Beep_pattern1);
-				}
-				else
-				{
-					HLD_GtmTomBeeper_start(Beep_pattern3);
-				}
-			}
-
-			**********************Drawing graph window*********************
-			switch(g_Lcd.arrayPage)
-			{
-			case 1: arrayChart[g_Lcd.arrayPage-1].yScale = g_LineScan.close.threshold; break;
-			case 2: arrayChart[g_Lcd.arrayPage-1].yScale = g_LineScan.close.threshold; break;
-			case 3: arrayChart[g_Lcd.arrayPage-1].yScale = g_LineScan.far.threshold; break;
-			}
-
-			GLCD_setTextColor(COLOR_DARKGREY);
-			HLD_Lcd_drawLineV(arrayChart[g_Lcd.arrayPage-1].xStart-1
-					,arrayChart[g_Lcd.arrayPage-1].yStart
-					,arrayChart[g_Lcd.arrayPage-1].yAxis+1);
-			HLD_Lcd_drawLineV(arrayChart[g_Lcd.arrayPage-1].xStart+arrayChart[g_Lcd.arrayPage-1].xAxis
-					,arrayChart[g_Lcd.arrayPage-1].yStart
-					,arrayChart[g_Lcd.arrayPage-1].yAxis+1);
-			HLD_Lcd_drawLineH(arrayChart[g_Lcd.arrayPage-1].xStart
-					,arrayChart[g_Lcd.arrayPage-1].yStart+arrayChart[g_Lcd.arrayPage-1].yAxis
-					,arrayChart[g_Lcd.arrayPage-1].xAxis);
-			HLD_Lcd_drawLineH(arrayChart[g_Lcd.arrayPage-1].xStart
-					,arrayChart[g_Lcd.arrayPage-1].yStart-1
-					,arrayChart[g_Lcd.arrayPage-1].xAxis);
-			HLD_Lcd_clearChart(&(arrayChart[g_Lcd.arrayPage-1]), COLOR_WHITE);
-
-			uint16 i = 0;
-			uint16 val = 0;
-			uint16 preVal = 0;
-			GLCD_setTextColor(COLOR_RED);
-			initial pixel
-			{
-				val = (LineScan_filtered[g_Lcd.arrayPage-1][i])
-							*arrayChart[g_Lcd.arrayPage-1].yAxis/arrayChart[g_Lcd.arrayPage-1].yScale;
-				GLCD_putPixel(arrayChart[g_Lcd.arrayPage-1].yStart + val
-						,arrayChart[g_Lcd.arrayPage-1].xStart+2*i);
-				i++;
-			}
-			for(;i < arrayChart[g_Lcd.arrayPage-1].xAxis/2; i++)
-			{
-				val = (LineScan_filtered[g_Lcd.arrayPage-1][i])
-							*arrayChart[g_Lcd.arrayPage-1].yAxis/arrayChart[g_Lcd.arrayPage-1].yScale;
-				preVal = (LineScan_filtered[g_Lcd.arrayPage-1][i-1])
-							*arrayChart[g_Lcd.arrayPage-1].yAxis/arrayChart[g_Lcd.arrayPage-1].yScale;
-				if((preVal < arrayChart[g_Lcd.arrayPage-1].yAxis)&&(val < arrayChart[g_Lcd.arrayPage-1].yAxis))
-				{
-					if(preVal < val)
-					{
-						HLD_Lcd_drawLineV(arrayChart[g_Lcd.arrayPage-1].xStart+ 2*i - 1
-								,arrayChart[g_Lcd.arrayPage-1].yStart + preVal
-								,val - preVal + 1);
-						GLCD_putPixel(arrayChart[g_Lcd.arrayPage-1].yStart + val
-								,arrayChart[g_Lcd.arrayPage-1].xStart+2*i);
-					}
-					else
-					{
-						HLD_Lcd_drawLineV(arrayChart[g_Lcd.arrayPage-1].xStart+ 2*i - 1
-								,arrayChart[g_Lcd.arrayPage-1].yStart + val
-								,preVal - val + 1);
-						GLCD_putPixel(arrayChart[g_Lcd.arrayPage-1].yStart + val
-								,arrayChart[g_Lcd.arrayPage-1].xStart+2*i);
-					}
-				}
-				else if((preVal < arrayChart[g_Lcd.arrayPage-1].yAxis)&&(val >= arrayChart[g_Lcd.arrayPage-1].yAxis))
-				{
-					HLD_Lcd_drawLineV(arrayChart[g_Lcd.arrayPage-1].xStart+ 2*i - 1
-							,arrayChart[g_Lcd.arrayPage-1].yStart + preVal
-							,arrayChart[g_Lcd.arrayPage-1].yAxis - preVal + 1);
-					GLCD_putPixel(arrayChart[g_Lcd.arrayPage-1].yStart + arrayChart[g_Lcd.arrayPage-1].yAxis
-							,arrayChart[g_Lcd.arrayPage-1].xStart+2*i);
-				}
-				else if((preVal >= arrayChart[g_Lcd.arrayPage-1].yAxis)&&(val < arrayChart[g_Lcd.arrayPage-1].yAxis))
-				{
-					HLD_Lcd_drawLineV(arrayChart[g_Lcd.arrayPage-1].xStart+ 2*i - 1
-							,arrayChart[g_Lcd.arrayPage-1].yStart + val
-							,arrayChart[g_Lcd.arrayPage-1].yAxis - val + 1);
-					GLCD_putPixel(arrayChart[g_Lcd.arrayPage-1].yStart + val
-							,arrayChart[g_Lcd.arrayPage-1].xStart+2*i);
-				}
-				else
-				{
-
-				}
-			}
-			GLCD_setTextColor(COLOR_BLACK);
-
-		}
-*/
 	}
 }
 void HLD_Lcd_run1(void)

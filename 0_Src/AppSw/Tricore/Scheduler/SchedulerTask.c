@@ -14,6 +14,9 @@
 #include "HLD.h"
 #include "User.h"
 
+#include "CanCommunication.h"
+#include "SteeringWheel_main.h"
+
 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
@@ -56,6 +59,8 @@ note_t test_M[]=
 
 
 boolean isInit = FALSE;
+
+uint8 testS = 0;
 /******************************************************************************/
 /*-------------------------Function Prototypes--------------------------------*/
 /******************************************************************************/
@@ -76,7 +81,7 @@ void Task_init (void)
 	{
 		HLD_GtmTom_init();
 
-		HLD_Vadc_init();
+		// HLD_Vadc_init();
 
 		HLD_Lcd_init();
 		HLD_LcdInterface_init();
@@ -84,6 +89,9 @@ void Task_init (void)
 	{
 		// HLD_AsclinAsc_moduleInit();
 		// AsclinAsc_wifi_sendConfigATCmd();
+		// HLD_Multican_init();
+		CanCommunication_init();
+		SteeringWheel_main_init();
 	}
 	{
 		// HLD_Vadc_forceStart();
@@ -116,6 +124,7 @@ void Task_IsrCb_1ms (void)
 	if(isInit)
 	{
 		HLD_GtmTomBeeper_run_1ms();
+		SteeringWheel_main_run();
 	}
 
 	ticToc_1ms = (IfxStm_get(&MODULE_STM0) - stm_buf_1ms)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
@@ -166,7 +175,9 @@ void Task_100ms_slot14(void)
 }
 void Task_100ms_slot24(void)
 {
-
+	testS++;
+	// if(testS>200)
+	// 	testS = 0;
 }
 void Task_100ms_slot34(void)
 {
