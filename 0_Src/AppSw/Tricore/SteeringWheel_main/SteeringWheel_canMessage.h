@@ -14,20 +14,20 @@ typedef union
 	struct 
 	{
 		uint8 vehicleSpeed;		//byte0;	//SDP
-		uint8 lowestVoltage;	//byte1;	//BMS
-		uint8 highestTemp;		//byte2;	//BMS
-		uint8 bmsTemp;			//byte3;	//BMS
-		uint8 soc;				//byte4;	//BMS
-		uint8 averageTemp;		//byte5		//BMS
+		uint16 lowestVoltage;	//byte1~2;	//BMS
+		uint8 highestTemp;		//byte3;	//BMS
+		uint8 bmsTemp;			//byte4;	//BMS
+		uint8 soc;				//byte5;	//BMS
+		uint8 averageTemp;		//byte6;	//BMS
 		union 					//byte7;	//RVC
 		{
 			uint8 U;
 			struct 
 			{
-				uint8 r2d:4;
-				uint8 appsError:1;
-				uint8 bppsError:1;
-				uint8 reserved:2; 
+				uint16 r2d:4;
+				uint16 appsError:1;
+				uint16 bppsError:1;
+				uint16 reserved:2; 
 			}S;
 		}status;
 	}S;

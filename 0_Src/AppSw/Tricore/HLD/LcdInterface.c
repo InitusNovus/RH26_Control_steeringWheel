@@ -256,7 +256,7 @@ void HLD_LcdInterface_page1_1 (void)
 	uint8 Motor2Temp = SteeringWheel_main.canMsg3.S.motor2Temp;
 	uint8 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
 	uint8 CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;
-	uint8 soc = SteeringWheel_main.canMsg1.S.soc;
+	uint8 soc = SteeringWheel_main.canMsg1.S.soc/2;
 	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16, "T");
 	GLCD_setTextColor(COLOR_DARKGREY);
 	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2)*CHAR_WIDTH, "I");
