@@ -296,7 +296,7 @@ void HLD_LcdInterface_page1 (void)
 	GLCD_setTextColor(COLOR_BLACK);
 
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "LV");
-	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", LV_Voltage / 100, LV_Voltage % 100);
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", LV_Voltage / 10, LV_Voltage % 100); //230131 test: /100 -> /10
 	GLCD_setTextColor(COLOR_BLACK);
 
 	Lcd_sprintf_col_inv_revised(Y_LINE2,226,"CL");
@@ -317,10 +317,10 @@ void HLD_LcdInterface_page1_1 (void)
 	uint8 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
 	uint8 soc = SteeringWheel_main.canMsg1.S.soc/2;
 	uint8 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
-	float AccelPercentage = SteeringWheel_main.canMsg2.S.apps;		//230130: Received Accel value 0~1//FP 0.1 percent
-	uint8 AccelValue = AccelPercentage*53;
-	float BrakePercentage = SteeringWheel_main.canMsg2.S.bpps;		//230130: Receive Brake value 0~1 //FP 0.1 percent
-	uint8 BrakeValue = BrakePercentage*53;
+	float receivedAccel = SteeringWheel_main.canMsg2.S.apps/100000.0;		//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
+	uint8 AccelValue = receivedAccel*53;
+	float receivedBrake = SteeringWheel_main.canMsg2.S.bpps/100000.0;		//230130: Receive Brake value 0~1 //FP 0.1 percent
+	uint8 BrakeValue = receivedBrake*53;
 
 	Lcd_sprintf_col_inv_revised(Y_LINE3, X_LINE3+10, "MT");
 	Lcd_sprintf_col_inv_revised(Y_LINE3+30, X_LINE3+10, "%02d", MotorTemp);
@@ -331,8 +331,13 @@ void HLD_LcdInterface_page1_1 (void)
 	GLCD_setTextColor(COLOR_BLACK);
 
 	//R2D
+	/* 230209
 	Lcd_sprintf_col_inv_revised(
 	    Y_LINE4, 128, "%d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
+	*/
+	//Rotary Switch
+	Lcd_sprintf_col_inv_revised(
+			Y_LINE4, 128, "%d%d%d", RSW_R1.RSWResult,RSW_R2.RSWResult, RSW_R3.RSWResult);
 
 	//Accel
 	Lcd_sprintf_col_inv_revised(Y_LINE3, 230, "Ac");

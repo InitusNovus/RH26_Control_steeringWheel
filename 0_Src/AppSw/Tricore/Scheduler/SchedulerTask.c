@@ -85,6 +85,7 @@ void Task_init (void)
 
 		HLD_Lcd_init();
 		HLD_LcdInterface_init();
+		HLD_RotarySwitch_init(); //230208
 	}
 	{
 		// HLD_AsclinAsc_moduleInit();
@@ -124,7 +125,7 @@ void Task_IsrCb_1ms (void)
 	if(isInit)
 	{
 		HLD_GtmTomBeeper_run_1ms();
-		SteeringWheel_main_run();
+		SteeringWheel_main_run(); //230209
 	}
 
 	ticToc_1ms = (IfxStm_get(&MODULE_STM0) - stm_buf_1ms)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
@@ -135,6 +136,7 @@ void Task_IsrCb_1ms (void)
 void Task_10ms (void)			//Slot 0
 {
 	stm_buf = IfxStm_get(&MODULE_STM0);
+	HLD_RotarySwitch_run();		//230209
 
 	Task_counter_service_10ms();
 	ticToc_10ms_s0 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));

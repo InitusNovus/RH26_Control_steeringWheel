@@ -54,6 +54,7 @@
 #define ACCUMULATORMANAGER_GPIO4	IfxPort_P02_0//IfxPort_P02_1
 #define ACCUMULATORMANAGER_GPIO5	IfxPort_P02_2//IfxPort_P02_3
 
+
 /*MultiCAN macros*/
 #define CAN0NODE0IN					IfxMultican_RXD0B_P20_7_IN//IfxMultican_RXD0A_P02_1_IN
 #define CAN0NODE0OUT				IfxMultican_TXD0_P20_8_OUT//IfxMultican_TXD0_P02_0_OUT
@@ -147,6 +148,21 @@
 #define SERVO						IfxGtm_TOM0_7_TOUT32_P33_10_OUT
 #define SERVO_IR					IfxGtm_TOM0_9_TOUT10_P00_1_OUT	//arbitrary value
 
+/*GPIO Rotary Switch macro*/	//230208
+#define ROTARYSWITCH_R1_8 			IfxPort_P00_2
+#define ROTARYSWITCH_R1_4 			IfxPort_P00_4
+#define ROTARYSWITCH_R1_2 			IfxPort_P00_6
+#define ROTARYSWITCH_R1_1 			IfxPort_P00_8
+
+#define ROTARYSWITCH_R2_8 			IfxPort_P33_3
+#define ROTARYSWITCH_R2_4 			IfxPort_P33_2
+#define ROTARYSWITCH_R2_2 			IfxPort_P33_5
+#define ROTARYSWITCH_R2_1 			IfxPort_P33_4
+
+#define ROTARYSWITCH_R3_8 			IfxPort_P33_8
+#define ROTARYSWITCH_R3_4 			IfxPort_P33_6
+#define ROTARYSWITCH_R3_2 			IfxPort_P33_1
+#define ROTARYSWITCH_R3_1 			IfxPort_P33_12
 /** \addtogroup IfxLld_Demo_Template_SrcDoc_Config
  * \{ */
 /*______________________________________________________________________________
