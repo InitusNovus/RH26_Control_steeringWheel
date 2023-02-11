@@ -120,26 +120,26 @@
 /*UserInterface macros*/
 //#define START_BTN					IfxPort_P00_1
 #define UI_BTN1						IfxPort_P00_9
-#define UI_BTN2						IfxPort_P00_2
+//#define UI_BTN2						IfxPort_P00_2
 #define UI_BTN3						IfxPort_P00_3
 #define UI_BTN4						IfxPort_P00_10
 #define UI_BTN5						IfxPort_P00_11
-#define UI_BTN6						IfxPort_P00_4
+//#define UI_BTN6						IfxPort_P00_4
 #define UI_BTN7						IfxPort_P00_5
 
 
 #define LCD_EN						IfxPort_P15_0		//DIG14
 #define LCD_B4						IfxPort_P15_1		//DIG15
 #define	LCD_B5						IfxPort_P33_9		//DIG16
-#define LCD_B6						IfxPort_P33_8		//DIG17
+//#define LCD_B6						IfxPort_P33_8		//DIG17
 #define LCD_B7						IfxPort_P20_0		//DIG18
 
-#define LCD_RS						IfxPort_P33_4		//DIG50
-#define LCD_RW						IfxPort_P33_12		//DIG51
+//#define LCD_RS						IfxPort_P33_4		//DIG50
+//#define LCD_RW						IfxPort_P33_12		//DIG51
 
-#define UI_LED1						IfxPort_P33_2
-#define UI_LED2						IfxPort_P00_6
-#define UI_LED3						IfxPort_P33_1
+//#define UI_LED1						IfxPort_P33_2
+//#define UI_LED2						IfxPort_P00_6
+//#define UI_LED3						IfxPort_P33_1
 
 
 #define ENCODER_A					IfxGpt120_T3INA_P02_6_IN
@@ -163,6 +163,8 @@
 #define ROTARYSWITCH_R3_4 			IfxPort_P33_6
 #define ROTARYSWITCH_R3_2 			IfxPort_P33_1
 #define ROTARYSWITCH_R3_1 			IfxPort_P33_12
+
+#define tactSwitch1					IfxPort_P00_5
 /** \addtogroup IfxLld_Demo_Template_SrcDoc_Config
  * \{ */
 /*______________________________________________________________________________

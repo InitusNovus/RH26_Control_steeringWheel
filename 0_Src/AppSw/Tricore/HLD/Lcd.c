@@ -201,6 +201,7 @@ void HLD_Lcd_run(void)
 	/*LCD display routine*/
 	if(g_Lcd.isRun)
 	{
+
 		/*Array Button*/
 /* 		if(g_Lcd.arrayEnabled)
 		{

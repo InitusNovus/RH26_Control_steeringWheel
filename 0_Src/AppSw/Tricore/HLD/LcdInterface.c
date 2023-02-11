@@ -321,6 +321,7 @@ void HLD_LcdInterface_page1_1 (void)
 	uint8 AccelValue = receivedAccel*53;
 	float receivedBrake = SteeringWheel_main.canMsg2.S.bpps/100000.0;		//230130: Receive Brake value 0~1 //FP 0.1 percent
 	uint8 BrakeValue = receivedBrake*53;
+//	boolean rot1 = IfxPort_getPinState(&MODULE_P00,2);
 
 	Lcd_sprintf_col_inv_revised(Y_LINE3, X_LINE3+10, "MT");
 	Lcd_sprintf_col_inv_revised(Y_LINE3+30, X_LINE3+10, "%02d", MotorTemp);
@@ -336,8 +337,9 @@ void HLD_LcdInterface_page1_1 (void)
 	    Y_LINE4, 128, "%d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
 	*/
 	//Rotary Switch
+
 	Lcd_sprintf_col_inv_revised(
-			Y_LINE4, 128, "%d%d%d", RSW_R1.RSWResult,RSW_R2.RSWResult, RSW_R3.RSWResult);
+			Y_LINE4, 128, "%d%d%d", RSW_R1.RSWResult, RSW_R2.RSWResult, RSW_R3.RSWResult);
 
 	//Accel
 	Lcd_sprintf_col_inv_revised(Y_LINE3, 230, "Ac");
