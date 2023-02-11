@@ -12,6 +12,44 @@
 #include "HLD.h"
 #include "Gpio_Debounce.h"
 
+
+typedef struct
+{
+	IfxPort_Pin pinName1;
+	IfxPort_Pin pinName2;
+	IfxPort_Pin pinName4;
+	IfxPort_Pin pinName8;
+	uint8 resultPin1;
+	uint8 resultPin2;
+	uint8 resultPin4;
+	uint8 resultPin8;
+	uint8 resultTot;
+}RSWStruct_t;
+
+IFX_EXTERN RSWStruct_t RSW_R1;
+IFX_EXTERN RSWStruct_t RSW_R2;
+IFX_EXTERN RSWStruct_t RSW_R3;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 typedef struct
 {
 	Gpio_Debounce_input RSWinput1;
@@ -56,10 +94,10 @@ IFX_EXTERN void RSW3_GPIO_Read(void);
 IFX_EXTERN void testGPIO(void);
 
 
-
+/*
 IFX_EXTERN RSWStruct RSW_R1;
 IFX_EXTERN RSWStruct RSW_R2;
 IFX_EXTERN RSWStruct RSW_R3;
-
+*/
 #endif /* ROTARYSWITCH_ROTARYSWITCH_H_ */
 

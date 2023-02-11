@@ -339,7 +339,7 @@ void HLD_LcdInterface_page1_1 (void)
 	//Rotary Switch
 
 	Lcd_sprintf_col_inv_revised(
-			Y_LINE4, 128, "%d%d%d", RSW_R1.RSWResult, RSW_R2.RSWResult, RSW_R3.RSWResult);
+			Y_LINE4, 128, "%d%d%d", RSW_R1.resultTot, RSW_R2.resultTot, RSW_R3.resultTot);
 
 	//Accel
 	Lcd_sprintf_col_inv_revised(Y_LINE3, 230, "Ac");
