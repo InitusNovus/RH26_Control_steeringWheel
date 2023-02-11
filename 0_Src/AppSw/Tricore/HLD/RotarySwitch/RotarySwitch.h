@@ -24,6 +24,9 @@ typedef struct
 	uint8 resultPin4;
 	uint8 resultPin8;
 	uint8 resultTot;
+
+	uint8 resultCAN;
+
 }RSWStruct_t;
 
 IFX_EXTERN RSWStruct_t RSW_R1;
@@ -33,6 +36,11 @@ IFX_EXTERN RSWStruct_t RSW_R3;
 
 
 
+IFX_EXTERN void HLD_RotarySwitch_init(void);
+IFX_EXTERN void HLD_RotarySwitch_run(void);
+IFX_EXTERN void RotarySwitch_init(RSWStruct_t *RSW);
+IFX_EXTERN void RSW_Gpio_read(RSWStruct_t *RSW);
+IFX_EXTERN int CoolingResult(uint8 num);
 
 
 
@@ -49,7 +57,7 @@ IFX_EXTERN RSWStruct_t RSW_R3;
 
 
 
-
+/*
 typedef struct
 {
 	Gpio_Debounce_input RSWinput1;
@@ -98,6 +106,8 @@ IFX_EXTERN void testGPIO(void);
 IFX_EXTERN RSWStruct RSW_R1;
 IFX_EXTERN RSWStruct RSW_R2;
 IFX_EXTERN RSWStruct RSW_R3;
+*/
+
 */
 #endif /* ROTARYSWITCH_ROTARYSWITCH_H_ */
 

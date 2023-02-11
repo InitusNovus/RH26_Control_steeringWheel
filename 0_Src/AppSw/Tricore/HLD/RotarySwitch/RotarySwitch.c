@@ -7,10 +7,8 @@
 #include "RotarySwitch.h"
 #include "IfxPort.h"
 
-#define RSW_ONHOLD 9			//0.5sec
-
-RSWStruct_t RSW_R1;
-RSWStruct_t RSW_R2;
+RSWStruct_t RSW_R1;	//Cooling
+RSWStruct_t RSW_R2;	//Torque vectoring
 RSWStruct_t RSW_R3;
 
 
@@ -50,15 +48,18 @@ void HLD_RotarySwitch_init(void)
 
 }
 
-void HLD_RotarySwitch_run(void){
+void HLD_RotarySwitch_run(void)
+{
 	RSW_Gpio_read(&RSW_R1);
+	RSW_R1.resultCAN = CoolingResult(RSW_R1.resultTot);
 	RSW_Gpio_read(&RSW_R2);
 	RSW_Gpio_read(&RSW_R3);
-
+	testGPIO();
 }
 
 
-void RotarySwitch_init(RSWStruct_t *RSW){
+void RotarySwitch_init(RSWStruct_t *RSW)
+{
 	IfxPort_setPinModeInput(RSW->pinName1.port,RSW->pinName1.pinIndex,IfxPort_InputMode_pullUp);
 	IfxPort_setPinModeInput(RSW->pinName2.port,RSW->pinName2.pinIndex,IfxPort_InputMode_pullUp);
 	IfxPort_setPinModeInput(RSW->pinName4.port,RSW->pinName4.pinIndex,IfxPort_InputMode_pullUp);
@@ -66,7 +67,8 @@ void RotarySwitch_init(RSWStruct_t *RSW){
 
 }
 
-void RSW_Gpio_read(RSWStruct_t *RSW){
+void RSW_Gpio_read(RSWStruct_t *RSW)
+{
 
 	if(!(IfxPort_getPinState(RSW->pinName1.port,RSW->pinName1.pinIndex))){
 		RSW->resultPin1 = 1;
@@ -99,10 +101,31 @@ void RSW_Gpio_read(RSWStruct_t *RSW){
 		RSW->resultTot = 10-RSW->resultTot;
 	}
 
-
-
 }
 
+int CoolingResult(uint8 num){
+	switch (num){
+	case 8:
+		RSW_R1.resultCAN = 0;
+		break;
+	case 9:
+		RSW_R1.resultCAN = 25;
+		break;
+	case 0:
+		RSW_R1.resultCAN = 50;
+		break;
+	case 1:
+		RSW_R1.resultCAN = 75;
+		break;
+	case 2:
+		RSW_R1.resultCAN = 100;
+		break;
+	default:
+		RSW_R1.resultCAN = 50;
+		break;
+
+	}
+}
 
 
 /*
