@@ -105,6 +105,12 @@ void RSW_Gpio_read(RSWStruct_t *RSW)
 
 int CoolingResult(uint8 num){
 	switch (num){
+	case 6:
+		RSW_R1.resultCAN = 0;
+		break;
+	case 7:
+		RSW_R1.resultCAN = 0;
+		break;
 	case 8:
 		RSW_R1.resultCAN = 0;
 		break;
@@ -118,6 +124,15 @@ int CoolingResult(uint8 num){
 		RSW_R1.resultCAN = 75;
 		break;
 	case 2:
+		RSW_R1.resultCAN = 100;
+		break;
+	case 3:
+		RSW_R1.resultCAN = 100;
+		break;
+	case 4:
+		RSW_R1.resultCAN = 100;
+		break;
+	case 5:
 		RSW_R1.resultCAN = 100;
 		break;
 	default:

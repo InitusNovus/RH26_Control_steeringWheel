@@ -102,12 +102,12 @@ IFX_EXTERN void RSW3_GPIO_Read(void);
 IFX_EXTERN void testGPIO(void);
 
 
-/*
+
 IFX_EXTERN RSWStruct RSW_R1;
 IFX_EXTERN RSWStruct RSW_R2;
 IFX_EXTERN RSWStruct RSW_R3;
-*/
 
 */
+
 #endif /* ROTARYSWITCH_ROTARYSWITCH_H_ */
 

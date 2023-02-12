@@ -58,4 +58,51 @@ typedef union
 	uint32 U;
 }SteeringWheel_canMsg3_t;
 
+/*
+ * TX data
+ * Transmit to : VCU
+ * TX ID: 0x237BC01
+ * Data: Battery Cooling duty on TC control mode
+ */
+typedef union
+{
+	uint32 TxData[2];
+	struct
+	{
+		uint8 TCControlMode;
+		uint8 TCFanDutyOrder_SideIntake ;
+		uint8 TCFanDutyOrder_SegmentIntake70;
+		uint8 TCFanDutyOrder_SegmentExhaust60;
+		uint8 TCFanDutyOrder_SegmentExhaust80;
+		uint8 reserved1;
+		uint8 reserved2;
+		uint8 reserved3;
+	}S;
+
+}SteeringWheel_canMsg4_BattCooling_t;
+
+
+
+/*
+ * TX data
+ * Transmit to : VCU
+ * TX ID: 0x237C01
+ * Data: Cooling System(Radiator fan, rear fan, water pumt) Cooling duty on TC control mode
+ */
+typedef union
+{
+	uint32 TxData[2];
+	struct
+	{
+		uint8 TCControlMode;
+		uint8 TCFanDutyOrder_SideIntake ;
+		uint8 TCFanDutyOrder_SegmentIntake70;
+		uint8 TCFanDutyOrder_SegmentExhaust60;
+		uint8 TCFanDutyOrder_SegmentExhaust80;
+		uint8 reserved1;
+		uint8 reserved2;
+		uint8 reserved3;
+	}S;
+}SteeringWheel_canMsg5_RadiCooling_t;
+
 #endif
