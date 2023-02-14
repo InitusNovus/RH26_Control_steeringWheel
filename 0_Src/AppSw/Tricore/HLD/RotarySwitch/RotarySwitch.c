@@ -6,6 +6,7 @@
  */
 #include "RotarySwitch.h"
 #include "IfxPort.h"
+#include "SteeringWheel_canMessage.h"
 
 RSWStruct_t RSW_R1;	//Cooling
 RSWStruct_t RSW_R2;	//Torque vectoring
@@ -15,9 +16,9 @@ RSWStruct_t RSW_R3;
 void testGPIO(void){
 	boolean button1;
 	boolean button2;
-	IfxPort_setPinModeInput(&MODULE_P15,4,IfxPort_InputMode_pullDown);
-	button1 = IfxPort_getPinState(&MODULE_P15,4);
-	button2 = IfxPort_getPinState(&MODULE_P15,4);
+	IfxPort_setPinModeInput(&MODULE_P15,2,IfxPort_InputMode_pullUp);
+	button1 = IfxPort_getPinState(&MODULE_P15,2);
+	button2 = IfxPort_getPinState(&MODULE_P15,2);
 	if(button1 == TRUE && button2 == TRUE){
 		IfxPort_setPinLow(&MODULE_P13,2);	//High == off
 		IfxPort_setPinLow(&MODULE_P13,1);
@@ -104,39 +105,53 @@ void RSW_Gpio_read(RSWStruct_t *RSW)
 }
 
 int CoolingResult(uint8 num){
+
 	switch (num){
-	case 6:
-		RSW_R1.resultCAN = 0;
+	case 4:
+		RSW_R1.resultTot = 0;
+		RSW_R1.resultCAN = 0; //TC control mode off
 		break;
+	case 5:
+		RSW_R1.resultTot = 0;
+		RSW_R1.resultCAN = 0; //TC control mode off
+		break;
+	case 6:
+		RSW_R1.resultTot = 0;
+		RSW_R1.resultCAN = 0; //TC control mode off
+		break;
+
 	case 7:
-		RSW_R1.resultCAN = 0;
+		RSW_R1.resultTot = 1;
+		RSW_R1.resultCAN = 1;
 		break;
 	case 8:
-		RSW_R1.resultCAN = 0;
+		RSW_R1.resultTot = 1;
+		RSW_R1.resultCAN = 1;
 		break;
 	case 9:
+		RSW_R1.resultTot = 2;
 		RSW_R1.resultCAN = 25;
 		break;
 	case 0:
+		RSW_R1.resultTot = 3;
 		RSW_R1.resultCAN = 50;
 		break;
 	case 1:
+		RSW_R1.resultTot = 4;
 		RSW_R1.resultCAN = 75;
 		break;
 	case 2:
+		RSW_R1.resultTot = 5;
 		RSW_R1.resultCAN = 100;
 		break;
 	case 3:
+		RSW_R1.resultTot = 5;
 		RSW_R1.resultCAN = 100;
 		break;
-	case 4:
-		RSW_R1.resultCAN = 100;
-		break;
-	case 5:
-		RSW_R1.resultCAN = 100;
-		break;
+
 	default:
-		RSW_R1.resultCAN = 50;
+		RSW_R1.resultTot = 9;		//Show 2 when rotary switch fault
+		RSW_R1.resultCAN = 50;		//order
 		break;
 
 	}

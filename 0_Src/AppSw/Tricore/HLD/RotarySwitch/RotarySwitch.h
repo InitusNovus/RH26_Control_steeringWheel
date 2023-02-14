@@ -23,9 +23,9 @@ typedef struct
 	uint8 resultPin2;
 	uint8 resultPin4;
 	uint8 resultPin8;
-	uint8 resultTot;
+	uint8 resultTot;		//result for LDC
 
-	uint8 resultCAN;
+	uint8 resultCAN;		//result for CAN message
 
 }RSWStruct_t;
 

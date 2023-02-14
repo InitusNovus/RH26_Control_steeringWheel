@@ -164,7 +164,13 @@
 #define ROTARYSWITCH_R3_2 			IfxPort_P33_1
 #define ROTARYSWITCH_R3_1 			IfxPort_P33_12
 
-#define tactSwitch1					IfxPort_P00_5
+
+/*GPIO Tact Switch macro */		//230214
+#define TACTSWITCH_T1		IfxPort_P00_5
+#define TACTSWITCH_T2		IfxPort_P00_3
+#define TACTSWITCH_T3		IfxPort_P15_2
+#define TACTSWITCH_T4		IfxPort_P15_4
+
 /** \addtogroup IfxLld_Demo_Template_SrcDoc_Config
  * \{ */
 /*______________________________________________________________________________

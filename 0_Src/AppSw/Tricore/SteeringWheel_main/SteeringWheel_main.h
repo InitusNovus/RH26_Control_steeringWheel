@@ -18,13 +18,13 @@ typedef struct
 	CanCommunication_Message msgObj1;
 	CanCommunication_Message msgObj2;
 	CanCommunication_Message msgObj3;
-	CanCommunication_Message msgObj4_BattCooling_TX;
+	CanCommunication_Message msgObj4_Cooling_TX;
 	CanCommunication_Message msgObj5_RadiCooling_TX;
 	SteeringWheel_canMsg1_t canMsg1;
 	SteeringWheel_canMsg2_t canMsg2;
 	SteeringWheel_canMsg3_t canMsg3;
-	SteeringWheel_canMsg4_BattCooling_t canMsg4_BattCooling_TX;
-	SteeringWheel_canMsg5_RadiCooling_t canMsg5_RadiCooling_TX;
+	SteeringWheel_canMsg4_Cooling_t canMsg4_Cooling_TX;
+//	SteeringWheel_canMsg5_RadiCooling_t canMsg5_RadiCooling_TX;
 
 }SteeringWheel_main_t;
 

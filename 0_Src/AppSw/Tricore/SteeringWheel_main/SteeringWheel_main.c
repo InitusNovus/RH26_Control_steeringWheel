@@ -84,9 +84,9 @@ void SteeringWheel_main_TX_init(void)
         config.frameType		=	IfxMultican_Frame_transmit;
         config.dataLen			=	IfxMultican_DataLengthCode_8;
         config.node				=	&CanCommunication_canNode0;
-		CanCommunication_initMessage(&SteeringWheel_main.msgObj4_BattCooling_TX, &config);
+		CanCommunication_initMessage(&SteeringWheel_main.msgObj4_Cooling_TX, &config);
 	}
-
+/*
 	{
 		CanCommunication_Message_Config config;
 		config.messageId		=	StWhRadiCoolingTXID;
@@ -95,25 +95,37 @@ void SteeringWheel_main_TX_init(void)
         config.node				=	&CanCommunication_canNode0;
 		CanCommunication_initMessage(&SteeringWheel_main.msgObj5_RadiCooling_TX, &config);
 	}
-
+*/
 
 }
 
 void SteeringWheel_main_TX_run(void)
 {
-	if(SteeringWheel_main.canMsg4_BattCooling_TX.S.TCControlMode){
+	if((RSW_R1.resultTot == 4) || (RSW_R1.resultTot == 5) || (RSW_R1.resultTot == 6)){
 
+		SteeringWheel_main.canMsg4_Cooling_TX.S.TCControlMode = 0;
+	}else if(RSW_R1.resultTot != 9){
+
+		SteeringWheel_main.canMsg4_Cooling_TX.S.TCControlMode = 1;
+	}
+
+	if(SteeringWheel_main.canMsg4_Cooling_TX.S.TCControlMode){
+
+		SteeringWheel_main.canMsg4_Cooling_TX.S.StTCOrderDuty_Batt = RSW_R1.resultCAN;
+		SteeringWheel_main.canMsg4_Cooling_TX.S.StTCOrderDuty_Radi = RSW_R1.resultCAN;
+/*
 		SteeringWheel_main.canMsg4_BattCooling_TX.S.TCFanDutyOrder_SegmentExhaust60 = RSW_R1.resultCAN;
 		SteeringWheel_main.canMsg4_BattCooling_TX.S.TCFanDutyOrder_SegmentExhaust80 = RSW_R1.resultCAN;
 		SteeringWheel_main.canMsg4_BattCooling_TX.S.TCFanDutyOrder_SegmentIntake70 = RSW_R1.resultCAN;
 		SteeringWheel_main.canMsg4_BattCooling_TX.S.TCFanDutyOrder_SideIntake = RSW_R1.resultCAN;
+*/
 	}
 
-	CanCommunication_setMessageData(SteeringWheel_main.canMsg4_BattCooling_TX.TxData[0],
-									SteeringWheel_main.canMsg4_BattCooling_TX.TxData[1],
-									&SteeringWheel_main.msgObj4_BattCooling_TX);
+	CanCommunication_setMessageData(SteeringWheel_main.canMsg4_Cooling_TX.TxData[0],
+									SteeringWheel_main.canMsg4_Cooling_TX.TxData[1],
+									&SteeringWheel_main.canMsg4_Cooling_TX);
 
-	CanCommunication_transmitMessage(&SteeringWheel_main.msgObj4_BattCooling_TX);
+	CanCommunication_transmitMessage(&SteeringWheel_main.msgObj4_Cooling_TX);
 
 }
 

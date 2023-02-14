@@ -337,12 +337,22 @@ void HLD_LcdInterface_page1_1 (void)
 	    Y_LINE4, 128, "%d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
 	*/
 	//Rotary Switch
+/*
+	if(RSW_R1.resultTot == 0){
+		GLCD_setTextColor(COLOR_BLACK);
+	}else{
+		GLCD_setTextColor(COLOR_BLUE);
+	}
+	*/
+	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+CHAR_WIDTH, "%d", RSW_R1.resultTot);
 
-	Lcd_sprintf_col_inv_revised(
-			Y_LINE4, 128, "%d%d%d", RSW_R1.resultTot, RSW_R2.resultTot, RSW_R3.resultTot);
+	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+2*CHAR_WIDTH, "%d", RSW_R2.resultTot);
 
-	//Accel
-	Lcd_sprintf_col_inv_revised(Y_LINE3, 230, "Ac");
+	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+3*CHAR_WIDTH, "%d", RSW_R3.resultTot);
+
+
+	//Brake
+	Lcd_sprintf_col_inv_revised(Y_LINE3, 230, "Br");
 	uint8 k;
 		//X direction line
 	for(k = 60; k<60+CHAR_WIDTH*2; k++){
@@ -350,8 +360,8 @@ void HLD_LcdInterface_page1_1 (void)
 		GLCD_putPixel(Y_LINE3+78,k);
 	}
 	uint8 i;
-	GLCD_setTextColor(COLOR_GREEN);
-	for(i = 1; i<AccelValue; i++){
+	GLCD_setTextColor(COLOR_RED);
+	for(i = 1; i<BrakeValue; i++){
 		for(k = 60; k<60+CHAR_WIDTH*2; k++){
 			GLCD_putPixel(Y_LINE3+78-i,k);
 			//GLCD_putPixel(Y_LINE3+78,k);
@@ -365,16 +375,16 @@ void HLD_LcdInterface_page1_1 (void)
 		GLCD_putPixel(k,60+CHAR_WIDTH*2);
 	}
 
-	//Brake
-	Lcd_sprintf_col_inv_revised(Y_LINE3, 230+50, "Br");
+	//Accel
+	Lcd_sprintf_col_inv_revised(Y_LINE3, 230+50, "Ac");
 		//X direction line
 	for(k = 12; k<12+CHAR_WIDTH*2; k++){
 		GLCD_putPixel(Y_LINE3+25,k);
 		GLCD_putPixel(Y_LINE3+78,k);
 	}
 
-	GLCD_setTextColor(COLOR_RED);
-	for(i = 1; i<BrakeValue; i++){
+	GLCD_setTextColor(COLOR_GREEN);
+	for(i = 1; i<AccelValue; i++){
 		for(k = 12; k<12+CHAR_WIDTH*2; k++){
 			GLCD_putPixel(Y_LINE3+78-i,k);
 			//GLCD_putPixel(Y_LINE3+78,k);
