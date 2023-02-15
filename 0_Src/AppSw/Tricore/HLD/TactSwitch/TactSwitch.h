@@ -7,6 +7,7 @@
 
 #include "Gpio_Debounce.h"
 #include "Configuration.h"
+#include "IfxPort.h"
 
 
 
@@ -18,11 +19,10 @@
 
 
 
-
 typedef struct{
 
-	Gpio_Debounce_input TactSW1_input;
-	Gpio_Debounce_inputConfig TactSW1_config;
+	Gpio_Debounce_input TactSW_input;
+	Gpio_Debounce_inputConfig TactSW_config;
 	boolean tactState;
 	boolean tactOn;
 
@@ -40,7 +40,8 @@ IFX_EXTERN TactSW_t TactSW_T4;
 IFX_EXTERN void HLd_TactSwitch_init(void);
 IFX_EXTERN void HLD_TactSwitch_run(void);
 IFX_EXTERN void TactSwitch_init(void);
-IFX_EXTERN void TactSwitch_run(void);
+//IFX_EXTERN void TactSwitch_run(void);
+IFX_EXTERN void TactSwitch_run(TactSW_t *TSW);
 
 
 

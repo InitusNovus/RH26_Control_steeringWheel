@@ -130,6 +130,7 @@ void Task_IsrCb_1ms (void)
 
 	}
 
+
 	ticToc_1ms = (IfxStm_get(&MODULE_STM0) - stm_buf_1ms)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }
 /**********************************************************************/
@@ -140,6 +141,7 @@ void Task_10ms (void)			//Slot 0
 	stm_buf = IfxStm_get(&MODULE_STM0);
 	Task_counter_service_10ms();
 	ticToc_10ms_s0 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
+
 }
 void Task_10ms_slot1 (void)
 {

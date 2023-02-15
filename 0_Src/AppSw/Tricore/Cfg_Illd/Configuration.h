@@ -121,11 +121,11 @@
 //#define START_BTN					IfxPort_P00_1
 #define UI_BTN1						IfxPort_P00_9
 //#define UI_BTN2						IfxPort_P00_2
-#define UI_BTN3						IfxPort_P00_3
+//#define UI_BTN3						IfxPort_P00_3
 #define UI_BTN4						IfxPort_P00_10
 #define UI_BTN5						IfxPort_P00_11
 //#define UI_BTN6						IfxPort_P00_4
-#define UI_BTN7						IfxPort_P00_5
+//#define UI_BTN7						IfxPort_P00_5
 
 
 #define LCD_EN						IfxPort_P15_0		//DIG14
@@ -166,10 +166,10 @@
 
 
 /*GPIO Tact Switch macro */		//230214
-#define TACTSWITCH_T1		IfxPort_P00_5
-#define TACTSWITCH_T2		IfxPort_P00_3
-#define TACTSWITCH_T3		IfxPort_P15_2
-#define TACTSWITCH_T4		IfxPort_P15_4
+#define TACTSWITCH_T1				IfxPort_P00_5
+#define TACTSWITCH_T2				IfxPort_P00_3
+#define TACTSWITCH_T3				IfxPort_P15_2
+#define TACTSWITCH_T4				IfxPort_P15_4
 
 /** \addtogroup IfxLld_Demo_Template_SrcDoc_Config
  * \{ */

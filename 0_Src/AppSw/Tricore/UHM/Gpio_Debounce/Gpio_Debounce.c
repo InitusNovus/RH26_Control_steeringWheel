@@ -22,8 +22,8 @@ void Gpio_Debounce_initInput(Gpio_Debounce_input* input, Gpio_Debounce_inputConf
 		input->bufferMask |= 1<<index;
 	}
 	input->buffer = 0;
-	IfxPort_setPinModeInput(input->port->port, input->port->pinIndex, IfxPort_InputMode_noPullDevice);
-}
+	IfxPort_setPinModeInput(input->port->port, input->port->pinIndex, IfxPort_InputMode_pullUp);
+}	//IfxPort_InputMode_noPushPullDevice
 boolean Gpio_Debounce_pollInput(Gpio_Debounce_input* input)
 {
     boolean pinState;
