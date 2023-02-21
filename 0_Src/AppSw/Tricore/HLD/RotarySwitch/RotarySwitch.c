@@ -8,10 +8,9 @@
 #include "IfxPort.h"
 #include "SteeringWheel_canMessage.h"
 
-RSWStruct_t RSW_R1;	//Cooling
-RSWStruct_t RSW_R2;	//Torque vectoring
+RSWStruct_t RSW_R1;
+RSWStruct_t RSW_R2;
 RSWStruct_t RSW_R3;
-
 
 void testGPIO(void){
 	boolean button1;

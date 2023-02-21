@@ -14,30 +14,96 @@ TactSW_t TactSW_T2;
 TactSW_t TactSW_T3;
 TactSW_t TactSW_T4;
 
+static boolean risingFlag = FALSE;
+uint8 bufferCnt = 5;
+boolean tactBuffer[2];
 
+void HLD_TactSwitch_init(void)
+{
+	TactSW_T1.TactName = TACTSWITCH_T1;
+	TactSW_T2.TactName = TACTSWITCH_T2;
+	TactSW_T3.TactName = TACTSWITCH_T3;
+	TactSW_T4.TactName = TACTSWITCH_T4;
 
-/*
-void testGPIO(void){
-	boolean button1;
-	boolean button2;
-	IfxPort_setPinModeInput(&MODULE_P15,2,IfxPort_InputMode_pullUp);
-	button1 = IfxPort_getPinState(&MODULE_P15,2);
-	button2 = IfxPort_getPinState(&MODULE_P15,2);
-	if(button1 == TRUE && button2 == TRUE){
-		IfxPort_setPinLow(&MODULE_P13,2);	//High == off
-		IfxPort_setPinLow(&MODULE_P13,1);
-	}else{
-		IfxPort_setPinLow(&MODULE_P13,1);
-		IfxPort_setPinHigh(&MODULE_P13,2);
-	}
+	IfxPort_setPinModeInput(TactSW_T1.TactName.port, TactSW_T1.TactName.pinIndex, IfxPort_InputMode_pullUp);
+	IfxPort_setPinModeInput(TactSW_T2.TactName.port, TactSW_T2.TactName.pinIndex, IfxPort_InputMode_pullUp);
+	IfxPort_setPinModeInput(TactSW_T3.TactName.port, TactSW_T3.TactName.pinIndex, IfxPort_InputMode_pullUp);
+	IfxPort_setPinModeInput(TactSW_T4.TactName.port, TactSW_T4.TactName.pinIndex, IfxPort_InputMode_pullUp);
+
 }
 
-IFX_EXTERN void Gpio_Debounce_initInput(Gpio_Debounce_input* input, Gpio_Debounce_inputConfig* config);
-IFX_EXTERN boolean Gpio_Debounce_pollInput(Gpio_Debounce_input* input);
-IFX_EXTERN void Gpio_Debounce_initInputConfig(Gpio_Debounce_inputConfig* config);
+static boolean tactCnt1 = TRUE;
+static boolean tactCnt2 = TRUE;
 
-*/
+void TactSwitch_read1(void){
+	tactCnt1 = IfxPort_getPinState(TactSW_T1.TactName.port,TactSW_T1.TactName.pinIndex);
 
+}
+
+
+
+void HLD_TactSwitch_run(void)
+{
+
+	tactCnt1 = IfxPort_getPinState(TactSW_T1.TactName.port,TactSW_T1.TactName.pinIndex);
+
+	if((tactCnt1 == FALSE)&&(tactCnt2 == TRUE)){//not pressed, now pressed: on
+		TactSW_T1.tactOn = TRUE;
+	}else if((tactCnt1 == TRUE) && (tactCnt2 == FALSE)){
+
+	}
+
+	/*
+	tactBuffer[0] = IfxPort_getPinState(TactSW_T1.TactName.port,TactSW_T1.TactName.pinIndex);
+	tactBuffer[1] = IfxPort_getPinState(TactSW_T1.TactName.port,TactSW_T1.TactName.pinIndex);
+
+	TactSW_T1.tactSwitch = tactBuffer[0] && tactBuffer[1];
+	uint8 flagPin = 1;
+	if((TactSW_T1.tactSwitch == FALSE) && (risingFlag == FALSE)){//pressed
+		if(flagPin == 1){
+			TactSW_T1.tactOn = TRUE;
+			risingFlag = TRUE;
+			IfxPort_setPinLow(&MODULE_P13,2);
+			flagPin = 0;
+		}
+
+
+	}else if((TactSW_T1.tactSwitch == TRUE) && (risingFlag == TRUE)){//released
+		if(flagPin == 1){
+			TactSW_T1.tactOn = TRUE;
+			IfxPort_setPinLow(&MODULE_P13,2);
+			flagPin = 0;
+		}
+
+
+	}else if((TactSW_T1.tactSwitch == FALSE) && (risingFlag == TRUE)){//pressed agian
+		if(flagPin == 1){
+			TactSW_T1.tactOn = FALSE;
+			risingFlag = FALSE;
+			IfxPort_setPinHigh(&MODULE_P13,2);
+			flagPin = 0;
+		}
+
+
+	}else if((TactSW_T1.tactSwitch == TRUE) && (risingFlag == TRUE)){//released agian
+		if(flagPin == 1){
+			TactSW_T1.tactOn = FALSE;
+			IfxPort_setPinHigh(&MODULE_P13,2);
+			flagPin = 0;
+		}
+
+
+	}
+	*/
+
+}
+
+
+
+
+
+
+/* GPIO Debounce version: 23.02.15
 void HLd_TactSwitch_init(void){
 	TactSwitch_init();
 }
@@ -45,7 +111,7 @@ void HLd_TactSwitch_init(void){
 
 void HLD_TactSwitch_run(void){
 
-	TactSwitch_run(&TactSW_T4);
+	TactSwitch_run(&TactSW_T2);
 }
 
 void set_Gpio_Debounce(Gpio_Debounce_input* input, Gpio_Debounce_inputConfig* config, IfxPort_Pin *portNum)
@@ -72,9 +138,6 @@ void TactSwitch_run(TactSW_t *TSW)
 
 	static uint8 pushCount = 0;
 
-//	IfxPort_setPinModeInput(TACTSWITCH_T1.port,TACTSWITCH_T1.pinIndex,IfxPort_InputMode_pullUp);
-//	IfxPort_setPinModeInput(TSW->TactSW_config.port->port,TSW->TactSW_config.port->pinIndex,IfxPort_InputMode_pullUp);
-
 	TSW->tactState = Gpio_Debounce_pollInput(&TSW->TactSW_input);//TactSW_T1.TactSW_input);
 
 	if((TSW->tactState == FALSE) && (risingEdge == FALSE)){
@@ -86,14 +149,10 @@ void TactSwitch_run(TactSW_t *TSW)
 			pushCount = 0;
 		}
 	}else if((TSW->tactState == TRUE) && (risingEdge == TRUE)){
-//		pushCount ++;
-//		if(pushCount > TACT_ONHOLD){
 
 		TSW->tactOn = TRUE;
 		risingEdge = TRUE;
 		IfxPort_setPinLow(&MODULE_P13,2);
-//		pushCount = 0;
-//		}
 
 	}else if((TSW->tactState == FALSE) && (risingEdge == TRUE)){
 
@@ -106,53 +165,14 @@ void TactSwitch_run(TactSW_t *TSW)
 		}
 
 	}else if((TSW->tactState == TRUE) && (risingEdge == FALSE)){
-//		pushCount ++;
-//		if(pushCount > TACT_ONHOLD){
 
 		TSW->tactOn = FALSE;
 		risingEdge = FALSE;
 		IfxPort_setPinHigh(&MODULE_P13,2);
-//		pushCount = 0;
-//		}
 
-	}
 
-}
-
-/*
-void TactSwitch_run(TactSW_t *TSW){
-
-//	Gpio_Debounce_initInputConfig(TactSW_T1.TactSW1_config);
-	TactSW_T1.TactSW1_config->bufferLen = Gpio_Debounce_BufferLength_10;
-	TactSW_T1.TactSW1_config->inputMode = IfxPort_InputMode_pullUp;
-	TactSW_T1.TactSW1_config->port = &IfxPort_P00_5;//&TACTSWITCH_T1;
-	Gpio_Debounce_initInput(TactSW_T1.TactSW1_input, TactSW_T1.TactSW1_config);
-
-}
-
-void TactSwitch_run(void){
-
-	static boolean risingEdge = FALSE;
-	static uint8 pushCount = 0;
-
-	IfxPort_setPinModeInput(TACTSWITCH_T1.port,TACTSWITCH_T1.pinIndex,IfxPort_InputMode_pullUp);
-	TactSW_T1.tactState = Gpio_Debounce_pollInput(TactSW_T1.TactSW1_input);
-
-	if((TactSW_T1.tactState == FALSE) && (risingEdge == FALSE)){
-
-		pushCount ++;
-
-		if(pushCount > TACT_ONHOLD){
-			TactSW_T1.tactOn = TRUE;
-			risingEdge = TRUE;
-			IfxPort_setPinLow(&MODULE_P13,2);	//test
-		}
-
-	}else if((TactSW_T1.tactState == FALSE) && (risingEdge == TRUE)){
-		TactSW_T1.tactOn = FALSE;
-		risingEdge = FALSE;
-		IfxPort_setPinHigh(&MODULE_P13,2);	//test
 	}
 
 }
 */
+

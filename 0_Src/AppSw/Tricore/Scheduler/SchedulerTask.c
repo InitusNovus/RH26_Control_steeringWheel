@@ -95,7 +95,7 @@ void Task_init (void)
 	{
 		// HLD_Vadc_forceStart();
 		HLD_RotarySwitch_init(); //230208
-		HLd_TactSwitch_init();		//230215
+		HLD_TactSwitch_init();		//230215
 
 	}
 

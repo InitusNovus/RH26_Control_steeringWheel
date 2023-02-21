@@ -265,7 +265,7 @@ void HLD_Lcd_run(void)
 			/* no break */
 			case 1:
 			{
-				HLD_LcdInterface_page1();
+				HLD_LcdInterface_page1();//1
 			}break;
 			case 2:
 			{

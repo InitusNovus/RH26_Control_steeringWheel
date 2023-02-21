@@ -15,10 +15,17 @@
 #define TACTSWITCH_TACTSWITCH_H_
 
 
+typedef struct
+{
+	IfxPort_Pin TactName;
+	boolean tactSwitch;
+	boolean tactOn;
+
+}TactSW_t;
 
 
 
-
+/*
 typedef struct{
 
 	Gpio_Debounce_input TactSW_input;
@@ -29,18 +36,16 @@ typedef struct{
 
 
 }TactSW_t;
-
-
+*/
 
 IFX_EXTERN TactSW_t TactSW_T1;
 IFX_EXTERN TactSW_t TactSW_T2;
 IFX_EXTERN TactSW_t TactSW_T3;
 IFX_EXTERN TactSW_t TactSW_T4;
 
-IFX_EXTERN void HLd_TactSwitch_init(void);
+IFX_EXTERN void HLD_TactSwitch_init(void);
 IFX_EXTERN void HLD_TactSwitch_run(void);
 IFX_EXTERN void TactSwitch_init(void);
-//IFX_EXTERN void TactSwitch_run(void);
 IFX_EXTERN void TactSwitch_run(TactSW_t *TSW);
 
 
