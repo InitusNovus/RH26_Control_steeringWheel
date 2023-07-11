@@ -296,13 +296,17 @@ void HLD_LcdInterface_page1 (void)
 	GLCD_setTextColor(COLOR_BLACK);
 
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "LV");
-	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", LV_Voltage / 10, LV_Voltage % 100); //230131 test: /100 -> /10
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", LV_Voltage / 100, LV_Voltage % 100); //230131 test: /100 -> /10
 	GLCD_setTextColor(COLOR_BLACK);
 
 	Lcd_sprintf_col_inv_revised(Y_LINE2,226,"CL");
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 232+2*CHAR_WIDTH, "%d.%01d", HV_LowCellVoltage/10000, (HV_LowCellVoltage%10000)/10);
 	GLCD_setTextColor(COLOR_BLACK);
 }
+
+//Debug 20230703
+uint8 AccelValue_debug;
+uint8 BrakeValue_debug;
 
 void HLD_LcdInterface_page1_1 (void)
 {
@@ -312,15 +316,20 @@ void HLD_LcdInterface_page1_1 (void)
 	 * Line3: Motor Temp, SOC, Accel, Brake, R2D
 	 */
 
+
 	uint8 Motor1Temp = SteeringWheel_main.canMsg3.S.motor1Temp;
 	uint8 Motor2Temp = SteeringWheel_main.canMsg3.S.motor2Temp;
 	uint8 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
 	uint8 soc = SteeringWheel_main.canMsg1.S.soc/2;
 	uint8 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
-	float receivedAccel = SteeringWheel_main.canMsg2.S.apps/100000.0;		//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
+	float receivedAccel = SteeringWheel_main.canMsg2.S.apps/10000.0;		//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
 	uint8 AccelValue = receivedAccel*53;
+	//AccelValue = 25;
+	AccelValue_debug = AccelValue;
 	float receivedBrake = SteeringWheel_main.canMsg2.S.bpps/100000.0;		//230130: Receive Brake value 0~1 //FP 0.1 percent
-	uint8 BrakeValue = receivedBrake*53;
+	uint8 BrakeValue = receivedBrake*53; //Full bar when 53
+	BrakeValue = 53;
+	BrakeValue_debug = BrakeValue;
 //	boolean rot1 = IfxPort_getPinState(&MODULE_P00,2);
 
 	Lcd_sprintf_col_inv_revised(Y_LINE3, X_LINE3+10, "MT");
@@ -385,6 +394,13 @@ void HLD_LcdInterface_page1_1 (void)
 
 	GLCD_setTextColor(COLOR_GREEN);
 	for(i = 1; i<AccelValue; i++){
+		for(k = 12; k<12+CHAR_WIDTH*2; k++){
+			GLCD_putPixel(Y_LINE3+78-i,k);
+			//GLCD_putPixel(Y_LINE3+78,k);
+		}
+	}
+	GLCD_setTextColor(COLOR_WHITE);
+	for(; i<53; i++){
 		for(k = 12; k<12+CHAR_WIDTH*2; k++){
 			GLCD_putPixel(Y_LINE3+78-i,k);
 			//GLCD_putPixel(Y_LINE3+78,k);

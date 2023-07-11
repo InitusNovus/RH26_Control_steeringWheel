@@ -71,7 +71,8 @@ void SteeringWheel_main_run(void)
 	}
 	if(CanCommunication_receiveMessage(&SteeringWheel_main.msgObj3))
 	{
-		SteeringWheel_main.canMsg3.U = SteeringWheel_main.msgObj3.msg.data[0];
+		SteeringWheel_main.canMsg3.U[0] = SteeringWheel_main.msgObj3.msg.data[0];
+		SteeringWheel_main.canMsg3.U[1] = SteeringWheel_main.msgObj3.msg.data[1];
 	}
 }
 

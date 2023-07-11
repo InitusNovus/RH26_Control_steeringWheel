@@ -54,8 +54,9 @@ typedef union
 		uint8 motor1Temp;			//byte1;		//Inverter
 		uint8 inverter2Temp;        //byte2;		//Inverter
 		uint8 motor2Temp;			//byte3;		//Inverter
+		uint32 Reserved;
 	}S;
-	uint32 U;
+	uint32 U[2];
 }SteeringWheel_canMsg3_t;
 
 /*
