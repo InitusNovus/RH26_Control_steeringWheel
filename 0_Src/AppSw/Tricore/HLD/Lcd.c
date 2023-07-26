@@ -269,7 +269,7 @@ void HLD_Lcd_run(void)
 			}break;
 			case 2:
 			{
-				HLD_LcdInterface_page2();
+				//HLD_LcdInterface_page2();
 			}break;
 			case 3:
 			{
@@ -302,7 +302,7 @@ void HLD_Lcd_run1(void)
 				}break;
 				case 2:
 				{
-					HLD_LcdInterface_page2_1();
+					//HLD_LcdInterface_page2_1();
 				}break;
 				case 3:
 				{

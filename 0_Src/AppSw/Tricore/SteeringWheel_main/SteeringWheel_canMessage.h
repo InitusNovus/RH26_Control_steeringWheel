@@ -40,7 +40,8 @@ typedef union
 	{
 		uint16 apps;				//byte0~1;		//RVC
 		uint16 bpps;				//byte2~3;		//RVC
-		uint16 lvBatteryVoltage;	//byte4~5;		//RVC
+		//uint16 lvBatteryVoltage;	//byte4~5;		//RVC
+		uint16 packPower;	//byte4~5;		//RVC
 		uint16 accumulatorVoltage;	//byte6~7;		//BMS
 	}S;
 	uint32 U[2];
