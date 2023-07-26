@@ -359,9 +359,15 @@ void HLD_LcdInterface_page1_1 (void)
 
 	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+3*CHAR_WIDTH, "%d", RSW_R3.resultTot);
 
-
+	if(SteeringWheel_main.canMsg1.S.status.S.bppsError) {
+		GLCD_setTextColor(COLOR_RED);
+	}
+	else {
+		GLCD_setTextColor(COLOR_BLACK);
+	}
 	//Brake
 	Lcd_sprintf_col_inv_revised(Y_LINE3, 230, "Br");
+	GLCD_setTextColor(COLOR_BLACK);
 	uint8 k;
 		//X direction line
 	for(k = 60; k<60+CHAR_WIDTH*2; k++){
@@ -385,7 +391,14 @@ void HLD_LcdInterface_page1_1 (void)
 	}
 
 	//Accel
+	if(SteeringWheel_main.canMsg1.S.status.S.appsError) {
+		GLCD_setTextColor(COLOR_RED);
+	}
+	else {
+		GLCD_setTextColor(COLOR_BLACK);
+	}
 	Lcd_sprintf_col_inv_revised(Y_LINE3, 230+50, "Ac");
+	GLCD_setTextColor(COLOR_BLACK);
 		//X direction line
 	for(k = 12; k<12+CHAR_WIDTH*2; k++){
 		GLCD_putPixel(Y_LINE3+25,k);
