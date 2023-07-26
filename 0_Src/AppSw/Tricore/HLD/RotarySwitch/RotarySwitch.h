@@ -39,7 +39,7 @@ IFX_EXTERN void HLD_RotarySwitch_init(void);
 IFX_EXTERN void HLD_RotarySwitch_run(void);
 IFX_EXTERN void RotarySwitch_init(RSWStruct_t *RSW);
 IFX_EXTERN void RSW_Gpio_read(RSWStruct_t *RSW);
-IFX_EXTERN int CoolingResult(uint8 num);
+//IFX_EXTERN int CoolingResult(uint8 num);
 
 
 

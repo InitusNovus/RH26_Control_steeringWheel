@@ -6,26 +6,26 @@
  */
 #include "RotarySwitch.h"
 #include "IfxPort.h"
-#include "SteeringWheel_canMessage.h"
+//#include "SteeringWheel_canMessage.h"
 
 RSWStruct_t RSW_R1;
 RSWStruct_t RSW_R2;
 RSWStruct_t RSW_R3;
 
-void testGPIO(void){
-	boolean button1;
-	boolean button2;
-	IfxPort_setPinModeInput(&MODULE_P15,2,IfxPort_InputMode_pullUp);
-	button1 = IfxPort_getPinState(&MODULE_P15,2);
-	button2 = IfxPort_getPinState(&MODULE_P15,2);
-	if(button1 == TRUE && button2 == TRUE){
-		IfxPort_setPinLow(&MODULE_P13,2);	//High == off
-		IfxPort_setPinLow(&MODULE_P13,1);
-	}else{
-		IfxPort_setPinLow(&MODULE_P13,1);
-		IfxPort_setPinHigh(&MODULE_P13,2);
-	}
-}
+//void testGPIO(void){
+//	boolean button1;
+//	boolean button2;
+//	IfxPort_setPinModeInput(&MODULE_P15,2,IfxPort_InputMode_pullUp);
+//	button1 = IfxPort_getPinState(&MODULE_P15,2);
+//	button2 = IfxPort_getPinState(&MODULE_P15,2);
+//	if(button1 == TRUE && button2 == TRUE){
+//		IfxPort_setPinLow(&MODULE_P13,2);	//High == off
+//		IfxPort_setPinLow(&MODULE_P13,1);
+//	}else{
+//		IfxPort_setPinLow(&MODULE_P13,1);
+//		IfxPort_setPinHigh(&MODULE_P13,2);
+//	}
+//}
 
 
 void HLD_RotarySwitch_init(void)
@@ -51,10 +51,11 @@ void HLD_RotarySwitch_init(void)
 void HLD_RotarySwitch_run(void)
 {
 	RSW_Gpio_read(&RSW_R1);
-	RSW_R1.resultCAN = CoolingResult(RSW_R1.resultTot);
+	//RSW_R1.resultCAN = CoolingResult(RSW_R1.resultTot);
 	RSW_Gpio_read(&RSW_R2);
 	RSW_Gpio_read(&RSW_R3);
-	testGPIO();
+	//testGPIO();
+
 }
 
 
@@ -70,10 +71,10 @@ void RotarySwitch_init(RSWStruct_t *RSW)
 void RSW_Gpio_read(RSWStruct_t *RSW)
 {
 
-	if(!(IfxPort_getPinState(RSW->pinName1.port,RSW->pinName1.pinIndex))){
+	if(!(IfxPort_getPinState(RSW->pinName1.port,RSW->pinName1.pinIndex))){ //1 if voltage low
 		RSW->resultPin1 = 1;
 	}else{
-		RSW->resultPin1 = 0;
+		RSW->resultPin1 = 0; // 0 if voltage high
 	}
 
 	if(!(IfxPort_getPinState(RSW->pinName2.port,RSW->pinName2.pinIndex))){
@@ -88,7 +89,7 @@ void RSW_Gpio_read(RSWStruct_t *RSW)
 		RSW->resultPin4 = 0;
 	}
 
-	if(!(IfxPort_getPinState(RSW->pinName8.port,RSW->pinName8.pinIndex))){
+	if(!(IfxPort_getPinState(RSW->pinName8.port,RSW->pinName8.pinIndex))){ //Check R3 switch 8pin connection
 		RSW->resultPin8 = 1;
 	}else{
 		RSW->resultPin8 = 0;
@@ -103,58 +104,58 @@ void RSW_Gpio_read(RSWStruct_t *RSW)
 
 }
 
-int CoolingResult(uint8 num){
-
-	switch (num){
-	case 4:
-		RSW_R1.resultTot = 0;
-		RSW_R1.resultCAN = 0; //TC control mode off
-		break;
-	case 5:
-		RSW_R1.resultTot = 0;
-		RSW_R1.resultCAN = 0; //TC control mode off
-		break;
-	case 6:
-		RSW_R1.resultTot = 0;
-		RSW_R1.resultCAN = 0; //TC control mode off
-		break;
-
-	case 7:
-		RSW_R1.resultTot = 1;
-		RSW_R1.resultCAN = 1;
-		break;
-	case 8:
-		RSW_R1.resultTot = 1;
-		RSW_R1.resultCAN = 1;
-		break;
-	case 9:
-		RSW_R1.resultTot = 2;
-		RSW_R1.resultCAN = 25;
-		break;
-	case 0:
-		RSW_R1.resultTot = 3;
-		RSW_R1.resultCAN = 50;
-		break;
-	case 1:
-		RSW_R1.resultTot = 4;
-		RSW_R1.resultCAN = 75;
-		break;
-	case 2:
-		RSW_R1.resultTot = 5;
-		RSW_R1.resultCAN = 100;
-		break;
-	case 3:
-		RSW_R1.resultTot = 5;
-		RSW_R1.resultCAN = 100;
-		break;
-
-	default:
-		RSW_R1.resultTot = 9;		//Show 2 when rotary switch fault
-		RSW_R1.resultCAN = 50;		//order
-		break;
-
-	}
-}
+//int CoolingResult(uint8 num){
+//
+//	switch (num){
+//	case 4:
+//		RSW_R1.resultTot = 0;
+//		RSW_R1.resultCAN = 0; //TC control mode off
+//		break;
+//	case 5:
+//		RSW_R1.resultTot = 0;
+//		RSW_R1.resultCAN = 0; //TC control mode off
+//		break;
+//	case 6:
+//		RSW_R1.resultTot = 0;
+//		RSW_R1.resultCAN = 0; //TC control mode off
+//		break;
+//
+//	case 7:
+//		RSW_R1.resultTot = 1;
+//		RSW_R1.resultCAN = 1;
+//		break;
+//	case 8:
+//		RSW_R1.resultTot = 1;
+//		RSW_R1.resultCAN = 1;
+//		break;
+//	case 9:
+//		RSW_R1.resultTot = 2;
+//		RSW_R1.resultCAN = 25;
+//		break;
+//	case 0:
+//		RSW_R1.resultTot = 3;
+//		RSW_R1.resultCAN = 50;
+//		break;
+//	case 1:
+//		RSW_R1.resultTot = 4;
+//		RSW_R1.resultCAN = 75;
+//		break;
+//	case 2:
+//		RSW_R1.resultTot = 5;
+//		RSW_R1.resultCAN = 100;
+//		break;
+//	case 3:
+//		RSW_R1.resultTot = 5;
+//		RSW_R1.resultCAN = 100;
+//		break;
+//
+//	default:
+//		RSW_R1.resultTot = 9;		//Show 2 when rotary switch fault
+//		RSW_R1.resultCAN = 50;		//order
+//		break;
+//
+//	}
+//}
 
 
 /*
