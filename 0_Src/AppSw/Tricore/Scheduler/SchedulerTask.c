@@ -17,7 +17,6 @@
 #include "CanCommunication.h"
 #include "SteeringWheel_main.h"
 
-
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
 /******************************************************************************/
@@ -95,9 +94,12 @@ void Task_init (void)
 	}
 	{
 		// HLD_Vadc_forceStart();
+		HLD_RotarySwitch_init(); //230208
+		HLD_TactSwitch_init();		//230215
+
 	}
 
-	HLD_GtmTomBeeper_start(Beep_pattern4);
+	HLD_GtmTomBeeper_start(Beep_pattern4);//beeppatern4
 	isInit = TRUE;
 	// HLD_GtmTomBeeper_start(GrandfathersElevenMonth);
 	// HLD_GtmTomBeeper_start(KartRider);
@@ -125,7 +127,9 @@ void Task_IsrCb_1ms (void)
 	{
 		HLD_GtmTomBeeper_run_1ms();
 		SteeringWheel_main_run();
+
 	}
+
 
 	ticToc_1ms = (IfxStm_get(&MODULE_STM0) - stm_buf_1ms)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }
@@ -135,14 +139,17 @@ void Task_IsrCb_1ms (void)
 void Task_10ms (void)			//Slot 0
 {
 	stm_buf = IfxStm_get(&MODULE_STM0);
-
 	Task_counter_service_10ms();
 	ticToc_10ms_s0 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
+	//SteeringWheel_run_10ms();
+
 }
 void Task_10ms_slot1 (void)
 {
-	stm_buf = IfxStm_get(&MODULE_STM0);
+	HLD_RotarySwitch_run();		//230209
+	HLD_TactSwitch_run();
 
+	stm_buf = IfxStm_get(&MODULE_STM0);
 	ticToc_10ms_s1 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }
 /**********************************************************************/

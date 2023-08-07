@@ -223,56 +223,215 @@ void HLD_LcdInterface_setPage3 (void)
 //TODO: Color setting
 #define HV_VOLT_LOW
 #define HV_CELL_LOW
-#define PAGE1_MID_X 110
+#define PAGE1_MID_X 100
+
+
+//dimension parameter definition
+#define X_LINE1 10
+#define Y_LINE1 25	//PLUS 30 TO CHANGE LINE
+#define X_LINE2 10
+#define Y_LINE2 100
+#define X_LINE3 10
+#define Y_LINE3 152
+#define Y_LINE4	212
+#define CHAR_WIDTH_HALF	8
+
+
 void HLD_LcdInterface_page1 (void)
 {
+	/*
+	 * Line 1, 2
+	 * Line1: Inverter Temp, Velocity, HV voltage
+	 * Line2: Cell Temp, LV voltage, Cell Lowest voltage
+	 */
 	GLCD_setTextColor(COLOR_BLACK);
-	// GLCD_setBackColor(COLOR_BLACK);
-	// float32 Velocity = 34.13;
-	// float32 Velocity = (float32)testS;
-
-	// Lcd_sprintf_col_inv_revised_font2(LINE9, 90-CHAR_WIDTH2, "%03d", intPart);
 	
-	uint8 Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
-	uint16 HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
-	uint16 HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;
-	uint8 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
-
-	Lcd_sprintf_col_inv_revised(20, 192, "HV %3d.%d", HV_Voltage/10, HV_Voltage%10);
-	Lcd_sprintf_col_inv_revised(50, 192, "CL %d.%03d", HV_LowCellVoltage/10000, (HV_LowCellVoltage%10000)/10);
-
-	// LcdInterface_displayIndicator();
-	Lcd_sprintf_col_inv_revised_font2(10, 0, "%03d", Velocity);
-	Lcd_sprintf_col_inv_revised(
-	    192, 192, "R2D %d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
-}
-void HLD_LcdInterface_page1_1 (void)
-{
-	uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage;
 	uint8 Inverter1Temp = SteeringWheel_main.canMsg3.S.inverter1Temp;
 	uint8 Inverter2Temp = SteeringWheel_main.canMsg3.S.inverter2Temp;
 	uint8 InverterTemp = (Inverter1Temp > Inverter2Temp) ? Inverter1Temp : Inverter2Temp;
+	uint16 HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
+	uint8 Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
+	uint8 CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;
+	//uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage; //instead..
+	uint32 PowerWithdraw = SteeringWheel_main.canMsg2.S.packPower * 10; //factor of 10.
+	uint16 HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;
+
+/*
+ * draw line test
+ * 23.01.25
+ * GLCD_putPixcel(Y dimension, X dimension);
+ */
+	int i;
+	//X direction line
+	for(i = 0; i<320; i++){
+		GLCD_putPixel(Y_LINE2+35,i);
+		GLCD_putPixel(Y_LINE2-15,i);
+	}
+
+
+	//Y direction line
+	for(i = Y_LINE2-15; i<Y_LINE2+35; i++){ //230125: 200 needs to be fixed
+		GLCD_putPixel(i,102);
+		GLCD_putPixel(i,230);
+	}
+
+
+
+
+//	InverterTemp = 80; //230125 test
+	if(InverterTemp>60){
+		GLCD_setTextColor(COLOR_RED);
+	}
+	Lcd_sprintf_col_inv_revised(Y_LINE1, 10, "InT");
+	Lcd_sprintf_col_inv_revised(Y_LINE1+30, 17, "%02d", InverterTemp);
+	GLCD_setTextColor(COLOR_BLACK);
+
+	Lcd_sprintf_col_inv_revised(Y_LINE1, 268, "HV");
+	Lcd_sprintf_col_inv_revised(Y_LINE1+30, 260, "%03d", HV_Voltage/10);//, 3d, HV_Voltage%10
+	GLCD_setTextColor(COLOR_BLACK);
+
+	Lcd_sprintf_col_inv_revised_font2(10, 58, "%03d", Velocity);
+
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 10, "CT");
+	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 20+CHAR_WIDTH_HALF+1*CHAR_WIDTH, "%02d", CellTempHi);
+	GLCD_setTextColor(COLOR_BLACK);
+
+	/*
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "LV");
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", LV_Voltage / 100, LV_Voltage % 100); //230131 test: /100 -> /10
+	*/
+
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "PWR");
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", PowerWithdraw / 1000, PowerWithdraw % 1000); //230131 test: /100 -> /10
+	GLCD_setTextColor(COLOR_BLACK);
+
+	Lcd_sprintf_col_inv_revised(Y_LINE2,226,"CL");
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 232+2*CHAR_WIDTH, "%d.%01d", HV_LowCellVoltage/10000, (HV_LowCellVoltage%10000)/10);
+	GLCD_setTextColor(COLOR_BLACK);
+}
+
+//Debug 20230703
+uint8 AccelValue_debug;
+uint8 BrakeValue_debug;
+
+void HLD_LcdInterface_page1_1 (void)
+{
+
+	/*
+	 * Line 3
+	 * Line3: Motor Temp, SOC, Accel, Brake, R2D
+	 */
+
+
 	uint8 Motor1Temp = SteeringWheel_main.canMsg3.S.motor1Temp;
 	uint8 Motor2Temp = SteeringWheel_main.canMsg3.S.motor2Temp;
 	uint8 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
-	uint8 CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;
 	uint8 soc = SteeringWheel_main.canMsg1.S.soc/2;
-	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16, "T");
-	GLCD_setTextColor(COLOR_DARKGREY);
-	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2)*CHAR_WIDTH, "I");
-	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+1*6)*CHAR_WIDTH, "M");
-	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+2*6)*CHAR_WIDTH, "C");
+	uint8 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
+	float receivedAccel = SteeringWheel_main.canMsg2.S.apps/10000.0;		//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
+	uint8 AccelValue = receivedAccel*53;
+	//AccelValue = 25;
+	AccelValue_debug = AccelValue;
+	float receivedBrake = SteeringWheel_main.canMsg2.S.bpps/100000.0;		//230130: Receive Brake value 0~1 //FP 0.1 percent
+	uint8 BrakeValue = receivedBrake*53; //Full bar when 53
+	BrakeValue = 53;
+	BrakeValue_debug = BrakeValue;
+//	boolean rot1 = IfxPort_getPinState(&MODULE_P00,2);
+
+	Lcd_sprintf_col_inv_revised(Y_LINE3, X_LINE3+10, "MT");
+	Lcd_sprintf_col_inv_revised(Y_LINE3+30, X_LINE3+10, "%02d", MotorTemp);
 	GLCD_setTextColor(COLOR_BLACK);
-	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+2)*CHAR_WIDTH, "%2d", InverterTemp);
+
+	//SOC
+	Lcd_sprintf_col_inv_revised_font2(140, 90, "%02d", soc < 100 ? soc : 99);
 	GLCD_setTextColor(COLOR_BLACK);
-	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+1*6+2)*CHAR_WIDTH, "%2d", MotorTemp);
+
+	//R2D
+	/* 230209
+	Lcd_sprintf_col_inv_revised(
+	    Y_LINE4, 128, "%d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
+	*/
+	//Rotary Switch
+/*
+	if(RSW_R1.resultTot == 0){
+		GLCD_setTextColor(COLOR_BLACK);
+	}else{
+		GLCD_setTextColor(COLOR_BLUE);
+	}
+	*/
+	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+CHAR_WIDTH, "%d", RSW_R1.resultTot);
+
+	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+2*CHAR_WIDTH, "%d", RSW_R2.resultTot);
+
+	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+3*CHAR_WIDTH, "%d", RSW_R3.resultTot);
+
+	if(SteeringWheel_main.canMsg1.S.status.S.bppsError) {
+		GLCD_setTextColor(COLOR_RED);
+	}
+	else {
+		GLCD_setTextColor(COLOR_BLACK);
+	}
+	//Brake
+	Lcd_sprintf_col_inv_revised(Y_LINE3, 230, "Br");
 	GLCD_setTextColor(COLOR_BLACK);
-	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+2*6+2)*CHAR_WIDTH, "%2d", CellTempHi);
+	uint8 k;
+		//X direction line
+	for(k = 60; k<60+CHAR_WIDTH*2; k++){
+		GLCD_putPixel(Y_LINE3+25,k);
+		GLCD_putPixel(Y_LINE3+78,k);
+	}
+	uint8 i;
+	GLCD_setTextColor(COLOR_RED);
+	for(i = 1; i<BrakeValue; i++){
+		for(k = 60; k<60+CHAR_WIDTH*2; k++){
+			GLCD_putPixel(Y_LINE3+78-i,k);
+			//GLCD_putPixel(Y_LINE3+78,k);
+		}
+	}
+
+		//Y direction line
 	GLCD_setTextColor(COLOR_BLACK);
-	Lcd_sprintf_col_inv_revised_font2(152, 0, "%02d", soc < 100 ? soc : 99);
+	for(k = Y_LINE3+25; k<Y_LINE3+78; k++){
+		GLCD_putPixel(k,60);
+		GLCD_putPixel(k,60+CHAR_WIDTH*2);
+	}
+
+	//Accel
+	if(SteeringWheel_main.canMsg1.S.status.S.appsError) {
+		GLCD_setTextColor(COLOR_RED);
+	}
+	else {
+		GLCD_setTextColor(COLOR_BLACK);
+	}
+	Lcd_sprintf_col_inv_revised(Y_LINE3, 230+50, "Ac");
 	GLCD_setTextColor(COLOR_BLACK);
-	Lcd_sprintf_col_inv_revised(162, 192, "LV %2d.%02d", LV_Voltage / 100, LV_Voltage % 100);
+		//X direction line
+	for(k = 12; k<12+CHAR_WIDTH*2; k++){
+		GLCD_putPixel(Y_LINE3+25,k);
+		GLCD_putPixel(Y_LINE3+78,k);
+	}
+
+	GLCD_setTextColor(COLOR_GREEN);
+	for(i = 1; i<AccelValue; i++){
+		for(k = 12; k<12+CHAR_WIDTH*2; k++){
+			GLCD_putPixel(Y_LINE3+78-i,k);
+			//GLCD_putPixel(Y_LINE3+78,k);
+		}
+	}
+	GLCD_setTextColor(COLOR_WHITE);
+	for(; i<53; i++){
+		for(k = 12; k<12+CHAR_WIDTH*2; k++){
+			GLCD_putPixel(Y_LINE3+78-i,k);
+			//GLCD_putPixel(Y_LINE3+78,k);
+		}
+	}
+	//Y direction line
 	GLCD_setTextColor(COLOR_BLACK);
+	for(k = Y_LINE3+25; k<Y_LINE3+78; k++){
+		GLCD_putPixel(k,12);
+		GLCD_putPixel(k,12+CHAR_WIDTH*2);
+	}
+
 	// Lcd_sprintf_col_inv_revised(100, 5, "T I %2d  M %2d  C %2d", InverterTemp, MotorTemp, CellTempHi);
 	// Lcd_sprintf_col_inv_revised(100, 5, "T I %2d  M %2d  C %2d", InverterTemp, MotorTemp, CellTempHi);
 }
@@ -286,14 +445,72 @@ void HLD_LcdInterface_page1_1 (void)
  *		int Lcd_sprintf_col(uint8 ln, uint16 col, char const *fmt, ...);
  * Use LCD_LINE0 to LCD_LINE6 macro at ln.
  */
+/*
 void HLD_LcdInterface_page2 (void)
 {
+//	/*
+//	 * Original RH28 Display Page1 //230125
+//	 */
+//
+//	GLCD_setTextColor(COLOR_BLACK);
+//	// GLCD_setBackColor(COLOR_BLACK);
+//	// float32 Velocity = 34.13;
+//	// float32 Velocity = (float32)testS;
+//
+//	// Lcd_sprintf_col_inv_revised_font2(LINE9, 90-CHAR_WIDTH2, "%03d", intPart);
+//
+//	uint8 Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
+//	uint16 HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
+//	uint16 HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;
+//	uint8 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
+//
+//	Lcd_sprintf_col_inv_revised(20, 192, "HV %3d.%d", HV_Voltage/10, HV_Voltage%10);
+//	Lcd_sprintf_col_inv_revised(50, 192, "CL %d.%03d", HV_LowCellVoltage/10000, (HV_LowCellVoltage%10000)/10);
+//
+//	// LcdInterface_displayIndicator();
+//	Lcd_sprintf_col_inv_revised_font2(10, 0, "%03d", Velocity);
+//	Lcd_sprintf_col_inv_revised(
+//	    192, 192, "R2D %d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
+//
+//
+//}
 
-}
+/*
 void HLD_LcdInterface_page2_1 (void)
 {
+	/*
+	 * Original RH28 Display Page1_1 //230125
+	 */
+//	uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage;
+//	uint8 Inverter1Temp = SteeringWheel_main.canMsg3.S.inverter1Temp;
+//	uint8 Inverter2Temp = SteeringWheel_main.canMsg3.S.inverter2Temp;
+//	uint8 InverterTemp = (Inverter1Temp > Inverter2Temp) ? Inverter1Temp : Inverter2Temp;
+//	uint8 Motor1Temp = SteeringWheel_main.canMsg3.S.motor1Temp;
+//	uint8 Motor2Temp = SteeringWheel_main.canMsg3.S.motor2Temp;
+//	uint8 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
+//	uint8 CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;
+//	uint8 soc = SteeringWheel_main.canMsg1.S.soc/2;
+//	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16, "T");
+//	GLCD_setTextColor(COLOR_DARKGREY);
+//	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2)*CHAR_WIDTH, "I");
+//	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+1*6)*CHAR_WIDTH, "M");
+//	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+2*6)*CHAR_WIDTH, "C");
+//	GLCD_setTextColor(COLOR_BLACK);
+//	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+2)*CHAR_WIDTH, "%2d", InverterTemp);
+//	GLCD_setTextColor(COLOR_BLACK);
+//	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+1*6+2)*CHAR_WIDTH, "%2d", MotorTemp);
+//	GLCD_setTextColor(COLOR_BLACK);
+//	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 16+(2+1+2*6+2)*CHAR_WIDTH, "%2d", CellTempHi);
+//	GLCD_setTextColor(COLOR_BLACK);
+//	Lcd_sprintf_col_inv_revised_font2(152, 0, "%02d", soc < 100 ? soc : 99);
+//	GLCD_setTextColor(COLOR_BLACK);
+//	Lcd_sprintf_col_inv_revised(162, 192, "LV %2d.%02d", LV_Voltage / 100, LV_Voltage % 100);
+//	GLCD_setTextColor(COLOR_BLACK);
+//	// Lcd_sprintf_col_inv_revised(100, 5, "T I %2d  M %2d  C %2d", InverterTemp, MotorTemp, CellTempHi);
+//	// Lcd_sprintf_col_inv_revised(100, 5, "T I %2d  M %2d  C %2d", InverterTemp, MotorTemp, CellTempHi);
 
-}
+//}
+
 void HLD_LcdInterface_page3 (void)
 {
 	char text[30];

@@ -201,6 +201,7 @@ void HLD_Lcd_run(void)
 	/*LCD display routine*/
 	if(g_Lcd.isRun)
 	{
+
 		/*Array Button*/
 /* 		if(g_Lcd.arrayEnabled)
 		{
@@ -264,11 +265,11 @@ void HLD_Lcd_run(void)
 			/* no break */
 			case 1:
 			{
-				HLD_LcdInterface_page1();
+				HLD_LcdInterface_page1();//1
 			}break;
 			case 2:
 			{
-				HLD_LcdInterface_page2();
+				//HLD_LcdInterface_page2();
 			}break;
 			case 3:
 			{
@@ -301,7 +302,7 @@ void HLD_Lcd_run1(void)
 				}break;
 				case 2:
 				{
-					HLD_LcdInterface_page2_1();
+					//HLD_LcdInterface_page2_1();
 				}break;
 				case 3:
 				{

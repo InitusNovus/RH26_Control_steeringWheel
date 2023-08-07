@@ -146,6 +146,9 @@
 #include "UserInterface.h"
 #elif HLD_BOARD == HLD_BOARD_AK237
 #include "LcdInterface.h"
+#include "RotarySwitch.h"
+#include "TactSwitch.h"
+
 #endif
 
 /******************************************************************************/
