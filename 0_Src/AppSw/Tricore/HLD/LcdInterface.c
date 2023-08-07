@@ -252,8 +252,8 @@ void HLD_LcdInterface_page1 (void)
 	uint16 HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
 	uint8 Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
 	uint8 CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;
-	//uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage; //instead..
-	uint32 PowerWithdraw = SteeringWheel_main.canMsg2.S.packPower * 10; //factor of 10.
+	uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage; //instead..
+	//uint32 PowerWithdraw = SteeringWheel_main.canMsg2.S.packPower * 10; //factor of 10.
 	uint16 HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;
 
 /*
@@ -296,15 +296,15 @@ void HLD_LcdInterface_page1 (void)
 	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 20+CHAR_WIDTH_HALF+1*CHAR_WIDTH, "%02d", CellTempHi);
 	GLCD_setTextColor(COLOR_BLACK);
 
-	/*
+
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "LV");
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", LV_Voltage / 100, LV_Voltage % 100); //230131 test: /100 -> /10
-	*/
 
+	/*
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "PWR");
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", PowerWithdraw / 1000, PowerWithdraw % 1000); //230131 test: /100 -> /10
 	GLCD_setTextColor(COLOR_BLACK);
-
+	*/
 	Lcd_sprintf_col_inv_revised(Y_LINE2,226,"CL");
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 232+2*CHAR_WIDTH, "%d.%01d", HV_LowCellVoltage/10000, (HV_LowCellVoltage%10000)/10);
 	GLCD_setTextColor(COLOR_BLACK);
