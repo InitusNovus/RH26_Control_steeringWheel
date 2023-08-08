@@ -19,6 +19,7 @@
 #include "FloatSeparation.h"
 
 #include "SteeringWheel_main.h"
+#include "OrionBMS2.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -251,10 +252,9 @@ void HLD_LcdInterface_page1 (void)
 	uint8 InverterTemp = (Inverter1Temp > Inverter2Temp) ? Inverter1Temp : Inverter2Temp;
 	uint16 HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
 	uint8 Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
-	uint8 CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;
+	uint8 CellTempHi = OrionBms2.msg3.highCell;//SteeringWheel_main.canMsg1.S.highestTemp;
 	uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage; //instead..
-	//uint32 PowerWithdraw = SteeringWheel_main.canMsg2.S.packPower * 10; //factor of 10.
-	uint16 HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;
+	uint16 HV_LowCellVoltage = OrionBms2.msg3.lowVoltage; //SteeringWheel_main.canMsg1.S.lowestVoltage;
 
 /*
  * draw line test
@@ -332,9 +332,9 @@ void HLD_LcdInterface_page1_1 (void)
 	uint8 AccelValue = receivedAccel*53;
 	//AccelValue = 25;
 	AccelValue_debug = AccelValue;
-	float receivedBrake = SteeringWheel_main.canMsg2.S.bpps/100000.0;		//230130: Receive Brake value 0~1 //FP 0.1 percent
+	float receivedBrake = SteeringWheel_main.canMsg2.S.bpps/72;		//230130: Receive Brake value 0~1 //FP 0.1 percent
 	uint8 BrakeValue = receivedBrake*53; //Full bar when 53
-	BrakeValue = 53;
+	//BrakeValue = 53;
 	BrakeValue_debug = BrakeValue;
 //	boolean rot1 = IfxPort_getPinState(&MODULE_P00,2);
 

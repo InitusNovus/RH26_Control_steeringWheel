@@ -8,6 +8,7 @@
 /***************************** Includes ******************************/
 #include "CanCommunication.h"
 #include "SteeringWheel_canMessage.h"
+#include "OrionBMS2.h"
 
 /**************************** Macro **********************************/
 

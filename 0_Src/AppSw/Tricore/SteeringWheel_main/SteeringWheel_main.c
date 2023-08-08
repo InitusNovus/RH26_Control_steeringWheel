@@ -23,9 +23,13 @@ const uint32 StWhlMsgId3 = 0x00101F02UL;
 //const uint32 StWhRadiCoolingTXID = 0x237C01;
 const uint32 StWhlRSWMsgId = 0x237BB01UL;
 
+const uint32 OrionMsgId1 = 0x00001F00UL;
+const uint32 OrionMsgId2 = 0x00001F01UL;
+const uint32 OrionMsgId3 = 0x00001F02UL;
 
 SteeringWheel_main_t SteeringWheel_main;
 SteeringWheel_RSW_t SteeringWheel_RSW;
+OrionBms2_t OrionBms2;
 
 
 /******************* Private Function Prototypes *********************/
@@ -57,9 +61,20 @@ void SteeringWheel_main_init(void)
 		config.frameType		=	IfxMultican_Frame_receive;
         config.dataLen			=	IfxMultican_DataLengthCode_4;
         config.node				=	&CanCommunication_canNode0;
-        CanCommunication_initMessage(&SteeringWheel_main.msgObj3, &config);
+        CanCommunication_initMessage(&OrionBms2.msgObj3, &config);
 	}
 	//~main
+
+	//Orion BMS: 230808 TEST
+	{
+		CanCommunication_Message_Config config;
+		config.messageId 		= 	OrionMsgId3;
+		config.frameType		=	IfxMultican_Frame_receive;
+        config.dataLen			=	IfxMultican_DataLengthCode_6;
+        config.node				=	&CanCommunication_canNode0;
+        CanCommunication_initMessage(&SteeringWheel_main.msgObj3, &config);
+	}
+
 
 
 	//Rotary switch tx~
@@ -91,6 +106,29 @@ void SteeringWheel_main_run(void)
 		SteeringWheel_main.canMsg3.U[0] = SteeringWheel_main.msgObj3.msg.data[0];
 		SteeringWheel_main.canMsg3.U[1] = SteeringWheel_main.msgObj3.msg.data[1];
 	}
+
+	//BMS Receive
+	if(CanCommunication_receiveMessage(&OrionBms2.msgObj3))
+	{
+		OrionBms2.msg3.highTemp = ((OrionBms2.msgObj3.msg.data[0] & 0x000000FF) >> 0);
+		OrionBms2.msg3.highCell = ((OrionBms2.msgObj3.msg.data[0] & 0x0000FF00) >> 8);
+		OrionBms2.msg3.avgTemp = ((OrionBms2.msgObj3.msg.data[0] & 0x00FF0000) >> 16);
+		OrionBms2.msg3.bmsTemp = ((OrionBms2.msgObj3.msg.data[0] & 0xFF000000) >> 24);
+		OrionBms2.msg3.lowVoltage = ((OrionBms2.msgObj3.msg.data[1] & 0x0000FFFF) >> 0);
+		/*
+		while(IfxCpu_acquireMutex(&RVC_public.bms.shared.mutex))
+			; // Wait for mutex
+		{
+			RVC_public.bms.shared.data.highestTemp = (sint8)OrionBms2.msg3.highTemp;
+			RVC_public.bms.shared.data.averageTemp = (sint8)OrionBms2.msg3.avgTemp;
+			RVC_public.bms.shared.data.bmsTemp = (sint8)OrionBms2.msg3.bmsTemp;
+			RVC_public.bms.shared.data.lowestVoltage = (float32)OrionBms2.msg3.lowVoltage/10000;
+			// RVC_public.bms.shared.isUpdated = TRUE;
+			IfxCpu_releaseMutex(&RVC_public.bms.shared.mutex);
+		}
+		*/
+	}
+
 
 
 }

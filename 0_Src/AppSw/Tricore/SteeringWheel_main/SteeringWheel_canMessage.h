@@ -7,6 +7,7 @@
 #define STEERINGWHEEL_CANMESSAGE_H_
 
 #include <Ifx_Types.h>
+#include "OrionBMS2.h"
 
 /************************* Data Structures ***************************/
 typedef union
