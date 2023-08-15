@@ -5,6 +5,7 @@
  *      Author: bigbi_000
  */
 
+
 /******************************************************************************/
 /*----------------------------------Includes----------------------------------*/
 /******************************************************************************/
@@ -46,16 +47,18 @@
 /******************************************************************************/
 /*-----------------------------Data Structures--------------------------------*/
 /*****************************************************************************/
-typedef struct {
-	boolean Button0set :1;
-	boolean Button1set :1;
-	boolean Button2set :1;
-	boolean Button3set :1;
-	boolean Button4set :1;
-	boolean Button5set :1;
-	boolean Button6set :1;
-} LcdInterface_t;
-typedef struct {
+typedef struct
+{
+	boolean Button0set:1;
+	boolean Button1set:1;
+	boolean Button2set:1;
+	boolean Button3set:1;
+	boolean Button4set:1;
+	boolean Button5set:1;
+	boolean Button6set:1;
+}LcdInterface_t;
+typedef struct
+{
 	float32 inc0;
 	float32 inc1;
 	float32 inc2;
@@ -64,55 +67,66 @@ typedef struct {
 	float32 inc5;
 	float32 inc6;
 	float32 inc7;
-} LcdInterface_Increment;
-typedef struct {
-	boolean Indicator0 :1;
-	boolean Indicator1 :1;
-	boolean Indicator2 :1;
-	boolean Indicator3 :1;
-	boolean Indicator4 :1;
-} LcdInterface_Indicator;
+}LcdInterface_Increment;
+typedef struct
+{
+	boolean Indicator0:1;
+	boolean Indicator1:1;
+	boolean Indicator2:1;
+	boolean Indicator3:1;
+	boolean Indicator4:1;
+}LcdInterface_Indicator;
 /******************************************************************************/
 /*------------------------------Global variables------------------------------*/
 /******************************************************************************/
-LcdInterface_t LcdInterface = { .Button0set = FALSE, .Button1set = FALSE,
-		.Button2set = FALSE, .Button3set = FALSE, .Button4set = FALSE,
-		.Button5set = FALSE, .Button6set = FALSE };
+LcdInterface_t LcdInterface =
+{
+		.Button0set = FALSE,
+		.Button1set = FALSE,
+		.Button2set = FALSE,
+		.Button3set = FALSE,
+		.Button4set = FALSE,
+		.Button5set = FALSE,
+		.Button6set = FALSE
+};
 
-TouchButton_t Button[2][7] = { {
-		{ 0, TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_XPOS(2*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE0-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE0), }, { 0,
-				TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_XPOS(2*LCD_CHAR_H), TOUCH_YPOS(
-						LCD_LINE1-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE1), }, { 0,
-				TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_XPOS(2*LCD_CHAR_H), TOUCH_YPOS(
-						LCD_LINE2-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE2), }, { 0,
-				TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_XPOS(2*LCD_CHAR_H), TOUCH_YPOS(
-						LCD_LINE3-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE3), }, { 0,
-				TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_XPOS(2*LCD_CHAR_H), TOUCH_YPOS(
-						LCD_LINE4-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE4), }, { 0,
-				TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_XPOS(2*LCD_CHAR_H), TOUCH_YPOS(
-						LCD_LINE5-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE5), }, { 0,
-				TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_XPOS(2*LCD_CHAR_H), TOUCH_YPOS(
-						LCD_LINE6-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE6), } }, { {
-		0, TOUCH_XPOS(0*LCD_CHAR_H), TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE0-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE0), }, { 0,
-		TOUCH_XPOS(0*LCD_CHAR_H), TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE1-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE1), }, { 0,
-		TOUCH_XPOS(0*LCD_CHAR_H), TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE2-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE2), }, { 0,
-		TOUCH_XPOS(0*LCD_CHAR_H), TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE3-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE3), }, { 0,
-		TOUCH_XPOS(0*LCD_CHAR_H), TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE4-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE4), }, { 0,
-		TOUCH_XPOS(0*LCD_CHAR_H), TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE5-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE5), }, { 0,
-		TOUCH_XPOS(0*LCD_CHAR_H), TOUCH_XPOS(1*LCD_CHAR_H), TOUCH_YPOS(
-				LCD_LINE6-LCD_CHAR_H), TOUCH_YPOS(LCD_LINE6), } } };
 
-LcdInterface_Increment Increment = { .inc0 = 5000, .inc2 = 0.050000, };
+TouchButton_t Button[2][7] =
+{
+		{
+				{0,TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_XPOS(2*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE0-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE0),},
+				{0,TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_XPOS(2*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE1-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE1),},
+				{0,TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_XPOS(2*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE2-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE2),},
+				{0,TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_XPOS(2*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE3-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE3),},
+				{0,TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_XPOS(2*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE4-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE4),},
+				{0,TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_XPOS(2*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE5-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE5),},
+				{0,TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_XPOS(2*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE6-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE6),}
+		},
+		{
+				{0,TOUCH_XPOS(0*LCD_CHAR_H),TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE0-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE0),},
+				{0,TOUCH_XPOS(0*LCD_CHAR_H),TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE1-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE1),},
+				{0,TOUCH_XPOS(0*LCD_CHAR_H),TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE2-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE2),},
+				{0,TOUCH_XPOS(0*LCD_CHAR_H),TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE3-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE3),},
+				{0,TOUCH_XPOS(0*LCD_CHAR_H),TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE4-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE4),},
+				{0,TOUCH_XPOS(0*LCD_CHAR_H),TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE5-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE5),},
+				{0,TOUCH_XPOS(0*LCD_CHAR_H),TOUCH_XPOS(1*LCD_CHAR_H),TOUCH_YPOS(LCD_LINE6-LCD_CHAR_H),TOUCH_YPOS(LCD_LINE6),}
+		}
+};
 
-LcdInterface_Indicator Indicator = { .Indicator0 = FALSE, .Indicator1 = FALSE,
-		.Indicator2 = FALSE, .Indicator3 = FALSE, .Indicator4 = FALSE, };
+LcdInterface_Increment Increment =
+{
+		.inc0 = 5000,
+		.inc2 = 0.050000,
+};
+
+LcdInterface_Indicator Indicator =
+{
+	.Indicator0 = FALSE,
+	.Indicator1 = FALSE,
+	.Indicator2 = FALSE,
+	.Indicator3 = FALSE,
+	.Indicator4 = FALSE,
+};
 
 volatile sint32 test = 0;
 float32 testf = 0;
@@ -147,7 +161,7 @@ IFX_STATIC void HLD_LcdInterface_setButton(uint8 buttonNum);
  * 	1)	HLD_LcdInterface_doButton(5, "<- Throttle Reset   ");
  * 	2)	HLD_LcdInterface_d0Button(2, "Test = %4d", Test);
  * */
-IFX_STATIC void HLD_LcdInterface_doButton(uint8 buttonNum, char const *fmt, ...);
+IFX_STATIC void HLD_LcdInterface_doButton(uint8 buttonNum,char const *fmt, ...);
 
 /*
  * Float variable handling function.
@@ -172,11 +186,13 @@ IFX_STATIC void LcdInterface_displayIndicator(void);
 /*
  * Unused function. It will be removed in a future release.
  */
-void HLD_LcdInterface_init(void) {
+void HLD_LcdInterface_init(void)
+{
 
 	HLD_LcdInterface_setPage();
 }
-void HLD_LcdInterface_setPage(void) {
+void HLD_LcdInterface_setPage(void)
+{
 	GLCD_setBackColor(COLOR_DARKGREY);
 	GLCD_setTextColor(COLOR_WHITE);
 
@@ -192,19 +208,19 @@ void HLD_LcdInterface_setPage(void) {
  * Buttons is available in only page1
  */
 /*
- void HLD_LcdInterface_setPage1 (void)
- {
+void HLD_LcdInterface_setPage1 (void)
+{
 
- }
- void HLD_LcdInterface_setPage2 (void)
- {
+}
+void HLD_LcdInterface_setPage2 (void)
+{
 
- }
- void HLD_LcdInterface_setPage3 (void)
- {
+}
+void HLD_LcdInterface_setPage3 (void)
+{
 
- }
- */
+}
+*/
 //TODO: Color setting
 #define HV_VOLT_LOW
 #define HV_CELL_LOW
