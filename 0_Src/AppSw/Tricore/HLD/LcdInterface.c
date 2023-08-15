@@ -237,6 +237,28 @@ void HLD_LcdInterface_setPage3 (void)
 #define Y_LINE4	212
 #define CHAR_WIDTH_HALF	8
 
+// HLD_LcdInterface_page1
+volatile uint8 Inverter1Temp;
+volatile uint8 Inverter2Temp;
+volatile uint8 InverterTemp;
+volatile uint16 HV_Voltage;
+volatile uint8 Velocity;
+volatile uint8 CellTempHi;
+volatile uint16 LV_Voltage; //instead..
+volatile uint16 HV_LowCellVoltage; //SteeringWheel_main.canMsg1.S.lowestVoltage;
+
+
+// HLD_LcdInterface_page1_1
+volatile uint8 Motor1Temp;
+volatile uint8 Motor2Temp;
+volatile uint8 MotorTemp;
+volatile uint8 soc;
+volatile uint8 R2D_status;
+volatile float receivedAccel;		//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
+volatile uint16 AccelValue;
+volatile float receivedBrake;		//230130: Receive Brake value 0~1 //FP 0.1 percent
+volatile uint16 BrakeValue;
+
 
 void HLD_LcdInterface_page1 (void)
 {
@@ -247,14 +269,16 @@ void HLD_LcdInterface_page1 (void)
 	 */
 	GLCD_setTextColor(COLOR_BLACK);
 	
-	uint8 Inverter1Temp = SteeringWheel_main.canMsg3.S.inverter1Temp;
-	uint8 Inverter2Temp = SteeringWheel_main.canMsg3.S.inverter2Temp;
-	uint8 InverterTemp = (Inverter1Temp > Inverter2Temp) ? Inverter1Temp : Inverter2Temp;
-	uint16 HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
-	uint8 Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
-	uint8 CellTempHi = OrionBms2.msg3.highCell;//SteeringWheel_main.canMsg1.S.highestTemp;
-	uint16 LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage; //instead..
-	uint16 HV_LowCellVoltage = OrionBms2.msg3.lowVoltage; //SteeringWheel_main.canMsg1.S.lowestVoltage;
+	Inverter1Temp = SteeringWheel_main.canMsg3.S.inverter1Temp;
+	Inverter2Temp = SteeringWheel_main.canMsg3.S.inverter2Temp;
+	InverterTemp = (Inverter1Temp > Inverter2Temp) ? Inverter1Temp : Inverter2Temp;
+	//Verified
+	HV_Voltage = SteeringWheel_main.canMsg2.S.accumulatorVoltage;
+	Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
+	CellTempHi = OrionBms2.msg3.highCell;//SteeringWheel_main.canMsg1.S.highestTemp;
+	//Verified
+	LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage; //instead..
+	HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;//OrionBms2.msg3.lowVoltage; //
 
 /*
  * draw line test
@@ -286,6 +310,7 @@ void HLD_LcdInterface_page1 (void)
 	Lcd_sprintf_col_inv_revised(Y_LINE1+30, 17, "%02d", InverterTemp);
 	GLCD_setTextColor(COLOR_BLACK);
 
+	//Verified
 	Lcd_sprintf_col_inv_revised(Y_LINE1, 268, "HV");
 	Lcd_sprintf_col_inv_revised(Y_LINE1+30, 260, "%03d", HV_Voltage/10);//, 3d, HV_Voltage%10
 	GLCD_setTextColor(COLOR_BLACK);
@@ -296,23 +321,16 @@ void HLD_LcdInterface_page1 (void)
 	Lcd_sprintf_col_inv_revised(PAGE1_MID_X, 20+CHAR_WIDTH_HALF+1*CHAR_WIDTH, "%02d", CellTempHi);
 	GLCD_setTextColor(COLOR_BLACK);
 
-
+	//Verified
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "LV");
-	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", LV_Voltage / 100, LV_Voltage % 100); //230131 test: /100 -> /10
+	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%d", LV_Voltage / 100, (LV_Voltage % 100)/10); //230131 test: /100 -> /10
 
-	/*
-	Lcd_sprintf_col_inv_revised(Y_LINE2, 104, "PWR");
-	Lcd_sprintf_col_inv_revised(Y_LINE2, 104+CHAR_WIDTH_HALF+CHAR_WIDTH*2, "%02d.%01d", PowerWithdraw / 1000, PowerWithdraw % 1000); //230131 test: /100 -> /10
-	GLCD_setTextColor(COLOR_BLACK);
-	*/
+
 	Lcd_sprintf_col_inv_revised(Y_LINE2,226,"CL");
 	Lcd_sprintf_col_inv_revised(Y_LINE2, 232+2*CHAR_WIDTH, "%d.%01d", HV_LowCellVoltage/10000, (HV_LowCellVoltage%10000)/10);
 	GLCD_setTextColor(COLOR_BLACK);
 }
 
-//Debug 20230703
-uint8 AccelValue_debug;
-uint8 BrakeValue_debug;
 
 void HLD_LcdInterface_page1_1 (void)
 {
@@ -323,20 +341,16 @@ void HLD_LcdInterface_page1_1 (void)
 	 */
 
 
-	uint8 Motor1Temp = SteeringWheel_main.canMsg3.S.motor1Temp;
-	uint8 Motor2Temp = SteeringWheel_main.canMsg3.S.motor2Temp;
-	uint8 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
-	uint8 soc = SteeringWheel_main.canMsg1.S.soc/2;
-	uint8 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
-	float receivedAccel = SteeringWheel_main.canMsg2.S.apps/10000.0;		//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
-	uint8 AccelValue = receivedAccel*53;
-	//AccelValue = 25;
-	AccelValue_debug = AccelValue;
-	float receivedBrake = SteeringWheel_main.canMsg2.S.bpps/72;		//230130: Receive Brake value 0~1 //FP 0.1 percent
-	uint8 BrakeValue = receivedBrake*53; //Full bar when 53
-	//BrakeValue = 53;
-	BrakeValue_debug = BrakeValue;
-//	boolean rot1 = IfxPort_getPinState(&MODULE_P00,2);
+	 Motor1Temp = SteeringWheel_main.canMsg3.S.motor1Temp;
+	 Motor2Temp = SteeringWheel_main.canMsg3.S.motor2Temp;
+	 MotorTemp = (Motor1Temp > Motor2Temp) ? Motor1Temp : Motor2Temp;
+	 soc = SteeringWheel_main.canMsg1.S.soc/2;
+	 R2D_status = SteeringWheel_main.canMsg1.S.status.S.r2d;
+	 receivedAccel = SteeringWheel_main.canMsg2.S.apps;		//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
+	 AccelValue = receivedAccel/65535*53*9;
+	 receivedBrake = SteeringWheel_main.canMsg2.S.bpps;		//230130: Receive Brake value 0~1 //FP 0.1 percent
+	 BrakeValue = receivedBrake/65535*53; //Full bar when 53
+
 
 	Lcd_sprintf_col_inv_revised(Y_LINE3, X_LINE3+10, "MT");
 	Lcd_sprintf_col_inv_revised(Y_LINE3+30, X_LINE3+10, "%02d", MotorTemp);
@@ -346,19 +360,6 @@ void HLD_LcdInterface_page1_1 (void)
 	Lcd_sprintf_col_inv_revised_font2(140, 90, "%02d", soc < 100 ? soc : 99);
 	GLCD_setTextColor(COLOR_BLACK);
 
-	//R2D
-	/* 230209
-	Lcd_sprintf_col_inv_revised(
-	    Y_LINE4, 128, "%d%d%d%d", (R2D_status & 8) >> 3, (R2D_status & 4) >> 2, (R2D_status & 2) >> 1, R2D_status & 1);
-	*/
-	//Rotary Switch
-/*
-	if(RSW_R1.resultTot == 0){
-		GLCD_setTextColor(COLOR_BLACK);
-	}else{
-		GLCD_setTextColor(COLOR_BLUE);
-	}
-	*/
 	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+CHAR_WIDTH, "%d", RSW_R1.resultTot);
 
 	Lcd_sprintf_col_inv_revised(Y_LINE4, 128+2*CHAR_WIDTH, "%d", RSW_R2.resultTot);
