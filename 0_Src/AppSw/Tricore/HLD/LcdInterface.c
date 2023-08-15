@@ -331,7 +331,7 @@ void HLD_LcdInterface_page1(void) {
 	GLCD_setTextColor(COLOR_BLACK);
 
 	//SOC
-	Lcd_sprintf_col_inv_revised_font2(140, 90, "%02d", soc < 100 ? soc : 99);
+	Lcd_sprintf_col_inv_revised_font2(140, 90, "%02d", soc);//soc < 100 ? soc : 99);
 	GLCD_setTextColor(COLOR_BLACK);
 
 
