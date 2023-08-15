@@ -59,7 +59,7 @@ void SteeringWheel_main_init(void)
 		CanCommunication_Message_Config config;
 		config.messageId 		= 	StWhlMsgId3;
 		config.frameType		=	IfxMultican_Frame_receive;
-        config.dataLen			=	IfxMultican_DataLengthCode_4;
+        config.dataLen			=	IfxMultican_DataLengthCode_8;
         config.node				=	&CanCommunication_canNode0;
         CanCommunication_initMessage(&OrionBms2.msgObj3, &config);
 	}
