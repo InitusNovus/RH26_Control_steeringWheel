@@ -237,7 +237,7 @@ void HLD_LcdInterface_setPage3 (void)
 #define CHAR_WIDTH_HALF	8
 
 // HLD_LcdInterface_page1
-volatile uint8 InverterFLTemp;
+volatile uint16 InverterFLTemp;
 volatile uint8 InverterRLTemp;
 volatile uint8 InverterRRTemp;
 volatile uint8 InverterFRTemp;
@@ -260,7 +260,7 @@ volatile uint8 soc;
 volatile uint8 R2D_status;
 volatile float receivedAccel;//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
 volatile uint16 AccelValue;
-volatile float receivedBrake;//230130: Receive Brake value 0~1 //FP 0.1 percent
+volatile uint16 receivedBrake;//230130: Receive Brake value 0~1 //FP 0.1 percent
 volatile uint16 BrakeValue;
 
 // SteeringWheel_canMsg1_t
@@ -341,10 +341,17 @@ void HLD_LcdInterface_page1(void) {
 void HLD_LcdInterface_page1_1(void) {
 
 	receivedAccel = SteeringWheel_main.canMsg2.S.apps;//230130: Received Accel value 0~1//FP 0.1 percent//0~1000(65.3%=653)
-	AccelValue = receivedAccel / 65535 * 53 * 9;
+	AccelValue = receivedAccel / 65535 * 53 * 8;
 	
 	receivedBrake = SteeringWheel_main.canMsg2.S.bpps;//230130: Receive Brake value 0~1 //FP 0.1 percent
-	BrakeValue = receivedBrake / 65535 * 53; //Full bar when 53
+	//recievedBrake = 530;
+	if(receivedBrake < 127){
+		BrakeValue = receivedBrake*53/100;
+	}else if(receivedBrake>127){
+		BrakeValue = (receivedBrake-500)*53/600;
+	}
+
+	//BrakeValue = receivedBrake/100; //Full bar when 53
 
 	LV_Voltage = SteeringWheel_main.canMsg2.S.lvBatteryVoltage; //instead..
 
@@ -383,7 +390,7 @@ void HLD_LcdInterface_page1_1(void) {
 		GLCD_setTextColor(COLOR_BLACK);
 	}
 	Lcd_sprintf_col_inv_revised(Y_LINE1, 10, "InT");
-	Lcd_sprintf_col_inv_revised(Y_LINE1 + 30, 17, "%02d", InverterTemp);
+	Lcd_sprintf_col_inv_revised(Y_LINE1 + 30, 17, "%d", BrakeValue);
 	GLCD_setTextColor(COLOR_BLACK);
 
 
@@ -426,6 +433,8 @@ void HLD_LcdInterface_page1_1(void) {
 			//GLCD_putPixel(Y_LINE3+78,k);
 		}
 	}
+
+	//BrakeValue = 0;
 
 	//Y direction line
 	GLCD_setTextColor(COLOR_BLACK);

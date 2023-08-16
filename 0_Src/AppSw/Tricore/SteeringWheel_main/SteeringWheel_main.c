@@ -61,32 +61,32 @@ void SteeringWheel_main_init(void)
 		config.frameType		=	IfxMultican_Frame_receive;
         config.dataLen			=	IfxMultican_DataLengthCode_8;
         config.node				=	&CanCommunication_canNode0;
-        CanCommunication_initMessage(&OrionBms2.msgObj3, &config);
+        CanCommunication_initMessage(&SteeringWheel_main.msgObj3, &config);
 	}
 	//~main
 
 	//Orion BMS: 230808 TEST
-	{
-		CanCommunication_Message_Config config;
-		config.messageId 		= 	OrionMsgId3;
-		config.frameType		=	IfxMultican_Frame_receive;
-        config.dataLen			=	IfxMultican_DataLengthCode_6;
-        config.node				=	&CanCommunication_canNode0;
-        CanCommunication_initMessage(&SteeringWheel_main.msgObj3, &config);
-	}
+//	{
+//		CanCommunication_Message_Config config;
+//		config.messageId 		= 	OrionMsgId3;
+//		config.frameType		=	IfxMultican_Frame_receive;
+//        config.dataLen			=	IfxMultican_DataLengthCode_6;
+//        config.node				=	&CanCommunication_canNode0;
+//        CanCommunication_initMessage(&OrionBms2.msgObj3, &config);
+//	}
 
 
 
 	//Rotary switch tx~
-	{
-		CanCommunication_Message_Config config;
-		config.messageId = StWhlRSWMsgId;
-		config.frameType = IfxMultican_Frame_transmit;
-		config.dataLen = IfxMultican_DataLengthCode_8;
-		config.node				=	&CanCommunication_canNode0;
-		CanCommunication_initMessage(&SteeringWheel_RSW.msgObj_RSW, &config);
-	}
-	//~RSW
+//	{
+//		CanCommunication_Message_Config config;
+//		config.messageId = StWhlRSWMsgId;
+//		config.frameType = IfxMultican_Frame_transmit;
+//		config.dataLen = IfxMultican_DataLengthCode_8;
+//		config.node				=	&CanCommunication_canNode0;
+//		CanCommunication_initMessage(&SteeringWheel_RSW.msgObj_RSW, &config);
+//	}
+//	//~RSW
 }
 
 void SteeringWheel_main_run(void)
@@ -99,7 +99,7 @@ void SteeringWheel_main_run(void)
 	if(CanCommunication_receiveMessage(&SteeringWheel_main.msgObj2))
 	{
 		SteeringWheel_main.canMsg2.U[0] = SteeringWheel_main.msgObj2.msg.data[0];
-		SteeringWheel_main.canMsg2.U[1] = SteeringWheel_main.msgObj2.msg.data[1];
+		SteeringWheel_main.	canMsg2.U[1] = SteeringWheel_main.msgObj2.msg.data[1];
 	}
 	if(CanCommunication_receiveMessage(&SteeringWheel_main.msgObj3))
 	{
@@ -108,13 +108,13 @@ void SteeringWheel_main_run(void)
 	}
 
 	//BMS Receive
-	if(CanCommunication_receiveMessage(&OrionBms2.msgObj3))
-	{
-		OrionBms2.msg3.highTemp = ((OrionBms2.msgObj3.msg.data[0] & 0x000000FF) >> 0);
-		OrionBms2.msg3.highCell = ((OrionBms2.msgObj3.msg.data[0] & 0x0000FF00) >> 8);
-		OrionBms2.msg3.avgTemp = ((OrionBms2.msgObj3.msg.data[0] & 0x00FF0000) >> 16);
-		OrionBms2.msg3.bmsTemp = ((OrionBms2.msgObj3.msg.data[0] & 0xFF000000) >> 24);
-		OrionBms2.msg3.lowVoltage = ((OrionBms2.msgObj3.msg.data[1] & 0x0000FFFF) >> 0);
+//	if(CanCommunication_receiveMessage(&OrionBms2.msgObj3))
+//	{
+//		OrionBms2.msg3.highTemp = ((OrionBms2.msgObj3.msg.data[0] & 0x000000FF) >> 0);
+//		OrionBms2.msg3.highCell = ((OrionBms2.msgObj3.msg.data[0] & 0x0000FF00) >> 8);
+//		OrionBms2.msg3.avgTemp = ((OrionBms2.msgObj3.msg.data[0] & 0x00FF0000) >> 16);
+//		OrionBms2.msg3.bmsTemp = ((OrionBms2.msgObj3.msg.data[0] & 0xFF000000) >> 24);
+//		OrionBms2.msg3.lowVoltage = ((OrionBms2.msgObj3.msg.data[1] & 0x0000FFFF) >> 0);
 		/*
 		while(IfxCpu_acquireMutex(&RVC_public.bms.shared.mutex))
 			; // Wait for mutex
@@ -127,19 +127,19 @@ void SteeringWheel_main_run(void)
 			IfxCpu_releaseMutex(&RVC_public.bms.shared.mutex);
 		}
 		*/
-	}
+//	}
 
 
 
 }
 
 void SteeringWheel_run_10ms(void) {
-	SteeringWheel_RSW.RSWMsg.S.RSW1 = RSW_R1.resultTot;
-	SteeringWheel_RSW.RSWMsg.S.RSW2 = RSW_R2.resultTot;
-	SteeringWheel_RSW.RSWMsg.S.RSW3 = RSW_R3.resultTot;
-	CanCommunication_setMessageData(SteeringWheel_RSW.RSWMsg.U[0], SteeringWheel_RSW.RSWMsg.U[1], &SteeringWheel_RSW.msgObj_RSW);
-
-	CanCommunication_transmitMessage(&SteeringWheel_RSW.msgObj_RSW);
+//	SteeringWheel_RSW.RSWMsg.S.RSW1 = RSW_R1.resultTot;
+//	SteeringWheel_RSW.RSWMsg.S.RSW2 = RSW_R2.resultTot;
+//	SteeringWheel_RSW.RSWMsg.S.RSW3 = RSW_R3.resultTot;
+//	CanCommunication_setMessageData(SteeringWheel_RSW.RSWMsg.U[0], SteeringWheel_RSW.RSWMsg.U[1], &SteeringWheel_RSW.msgObj_RSW);
+//
+//	CanCommunication_transmitMessage(&SteeringWheel_RSW.msgObj_RSW);
 }
 
 //July 11th 2023 To-Do
