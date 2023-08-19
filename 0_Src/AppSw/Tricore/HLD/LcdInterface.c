@@ -292,7 +292,7 @@ void HLD_LcdInterface_page1(void) {
 
 	Velocity = SteeringWheel_main.canMsg1.S.vehicleSpeed;
 
-	CellTempHi = SteeringWheel_main.canMsg1.S.highestTemp;//OrionBms2.msg3.highCell;//
+	CellTempHi = SteeringWheel_main.canMsg1.S.bmsTemp;//OrionBms2.msg3.highCell;//
 
 	HV_LowCellVoltage = SteeringWheel_main.canMsg1.S.lowestVoltage;	//OrionBms2.msg3.lowVoltage; //
 
@@ -347,8 +347,10 @@ void HLD_LcdInterface_page1_1(void) {
 	//recievedBrake = 530;
 	if(receivedBrake < 127){
 		BrakeValue = receivedBrake*53/100;
-	}else if(receivedBrake>127){
+	}else if((receivedBrake>=127) && (receivedBrake<1300)){
 		BrakeValue = (receivedBrake-500)*53/600;
+	}else{
+		BrakeValue = 53;
 	}
 
 	//BrakeValue = receivedBrake/100; //Full bar when 53
@@ -390,7 +392,7 @@ void HLD_LcdInterface_page1_1(void) {
 		GLCD_setTextColor(COLOR_BLACK);
 	}
 	Lcd_sprintf_col_inv_revised(Y_LINE1, 10, "InT");
-	Lcd_sprintf_col_inv_revised(Y_LINE1 + 30, 17, "%d", BrakeValue);
+	Lcd_sprintf_col_inv_revised(Y_LINE1 + 30, 17, "%d", InverterTemp);
 	GLCD_setTextColor(COLOR_BLACK);
 
 
